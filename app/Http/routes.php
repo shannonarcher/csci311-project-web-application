@@ -12,10 +12,15 @@
 */
 
 Route::get('/', 'WelcomeController@index');
+Route::post('/login', 'WelcomeController@login');
+Route::get('/logout', 'WelcomeController@logout');
 
-Route::get('home', 'HomeController@index');
+Route::get('/dashboard', 'DashboardController@index');
 
-Route::controllers([
-	'auth' => 'Auth\AuthController',
-	'password' => 'Auth\PasswordController',
-]);
+Route::get('/users', 'UserController@index');
+Route::get('/users/{id}/profile', 'UserController@profile');
+
+Route::get('/projects', 'ProjectController@index');
+Route::get('/projects/{id}/dashboard', 'ProjectController@dashboard');
+Route::get('/projects/{id}/tasks', 'ProjectController@tasks');
+Route::get('/projects/{id}/tasks/{t_id}', 'ProjectController@task');
