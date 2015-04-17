@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\API;
 use \Request;
 use \Session;
+use \Exception;
 
 class ProjectController extends Controller {
 

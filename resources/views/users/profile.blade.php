@@ -90,8 +90,6 @@
         </div>
 	</div>
 	<!-- projects -->
-
-	<!-- comments -->
 @stop
 
 @section('scripts')
