@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\API;
 use \Session;
+use \Exception;
 
 class UserController extends Controller {
 
@@ -16,6 +17,7 @@ class UserController extends Controller {
 	 */
 	public function __construct(Request $request)
 	{
+		parent::__construct();
 		$this->request = $request;
 	}
 

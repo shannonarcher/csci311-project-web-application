@@ -158,13 +158,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            	@forelse ($project->users as $user)
+                            	@forelse ($project->users as $p_user)
                                 <tr>
-                                    <td>{{$user->id}}</td>
-                                    <td><a href="{{URL::to('/users/'.$user->id.'/profile')}}">{{$user->name}}</a></td>
-                                    <td><a href="mailto:{{$user->email}}">{{$user->email}}</a></td>
+                                    <td>{{$p_user->id}}</td>
+                                    <td><a href="{{URL::to('/users/'.$user->id.'/profile')}}">{{$p_user->name}}</a></td>
+                                    <td><a href="mailto:{{$user->email}}">{{$p_user->email}}</a></td>
                                     <td>
-                                    	{{$user->pivot->is_manager ? "Yes" : "No"}}
+                                    	{{$p_user->pivot->is_manager ? "Yes" : "No"}}
                                     </td>
                                 </tr>
                                 @empty

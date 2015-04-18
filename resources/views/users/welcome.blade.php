@@ -12,7 +12,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="page-header">
-				<h1>Users</h1>
+				<h1>@lang('general.users')</h1>
 			</div>
 		</div>
 	</div>
@@ -20,9 +20,9 @@
 		<div class="col-lg-12">
 		    <div class="panel panel-default">
 		        <div class="panel-heading">
-		        	All Users
+		        	@lang('general.all_users')
 		        	@if ($user->is_admin)
-		        	<a href="{{ URL::to('users/add') }}" class="btn-xs btn btn-primary pull-right">Add User</a>
+		        	<a href="{{ URL::to('users/add') }}" class="btn-xs btn btn-primary pull-right">@lang('general.add_user')</a>
 		        	@endif
 		        </div>
 		        <!-- /.panel-heading -->
@@ -31,21 +31,21 @@
 		                <table class="table table-striped table-bordered table-hover" id="users_table">
 		                    <thead>
 		                        <tr>
-		                        	<th>Name</th>
-		                        	<th>Email</th>
-		                        	<th>Is Admin</th>
-		                        	<th>Is Archived</th>
-		                        	<th>Projects</th>
+		                        	<th>@lang('general.name')</th>
+		                        	<th>@lang('general.email')</th>
+		                        	<th>@lang('general.is_admin')</th>
+		                        	<th>@lang('general.is_archived')</th>
+		                        	<th>@lang('general.project_count')</th>
 		                        </tr>
 		                    </thead>
 		                    <tbody>
-		                    	@forelse ($users as $user) 
+		                    	@forelse ($users as $a_user) 
 		                    	<tr>
-		                    		<td><a href="{{ URL::to('/users/'.$user->id.'/profile') }}">{{$user->name}}</a></td>
-		                    		<td><a href="mailto:{{$user->email}}">{{$user->email}}</a></td>
-		                    		<td>{{ $user->is_admin ? "Yes" : "No" }}</td>
-		                    		<td>{{ $user->is_archived ? "Yes" : "No" }}</td>
-		                    		<td>{{ count($user->projects) }}</td>
+		                    		<td><a href="{{ URL::to('/users/'.$a_user->id.'/profile') }}">{{$a_user->name}}</a></td>
+		                    		<td><a href="mailto:{{$a_user->email}}">{{$a_user->email}}</a></td>
+		                    		<td>{{ $a_user->is_admin ? trans("general.yes") : trans("general.no") }}</td>
+		                    		<td>{{ $a_user->is_archived ? trans("general.yes") : trans("general.no") }}</td>
+		                    		<td>{{ count($a_user->projects) }}</td>
 		                    	</tr>
 		                    	@empty
 		                    	<p>No users</p>

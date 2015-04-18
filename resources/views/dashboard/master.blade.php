@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>@lang('menu.app_title')</title>
 
 
     <!-- Bootstrap Core CSS -->
@@ -55,7 +55,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ URL::to('/dashboard') }}">Liquidly Project Management System</a>
+                <a class="navbar-brand" href="{{ URL::to('/dashboard') }}"> @lang('menu.app_title')</a>
             </div>
             <!-- /.navbar-header -->
 
@@ -66,11 +66,11 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="{{ URL::to('/users/'.$user->id.'/profile') }}"><i class="fa fa-user fa-fw"></i> My Profile</a>
+                        <li><a href="{{ URL::to('/users/'.$user->id.'/profile') }}"><i class="fa fa-user fa-fw"></i> @lang('menu.my_profile')</a>
                         </li>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="{{ URL::to('/logout') }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                        <li><a href="{{ URL::to('/logout') }}"><i class="fa fa-sign-out fa-fw"></i> @lang('menu.logout')</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -83,13 +83,13 @@
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
                         <li>
-                            <a href="{{ URL::to('/dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                            <a href="{{ URL::to('/dashboard') }}"><i class="fa fa-dashboard fa-fw"></i> @lang('menu.dashboard')</a>
                         </li>
                         <li>
-                            <a href="{{ URL::to('/users') }}"><i class="fa fa-users fa-fw"></i> Users</a>
+                            <a href="{{ URL::to('/users') }}"><i class="fa fa-users fa-fw"></i> @lang('menu.users')</a>
                         </li>
                         <li>
-                            <a href="{{ URL::to('/projects') }}"><i class="fa fa-cube fa-fw"></i> Projects</a>                
+                            <a href="{{ URL::to('/projects') }}"><i class="fa fa-cube fa-fw"></i> @lang('menu.projects')</a>                
                             </a>
                         </li>
                     </ul>

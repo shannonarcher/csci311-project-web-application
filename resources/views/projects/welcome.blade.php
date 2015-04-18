@@ -42,8 +42,8 @@
 		                    		<td>{{$project->id}}</td>
 		                    		<td><a href="{{ URL::to('/projects/'.$project->id.'/dashboard') }}">{{$project->name}}</a></td>
 		                    		<td>
-		                    			@foreach ($project->users as $user)
-		                    			<a href="{{ URL::to('/user/'.$user->id.'/profile') }}">{{ $user->name }}</a>, 
+		                    			@foreach ($project->users as $p_user)
+		                    			<a href="{{ URL::to('/users/'.$p_user->id.'/profile') }}">{{ $p_user->name }}</a>, 
 		                    			@endforeach
 		                    		</td>	
 		                    	</tr>

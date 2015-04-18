@@ -43,6 +43,13 @@
                                 <input class="form-control" type="text" value="{{$profile->email}}" name="email" />
                             </div>
                             <div class="form-group">
+                                <label>Lang</label>
+                                <select class="form-control" name="lang">
+                                    <option value="en" {{ ($profile->lang == 'en' ? "selected" : "") }}>English</option>
+                                    <option value="jp" {{ ($profile->lang == 'jp' ? "selected" : "") }}>日本語</option>
+                                </select>
+                            </div> 
+                            <div class="form-group">
                                 <label>Password</label>
                                 <input class="form-control" placeholder="Enter new password to change" type="text" value="" name="password" />
                             </div>                         
