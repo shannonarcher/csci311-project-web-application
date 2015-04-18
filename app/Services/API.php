@@ -14,6 +14,7 @@ class API {
 
 		$curl = new Curl();
 		$curl->get(API::$address.$url, $data);
+		
 		return $curl;
 	}
 
@@ -22,12 +23,17 @@ class API {
 
 		$curl = new Curl();
 		$curl->post(API::$address.$url, $data);
+
 		return $curl;
 	}
 
 	public static function put($url, $data) {
 		$data = API::addFields($data);
 
+		$curl = new Curl();
+		$curl->put(API::$address.$url, $data);
+
+		return $curl;
 	}
 
 	public static function delete($url, $data) {

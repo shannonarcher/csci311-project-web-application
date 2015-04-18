@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Services\API;
-use \Request;
 use \Session;
 
 class UserController extends Controller {
@@ -26,21 +26,73 @@ class UserController extends Controller {
 	 */
 	public function index()
 	{
-		$response = API::get('/users', []);
+		$call = API::get('/users', []);
 
-		if ($response->error)
-			return $response->error_message;
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
 
-		return view('users/welcome', array_merge(Session::all(), ['users' => $response->response]));
+		return view('users/welcome', array_merge(Session::all(), ['users' => $call->response]));
 	}
 
 	public function profile($id) 
 	{
-		$response = API::get('/users/'.$id, []);
+		$call = API::get('/users/'.$id, []);
 
-		if ($response->error)
-			return $response->error_message;
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
 
-		return view('users/profile', array_merge(Session::all(), ['profile' => $response->response]));
+		return view('users/profile', array_merge(Session::all(), ['profile' => $call->response]));
+	}
+
+	public function add() 
+	{
+		return view('users/add', array_merge(Session::all(), []));
+	}
+
+	public function create() 
+	{
+		$all = $this->request->all();
+		$all["is_admin"] = ((isset($all["is_admin"]) && $all["is_admin"] == "on") ? 1 : 0);
+		$all["is_archived"] = ((isset($all["is_archived"]) && $all["is_archived"] == "on") ? 1 : 0);
+
+		$call = API::post('/users', $all);
+
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
+
+		Session::flash('success_message', 'User created with password "'.$call->response->password.')".');
+
+		return redirect('users/'.$call->response->user->id.'/profile');
+	}
+
+	public function edit($id) 
+	{
+		$call = API::get('/users/'.$id, []);
+
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
+
+		return view('users/edit', array_merge(Session::all(), ['profile' => $call->response]));
+	}
+
+	public function save($id) 
+	{
+		$all = $this->request->all();
+		$all["is_admin"] = ((isset($all["is_admin"]) && $all["is_admin"] == "on") ? 1 : 0);
+		$all["is_archived"] = ((isset($all["is_archived"]) && $all["is_archived"] == "on") ? 1 : 0);
+
+		$call = API::put('/users/'.$id, $all);
+
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
+
+		Session::flash('success_message', 'User updated.');
+
+		return redirect('users/'.$id.'/profile/edit');
 	}
 }

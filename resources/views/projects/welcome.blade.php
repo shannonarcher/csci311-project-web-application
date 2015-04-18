@@ -21,6 +21,9 @@
 		    <div class="panel panel-default">
 		        <div class="panel-heading">
 		        	All Projects
+		        	@if ($user->is_admin)
+		        	<a href="{{ URL::to('projects/add') }}" class="btn-xs btn btn-primary pull-right">Add Project</a>
+		        	@endif
 		        </div>
 		        <!-- /.panel-heading -->
 		        <div class="panel-body">

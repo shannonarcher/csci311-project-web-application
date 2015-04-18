@@ -26,40 +26,44 @@
 	<!-- details -->
 	<div class="row">
 		<div class="col-lg-6">
- 			<div class="panel panel-default">
-                <div class="panel-heading">
-                    Details                    
-                    @if ($profile->id == $user->id || $user->is_admin)
-                    <a class="btn btn-xs btn-primary pull-right" href="{{URL::to('/users/'.$profile->id.'/profile/edit')}}">Edit</a>
-                    @endif
-                </div>
-                <div class="panel-body">
-                    <form role="form">
-                    	<fieldset disabled>
+            <form role="form" id="details_form" action="" method="post">
+     			<div class="panel panel-default">
+                    <div class="panel-heading">
+                        Details                    
+                        <button class="btn btn-xs btn-success pull-right" type="submit">Save</button>
+                    </div>
+                    <div class="panel-body">
+                    	<fieldset>
 	                        <div class="form-group">
 	                            <label>Name</label>
-	                            <p class="form-control-static">{{$profile->name}}</p>
+                                <input class="form-control" type="text" value="{{$profile->name}}" name="name" />
 	                        </div>
-	                        <div class="form-group">
-	                            <label>Email</label>
-	                            <a href="mailto:{{$profile->email}}" class="form-control-static">{{$profile->email}}</a>
-	                        </div>
-	                        <div class="form-group">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input class="form-control" type="text" value="{{$profile->email}}" name="email" />
+                            </div>
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input class="form-control" placeholder="Enter new password to change" type="text" value="" name="password" />
+                            </div>                         
+                            @if ($user->is_admin)
+	                        <div class="form-group">   
 	                            <div class="checkbox">
 	                                <label>
-	                                    <input type="checkbox" value="" {{$profile->is_admin ? 'checked' : ''}}> Administrator
+	                                    <input type="checkbox" name="is_admin" {{$profile->is_admin ? 'checked' : ''}}> Administrator
 	                                </label>
 	                            </div>
 	                            <div class="checkbox">
 	                                <label>
-	                                    <input type="checkbox" value="" {{$profile->is_archived ? 'checked' : ''}}> Archived
+	                                    <input type="checkbox" name="is_archived" {{$profile->is_archived ? 'checked' : ''}}> Archived
 	                                </label>
 	                            </div>
 	                        </div>
+                            @endif
 	                    </fieldset>
-	                </form>
-	            </div>
-	        </div>
+    	            </div>
+                </div>
+            </form>
             <!-- /.panel -->
 		</div>
 		<div class="col-lg-6">

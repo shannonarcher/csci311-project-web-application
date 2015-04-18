@@ -18,9 +18,22 @@ Route::get('/logout', 'WelcomeController@logout');
 Route::get('/dashboard', 'DashboardController@index');
 
 Route::get('/users', 'UserController@index');
+
+Route::get('/users/add', 'UserController@add');
+Route::post('/users/add', 'UserController@create');
+
 Route::get('/users/{id}/profile', 'UserController@profile');
+Route::get('/users/{id}/profile/edit', 'UserController@edit');
+Route::post('/users/{id}/profile/edit', 'UserController@save');
 
 Route::get('/projects', 'ProjectController@index');
+
+Route::get('/projects/add', 'ProjectController@add');
+Route::post('/projects/add', 'ProjectController@create');
+
 Route::get('/projects/{id}/dashboard', 'ProjectController@dashboard');
+Route::get('/projects/{id}/dashboard/edit', 'ProjectController@edit');
+Route::post('/projects/{id}/dashboard/edit', 'ProjectController@save');
+
 Route::get('/projects/{id}/tasks', 'ProjectController@tasks');
 Route::get('/projects/{id}/tasks/{t_id}', 'ProjectController@task');

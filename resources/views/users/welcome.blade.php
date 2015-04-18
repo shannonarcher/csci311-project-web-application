@@ -21,6 +21,9 @@
 		    <div class="panel panel-default">
 		        <div class="panel-heading">
 		        	All Users
+		        	@if ($user->is_admin)
+		        	<a href="{{ URL::to('users/add') }}" class="btn-xs btn btn-primary pull-right">Add User</a>
+		        	@endif
 		        </div>
 		        <!-- /.panel-heading -->
 		        <div class="panel-body">

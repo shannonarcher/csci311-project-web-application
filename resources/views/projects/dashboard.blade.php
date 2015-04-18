@@ -22,6 +22,15 @@
  			<div class="panel panel-default">
                 <div class="panel-heading">
                     Details
+                    @if ($user->is_admin)
+                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right">Edit</a>
+                    @else
+                    @foreach ($project->managers as $manager)
+                    @if ($manager->id == $user->id)
+                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right">Edit</a>
+                    @endif
+                    @endforeach
+                    @endif
                 </div>
                 <div class="panel-body">
                     <form role="form">
@@ -71,6 +80,9 @@
  			<div class="panel panel-default">
                 <div class="panel-heading">
                     Tasks
+                    @if ($user->is_admin)
+                    <a href="{{ URL::to('/projects/'.$project->id.'/tasks') }}" class="btn btn-xs btn-primary pull-right">View All</a>
+                    @endif                    
                 </div>
                 <div class="panel-body">
 		            <div class="dataTable_wrapper">
@@ -97,6 +109,36 @@
 
 	            </div>
 	        </div>
+            <!-- /.panel -->
+        </div>
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    Milestones
+                </div>
+                <div class="panel-body">
+                    <div class="dataTable_wrapper">
+                        <table class="table table-striped table-bordered table-hover" id="task_table">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($project->milestones as $milestone)
+                                <tr>
+                                    <td>{{$milestone->title}}</td>
+                                    <td>{{$milestone->completed_at}}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+
+                </div>
+            </div>
             <!-- /.panel -->
         </div>
 		<div class="col-lg-12">

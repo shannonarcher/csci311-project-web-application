@@ -66,7 +66,7 @@
                         <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#"><i class="fa fa-user fa-fw"></i> My Profile</a>
+                        <li><a href="{{ URL::to('/users/'.$user->id.'/profile') }}"><i class="fa fa-user fa-fw"></i> My Profile</a>
                         </li>
                         </li>
                         <li class="divider"></li>
@@ -92,19 +92,6 @@
                             <a href="{{ URL::to('/projects') }}"><i class="fa fa-cube fa-fw"></i> Projects</a>                
                             </a>
                         </li>
-                        @if (isset($user->projects) && count($user->projects) > 0)
-                        <li>
-                            <a href="#"><i class="fa fa-cube fa-fw"></i> My Projects<span class="fa arrow"></span></a>                
-                            </a>
-                            <ul class="nav nav-second-level">
-                                @foreach ($user->projects as $project)
-                                <li>
-                                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard') }}">{{ $project->name }}</a>
-                                </li>
-                                @endforeach
-                            </ul>
-                        </li>
-                        @endif
                     </ul>
                 </div>
                 <!-- /.sidebar-collapse -->
