@@ -35,6 +35,7 @@ return [
 	"in_progress" => "In Progress",
 	"initial_managers" => "Initial Managers",
 	"actions" => "Actions",
+	"skills" => "Skills",
 
 	"users" => "Users",
 	"all_users" => "All Users",
@@ -53,4 +54,17 @@ return [
 	"lang" => "Lang",
 	"password" => "Password",
 
+	"description" => "Description",
+	"estimation_duration" => "Estimation Duration",
+	"super_task" => "Super Task",
+	"sub_tasks" => "Sub Tasks",
+	"dependencies" => "Dependencies",
+	"parent" => "Parent",
+	"add_dependency" => "Add Dependency",
+
+	"add_to_team" => "Add to Team",
+	"add_task" => "Add Task",
+	"completed_at" => "Completed at",
+
+	"days" => "Days",
 ];

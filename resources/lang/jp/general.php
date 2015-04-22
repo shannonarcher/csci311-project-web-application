@@ -35,6 +35,7 @@ return [
 	"in_progress" => "In Progress",
 	"initial_managers" => "Initial Managers",
 	"actions" => "Actions",
+	"skills" => "Skills",
 
 	"users" => "利用者",
 	"all_users" => "全部利用者",

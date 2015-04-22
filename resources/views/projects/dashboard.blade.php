@@ -6,16 +6,30 @@
 
     <!-- DataTables Responsive CSS -->
     <link href="{{ URL::to('/') }}/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
+
+    <style>
+    #gannt {
+        height:400px;
+        width:100%;
+        outline:none;
+        border:solid 1px #eee;
+    }
+    </style>
 @stop
 
 @section('content')
 	<div class="row">
-		<div class="col-lg-12">
+		<div class="col-lg-12">  
 			<div class="page-header">
 				<h1>{{$project->name}}</h1>
 			</div>
 		</div>
 	</div>
+    <div class="row">
+        <div class="col-lg-12">
+            <iframe id="gannt" src="{{ URL::to('/projects/'.$project->id.'/gannt') }}"></iframe>
+        </div>
+    </div>
 	<!-- details -->
 	<div class="row">
 		<div class="col-lg-12">
@@ -79,9 +93,9 @@
 		<div class="col-lg-12">
  			<div class="panel panel-default">
                 <div class="panel-heading">
-                    Tasks
+                    @lang('general.tasks')
                     @if ($user->is_admin)
-                    <a href="{{ URL::to('/projects/'.$project->id.'/tasks') }}" class="btn btn-xs btn-primary pull-right">View All</a>
+                    <a href="{{ URL::to('/projects/'.$project->id.'/tasks') }}" class="btn btn-xs btn-primary pull-right">@lang('general.view_all')</a>
                     @endif                    
                 </div>
                 <div class="panel-body">
@@ -90,8 +104,8 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Title</th>
-                                    <th>Progress</th>
+                                    <th>@lang('general.title')</th>
+                                    <th>@lang('general.progress')</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -105,7 +119,6 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- /.table-responsive -->
 
 	            </div>
 	        </div>
@@ -114,7 +127,7 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Milestones
+                    @lang('general.milestones')
                 </div>
                 <div class="panel-body">
                     <div class="dataTable_wrapper">
@@ -152,24 +165,22 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Is Manager</th>
+                                    <th>@lang('general.name')</th>
+                                    <th>@lang('general.email')</th>
+                                    <th>@lang('general.is_manager')</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            	@forelse ($project->users as $p_user)
+                            	@foreach ($project->users as $p_user)
                                 <tr>
                                     <td>{{$p_user->id}}</td>
                                     <td><a href="{{URL::to('/users/'.$user->id.'/profile')}}">{{$p_user->name}}</a></td>
                                     <td><a href="mailto:{{$user->email}}">{{$p_user->email}}</a></td>
                                     <td>
-                                    	{{$p_user->pivot->is_manager ? "Yes" : "No"}}
+                                    	{{$p_user->pivot->is_manager ? trans('general.yes') : trans('general.no') }}
                                     </td>
                                 </tr>
-                                @empty
-                                <p>No users assigned to project.</p>
-                                @endforelse
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

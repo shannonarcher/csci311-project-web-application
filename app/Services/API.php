@@ -9,7 +9,7 @@ class API {
 
 	private static $address = "http://localhost:8080/csci311-project-api/public";
 
-	public static function get($url, $data) {
+	public static function get($url, $data = []) {
 		$data = API::addFields($data);
 
 		$curl = new Curl();
@@ -18,7 +18,7 @@ class API {
 		return $curl;
 	}
 
-	public static function post($url, $data) {
+	public static function post($url, $data = []) {
 		$data = API::addFields($data);
 
 		$curl = new Curl();
@@ -27,7 +27,7 @@ class API {
 		return $curl;
 	}
 
-	public static function put($url, $data) {
+	public static function put($url, $data = []) {
 		$data = API::addFields($data);
 
 		$curl = new Curl();
@@ -36,7 +36,7 @@ class API {
 		return $curl;
 	}
 
-	public static function delete($url, $data) {
+	public static function delete($url, $data = []) {
 		$data = API::addFields($data);
 
 	}

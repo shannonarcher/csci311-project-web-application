@@ -36,4 +36,17 @@ Route::get('/projects/{id}/dashboard/edit', 'ProjectController@edit');
 Route::post('/projects/{id}/dashboard/edit', 'ProjectController@save');
 
 Route::get('/projects/{id}/tasks', 'ProjectController@tasks');
+Route::get('/projects/{id}/tasks/add', 'ProjectController@addTask');
+Route::post('/projects/{id}/tasks/create', 'ProjectController@createTask');
+
 Route::get('/projects/{id}/tasks/{t_id}', 'ProjectController@task');
+Route::get('/projects/{id}/tasks/{t_id}/edit', 'ProjectController@editTask');
+Route::post('/projects/{id}/tasks/{t_id}/save', 'ProjectController@saveTask');
+
+Route::get('/projects/{id}/attachUser/{u_id}', 'ProjectController@attachUser');
+Route::get('/projects/{id}/detachUser/{u_id}', 'ProjectController@detachUser');
+
+Route::get('/projects/{id}/promote/{u_id}', 'ProjectController@promoteUser');
+Route::get('/projects/{id}/demote/{u_id}', 'ProjectController@demoteUser');
+
+Route::get('/projects/{id}/gannt', 'ChartController@gannt');

@@ -13,68 +13,69 @@
 	<div class="col-lg-12">
 			<div class="panel panel-default">
 	        <div class="panel-heading">
-	            Details
+	            @lang('general.details')
+                <a href="{{ URL::to('/projects/'.$task->project->id.'/tasks/'.$task->id.'/edit') }}" class="btn btn-xs btn-primary pull-right">@lang('general.edit')</a>
 	        </div>
 	        <div class="panel-body">
 	            <form role="form">
 	            	<fieldset disabled>
 	            		<div class="col-md-6">
 	                        <div class="form-group">
-	                            <label>Title</label>
+	                            <label>@lang('general.title')</label>
 	                            <p class="form-control-static">{{$task->title}}</p>
 	                        </div>
 	                        <div class="form-group">
-	                            <label>Description</label>
+	                            <label>@lang('general.description')</label>
 	                            <p class="form-control-static">{{$task->description}}</p>
 	                        </div>
 	                        <div class="form-group">
-	                        	<label>Project</label>
+	                        	<label>@lang('general.project')</label>
 	                        	<p class="form-control-static"><a href="{{URL::to('/projects/'.$task->project->id.'/dashboard')}}">{{$task->project->name}}</a></p>
 	                        </div>
 	                   	</div>
 	                   	<div class="col-md-6">
 	                   		<div class="form-group">
-	                   			<label>Start Date</label>
+	                   			<label>@lang('general.start_date')</label>
 	                   			<p class="form-control-static">{{$task->started_at}}</p>
 	                   		</div>
 	                   		<div class="form-group">
-	                   			<label>Estimation Duration</label>
-	                   			<p class="form-control-static">{{$task->estimation_duration}}</p>
+	                   			<label>@lang('general.estimation_duration')</label>
+	                   			<p class="form-control-static">{{ ($task->estimation_duration / 86400) }}</p>
 	                   		</div>
 	                   		<div class="form-group">
-	                   			<label>Completed at</label>
+	                   			<label>@lang('general.completed_at')</label>
 	                   			<p class="form-control-static">
 	                   				@if ($task->completed_at)
 	                   				$task->completed_at
 	                   				@else
-	                   				In Progress
+	                   				@lang('general.in_progress')
 	                   				@endif
 	                   			</p>
 	                   		</div>
 	                   		@if ($task->parent)
 	                   		<div class="form-group">
-	                   			<label>Super Task</label>
+	                   			<label>@lang('general.super_task')</label>
 	                   			<p class="form-control-static">
-	                   				<a href="{{URL::to('/projects/'.$task->project->id.'/tasks/'.$task->parent->id)}}">Task {{$task->parent->id}}: {{$task->parent->title}}</a>
+	                   				<a href="{{URL::to('/projects/'.$task->project->id.'/tasks/'.$task->parent->id)}}">@lang('general.task') {{$task->parent->id}}: {{$task->parent->title}}</a>
 	                   			</p>
 	                   		</div>
 	                   		@endif
 	                   		@if ($task->children)
 	                   		<div class="form-group">
-	                   			<label>Sub Tasks</label>
+	                   			<label>@lang('general.sub_tasks')</label>
 	                   			@foreach ($task->children as $child)		                   			
 	                   			<p class="form-control-static">
-	                   				<a href="{{URL::to('/projects/'.$task->project->id.'/tasks/'.$child->id)}}">Task {{$child->id}}: {{$child->title}}</a>
+	                   				<a href="{{URL::to('/projects/'.$task->project->id.'/tasks/'.$child->id)}}">@lang('general.task') {{$child->id}}: {{$child->title}}</a>
 	                   			</p>
 	                   			@endforeach
 	                   		</div>
 	                   		@endif
 	                   		@if ($task->dependencies)
 	                   		<div class="form-group">
-	                   			<label>Dependencies</label>
+	                   			<label>@lang('general.dependencies')</label>
 	                   			@foreach ($task->dependencies as $dependent)		                   			
 	                   			<p class="form-control-static">
-	                   				<a href="{{URL::to('/projects/'.$task->project->id.'/tasks/'.$dependent->id)}}">Task {{$dependent->id}}: {{$dependent->title}}</a>
+	                   				<a href="{{URL::to('/projects/'.$task->project->id.'/tasks/'.$dependent->id)}}">@lang('general.task') {{$dependent->id}}: {{$dependent->title}}</a>
 	                   			</p>
 	                   			@endforeach
 	                   		</div>
@@ -90,7 +91,7 @@
 	        <div class="chat-panel panel panel-default">
 	            <div class="panel-heading">
 	                <i class="fa fa-comments fa-fw"></i>
-	                Chat
+	                @lang('general.chat')
 	                <div class="btn-group pull-right">
 	                    <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
 	                        <i class="fa fa-chevron-down"></i>
@@ -98,7 +99,7 @@
 	                    <ul class="dropdown-menu slidedown">
 	                        <li>
 	                            <a href="{{ URL::to('/projects/'.$task->project->id.'/tasks/'.$task->id) }}">
-	                                <i class="fa fa-refresh fa-fw"></i> Refresh
+	                                <i class="fa fa-refresh fa-fw"></i> @lang('general.refresh')
 	                            </a>
 	                        </li>
 	                    </ul>
@@ -138,7 +139,7 @@
 	                    <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
 	                    <span class="input-group-btn">
 	                        <button class="btn btn-warning btn-sm" id="btn-chat">
-	                            Send
+	                            @lang('general.send')
 	                        </button>
 	                    </span>
 	                </div>

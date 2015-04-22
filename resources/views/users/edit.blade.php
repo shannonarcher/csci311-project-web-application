@@ -29,40 +29,43 @@
             <form role="form" id="details_form" action="" method="post">
      			<div class="panel panel-default">
                     <div class="panel-heading">
-                        Details                    
-                        <button class="btn btn-xs btn-success pull-right" type="submit">Save</button>
+                        @lang('general.details')                    
+                        <button class="btn btn-xs btn-success pull-right" type="submit">@lang('general.save')</button>
                     </div>
                     <div class="panel-body">
                     	<fieldset>
 	                        <div class="form-group">
-	                            <label>Name</label>
+	                            <label>@lang('general.name')</label>
                                 <input class="form-control" type="text" value="{{$profile->name}}" name="name" />
 	                        </div>
                             <div class="form-group">
-                                <label>Email</label>
+                                <label>@lang('general.email')</label>
                                 <input class="form-control" type="text" value="{{$profile->email}}" name="email" />
                             </div>
                             <div class="form-group">
-                                <label>Lang</label>
+                                <label>@lang('general.lang')</label>
                                 <select class="form-control" name="lang">
                                     <option value="en" {{ ($profile->lang == 'en' ? "selected" : "") }}>English</option>
                                     <option value="jp" {{ ($profile->lang == 'jp' ? "selected" : "") }}>日本語</option>
                                 </select>
                             </div> 
                             <div class="form-group">
-                                <label>Password</label>
-                                <input class="form-control" placeholder="Enter new password to change" type="text" value="" name="password" />
+                                <label>
+                                    @lang('general.password') 
+                                    <a href="#" class="btn btn-primary btn-xs" id="generate_rand_pass">@lang('general.generate_random')</a>
+                                </label>
+                                <input class="form-control" placeholder="@lang('general.enter_new_password_to_change')" type="text" value="" name="password" />
                             </div>                         
                             @if ($user->is_admin)
 	                        <div class="form-group">   
 	                            <div class="checkbox">
 	                                <label>
-	                                    <input type="checkbox" name="is_admin" {{$profile->is_admin ? 'checked' : ''}}> Administrator
+	                                    <input type="checkbox" name="is_admin" {{$profile->is_admin ? 'checked' : ''}}> @lang('general.administrator')
 	                                </label>
 	                            </div>
 	                            <div class="checkbox">
 	                                <label>
-	                                    <input type="checkbox" name="is_archived" {{$profile->is_archived ? 'checked' : ''}}> Archived
+	                                    <input type="checkbox" name="is_archived" {{$profile->is_archived ? 'checked' : ''}}> @lang('general.archived')
 	                                </label>
 	                            </div>
 	                        </div>
@@ -76,7 +79,7 @@
 		<div class="col-lg-6">
  			<div class="panel panel-default">
                 <div class="panel-heading">
-                    Projects
+                    @lang('general.projects')
                 </div>
                 <div class="panel-body">
                     <div class="dataTable_wrapper">
@@ -84,22 +87,20 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Name</th>
-                                    <th>Is Manager</th>
+                                    <th>@lang('general.name')</th>
+                                    <th>@lang('general.is_manager')</th>
                                 </tr>
                             </thead>
                             <tbody>
-                            	@forelse ($profile->projects as $project)
+                            	@foreach ($profile->projects as $project)
                                 <tr>
                                     <td>{{$project->id}}</td>
                                     <td><a href="{{URL::to('/projects/'.$project->id.'/dashboard')}}">{{$project->name}}</a></td>
                                     <td>
-                                    	{{$project->pivot->is_manager ? "Yes" : "No"}}
+                                    	{{$project->pivot->is_manager ? trans('general.yes') : trans('general.no')}}
                                     </td>
                                 </tr>
-                                @empty
-                                <p>No projects for user.</p>
-                                @endforelse
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -123,6 +124,18 @@
     $(document).ready(function() {
         $('#projects_table').DataTable({
                 responsive: true
+        });
+
+        $('body').on('click', '#generate_rand_pass', function (e) {
+            var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!#$%^&*()';
+            var length = 8;
+            var password = '';
+
+            for (var i = 0; i < length; i++) {
+                password += chars.charAt(Math.floor(Math.random()*chars.length));
+            }
+
+            $("[name=password]").val(password);
         });
     });
     </script>
