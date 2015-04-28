@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>@lang('menu.app_title')</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="{{ URL::to('/') }}/bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">

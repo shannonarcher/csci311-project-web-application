@@ -46,7 +46,18 @@ Route::post('/projects/{id}/tasks/{t_id}/save', 'ProjectController@saveTask');
 Route::get('/projects/{id}/attachUser/{u_id}', 'ProjectController@attachUser');
 Route::get('/projects/{id}/detachUser/{u_id}', 'ProjectController@detachUser');
 
+Route::get('/projects/{id}/addRoleToUser/{u_id}', 'ProjectController@addRoleToUser');
+Route::get('/projects/{id}/removeRoleFromUser/{u_id}', 'ProjectController@removeRoleFromUser');
+
 Route::get('/projects/{id}/promote/{u_id}', 'ProjectController@promoteUser');
 Route::get('/projects/{id}/demote/{u_id}', 'ProjectController@demoteUser');
 
 Route::get('/projects/{id}/gannt', 'ChartController@gannt');
+
+
+// ajax routes
+Route::get('/ajax/skills', 'AjaxController@getSkills');
+Route::post('/ajax/users/{id}/skills', 'AjaxController@addSkill');
+Route::delete('/ajax/users/{id}/skills', 'AjaxController@removeSkill');
+
+Route::get('/ajax/roles', 'AjaxController@getRoles');

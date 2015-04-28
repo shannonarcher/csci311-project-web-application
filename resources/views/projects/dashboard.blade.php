@@ -26,8 +26,25 @@
 		</div>
 	</div>
     <div class="row">
-        <div class="col-lg-12">
-            <iframe id="gannt" src="{{ URL::to('/projects/'.$project->id.'/gannt') }}"></iframe>
+        <div class="col-lg-12 col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-tasks fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ URL::to('/projects/'.$project->id.'/gannt') }}" target="_blank">
+                    <div class="panel-footer">
+                        <span class="pull-left">View Gannt Chart</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 	<!-- details -->
@@ -35,13 +52,13 @@
 		<div class="col-lg-12">
  			<div class="panel panel-default">
                 <div class="panel-heading">
-                    Details
+                    @lang('general.details')
                     @if ($user->is_admin)
-                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right">Edit</a>
+                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right">@lang('general.edit')</a>
                     @else
                     @foreach ($project->managers as $manager)
                     @if ($manager->id == $user->id)
-                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right">Edit</a>
+                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right">@lang('general.edit')</a>
                     @endif
                     @endforeach
                     @endif
@@ -51,12 +68,12 @@
                     	<fieldset disabled>
                     		<div class="col-md-6">
 		                        <div class="form-group">
-		                            <label>Name</label>
+		                            <label>@lang('general.name')</label>
 		                            <p class="form-control-static">{{$project->name}}</p>
 		                        </div>
 		                        
 		                        <div class="form-group">
-		                            <label>Created By</label>
+		                            <label>@lang('general.created_by')</label>
 		                            <p class="form-control-static">
 		                            	<a href="{{ URL::to('/users/'.$project->created_by->id.'/profile') }}">{{$project->created_by->name}}</a>
 		                            </p>
@@ -64,20 +81,20 @@
 		                    </div>
 		                    <div class="col-md-6">		                    	
 		                        <div class="form-group">
-		                            <label>Start Date</label>
+		                            <label>@lang('general.start_date')</label>
 		                            <p class="form-control-static">{{$project->started_at}}</p>
 		                        </div>
 		                        <div class="form-group">
-		                            <label>Expected Completion Date</label>
+		                            <label>@lang('general.expected_completed_date')</label>
 		                            <p class="form-control-static">{{$project->expected_completed_at}}</p>
 		                        </div>
 		                        <div class="form-group">
-		                            <label>Actual Completion Date</label>
+		                            <label>@lang('general.actual_completed_date')</label>
 		                            <p class="form-control-static">
 		                            	@if ($project->actual_completed_at)
 		                            		{{$project->actual_completed_at}}
 		                            	@else
-		                            		In Progress
+		                            		@lang('general.in_progress')
 		                            	@endif
 		                            </p>
 		                        </div>

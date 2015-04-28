@@ -407,7 +407,7 @@ function editResources(){
 
 <div id="gantEditorTemplates" style="display:none;">
   <div class="__template__" type="GANTBUTTONS"><!--
-  <div class="ganttButtonBar noprint" style="display:none;">
+  <div class="ganttButtonBar noprint">
     <h1 style="float:left">task tree/gantt</h1>
     <div class="buttons">
     <button onclick="$('#workSpace').trigger('undo.gantt');" class="button textual" title="undo"><span class="teamworkIcon">&#39;</span></button>

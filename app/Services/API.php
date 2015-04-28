@@ -39,6 +39,10 @@ class API {
 	public static function delete($url, $data = []) {
 		$data = API::addFields($data);
 
+		$curl = new Curl();
+		$curl->delete(API::$address.$url, $data);
+
+		return $curl;
 	}
 
 	public static function addFields($data) {

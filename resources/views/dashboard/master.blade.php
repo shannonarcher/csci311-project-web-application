@@ -32,6 +32,7 @@
     <!-- Custom Fonts -->
     <link href="{{ URL::to('/') }}/bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <link href="{{ URL::to('/') }}/dist/css/sweetalert.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -118,6 +119,9 @@
 
     <!-- Custom Theme JavaScript -->
     <script src="{{ URL::to('/') }}/dist/js/sb-admin-2.js"></script>
+
+    <script src="{{ URL::to('/') }}/dist/js/sweetalert.min.js"></script>
+
 
     @yield('scripts')
 

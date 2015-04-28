@@ -76,40 +76,6 @@
             </form>
             <!-- /.panel -->
 		</div>
-		<div class="col-lg-6">
- 			<div class="panel panel-default">
-                <div class="panel-heading">
-                    @lang('general.projects')
-                </div>
-                <div class="panel-body">
-                    <div class="dataTable_wrapper">
-                        <table class="table table-striped table-bordered table-hover" id="projects_table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>@lang('general.name')</th>
-                                    <th>@lang('general.is_manager')</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            	@foreach ($profile->projects as $project)
-                                <tr>
-                                    <td>{{$project->id}}</td>
-                                    <td><a href="{{URL::to('/projects/'.$project->id.'/dashboard')}}">{{$project->name}}</a></td>
-                                    <td>
-                                    	{{$project->pivot->is_manager ? trans('general.yes') : trans('general.no')}}
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                    <!-- /.table-responsive -->
-
-	            </div>
-	        </div>
-            <!-- /.panel -->
-        </div>
 	</div>
 	<!-- projects -->
 @stop

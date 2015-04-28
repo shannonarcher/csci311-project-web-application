@@ -31,7 +31,9 @@ return [
 	"date" => "Date",
 	"start_date" => "Start Date",
 	"expected_completion_date" => "Expected Completion Date",
+	"expected_completed_date" => "Expected Completion Date",
 	"actual_completion_date" => "Actual Completion Date",
+	"actual_completed_date" => "Actual Completion Date",
 	"in_progress" => "In Progress",
 	"initial_managers" => "Initial Managers",
 	"actions" => "Actions",
@@ -42,10 +44,12 @@ return [
 	"add_user" => "Add User",
 
 	"projects" => "Projects",
+	"project" => "Project",
 	"all_projects" => "All Projects",
 	"add_project" => "Add Project",
 
 	"tasks" => "Task",
+	"task" => "Task",
 
 	"milestones" => "Milestones",
 
@@ -67,4 +71,11 @@ return [
 	"completed_at" => "Completed at",
 
 	"days" => "Days",
+
+	"generate_random" => "Generate Random",
+	"enter_new_password_to_change" => "Enter new password to change",
+
+	"none" => "None",
+	"promote" => "Promote",
+	"demote" => "Demote",
 ];

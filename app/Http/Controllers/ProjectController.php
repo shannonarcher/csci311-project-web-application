@@ -129,8 +129,19 @@ class ProjectController extends Controller {
 
 	public function attachUser($id, $u_id) 
 	{
+		// sort out roles
+		$roles = $this->request->input("roles");
+		if (is_array($roles)) {
+			for ($i = 0; $i < count($roles); $i++) {
+				$roles[$i] = explode(':', $roles[$i])[1];
+			}
+		} else {
+			$roles = [];
+		}
+
 		$call = API::post("/projects/$id/attach/$u_id", 
-							["is_manager" => $this->request->input("is_manager", 0)]);
+							["is_manager" => $this->request->input("is_manager", 0),
+							 "roles" => $roles]);
 
 		if ($call->error) {
 			throw new Exception($call->error_message);
@@ -231,5 +242,50 @@ class ProjectController extends Controller {
 
 		Session::flash('message', 'Task successfully updated.');
 		return redirect("/projects/$id/tasks/$t_id/edit");
+	}
+
+	public function addRoleToUser($id, $u_id) 
+	{
+		$roles = $this->request->input("roles");
+		if (is_array($roles)) {
+			for ($i = 0; $i < count($roles); $i++) {
+				$roles[$i] = explode(':', $roles[$i])[1];
+			}
+		} else {
+			$roles = [];
+		}
+
+		$call = API::post("/projects/$id/addRole/$u_id", ['roles' => $roles]);
+
+		if ($call->error) {
+			var_dump($call->response);
+			throw new Exception($call->error_message);
+		}
+
+		Session::flash('message', 'Role added to user');
+		return redirect("/projects/$id/dashboard/edit");
+	}
+
+	public function removeRoleFromUser($id, $u_id) 
+	{
+		$roles = $this->request->input("roles");
+		if (is_array($roles)) {
+			for ($i = 0; $i < count($roles); $i++) {
+				$roles[$i] = explode(':', $roles[$i])[0];
+			}
+		} else {
+			$roles = [];
+		}
+
+		$call = API::post("/projects/$id/removeRole/$u_id", ['roles' => $roles]);
+
+		if ($call->error) {
+			var_dump($call->response);
+			throw new Exception($call->error_message);
+		}
+
+		Session::flash('message', 'Role removed from user');
+
+		return redirect("/projects/$id/dashboard/edit");
 	}
 }
