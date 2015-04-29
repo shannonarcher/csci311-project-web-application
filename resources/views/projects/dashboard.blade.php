@@ -21,30 +21,27 @@
 	<div class="row">
 		<div class="col-lg-12">  
 			<div class="page-header">
-				<h1>{{$project->name}}</h1>
+				<h1>{{$project->name}}
+                    <small>
+                        @if ($user->is_admin)
+                        <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-sm btn-default">@lang('general.edit')</a>
+                        @else
+                        @foreach ($project->managers as $manager)
+                        @if ($manager->id == $user->id)
+                        <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-sm btn-default">@lang('general.edit')</a>
+                        @endif
+                        @endforeach
+                        @endif
+
+                        <a href='{{ URL::to("/projects/$project->id/gannt") }}' target="_blank" class="btn btn-sm btn-default">Gantt Chart</a>
+                    </small>
+                </h1>
 			</div>
 		</div>
 	</div>
     <div class="row">
-        <div class="col-lg-12 col-md-12">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-tasks fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                        </div>
-                    </div>
-                </div>
-                <a href="{{ URL::to('/projects/'.$project->id.'/gannt') }}" target="_blank">
-                    <div class="panel-footer">
-                        <span class="pull-left">View Gannt Chart</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
+        <div class="col-lg-12">
+            <iframe id="gannt" src="{{ URL::to('/projects/'.$project->id.'/gannt') }}"></iframe>
         </div>
     </div>
 	<!-- details -->
@@ -174,7 +171,7 @@
 		<div class="col-lg-12">
  			<div class="panel panel-default">
                 <div class="panel-heading">
-                    Users
+                    @lang('general.users')
                 </div>
                 <div class="panel-body">
                 	<div class="dataTable_wrapper">

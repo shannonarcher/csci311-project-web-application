@@ -73,8 +73,42 @@ class ProjectController extends Controller {
 			throw new Exception($call->error_message);
 		}
 
+		$project = $call->response;
+		foreach ($project->users as $user) {
+			$project_roles = [];
+			foreach ($user->roles as $role) {
+				if ($role->pivot->assigned_for == $project->id)
+					array_push($project_roles, $role);
+			}
+			$user->roles = $project_roles;
+		}
+
+		$users = $call2->response;
+		foreach ($users as $user) {
+			$roles = [];
+			foreach ($user->roles as $role) {
+				$exists = false;
+				foreach ($roles as $r) {
+					if ($r->name == $role->name) {
+						$exists = true;
+						break;
+					}
+				}
+				if (!$exists) 
+					$roles[] = $role;
+			}
+			$user->roles = $roles;
+
+			$user->on_team = false;
+			foreach ($project->users as $u2) {
+				if ($u2->id == $user->id) {
+					$user->on_team = true;
+				}
+			}
+		}
+
 		return view('projects/edit', array_merge(Session::all(), [
-				'project' => $call->response,
+				'project' => $project,
 				'users' => $call2->response ]));
 	}
 

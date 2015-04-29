@@ -42,6 +42,25 @@
         #role_search_results li:last-child {
             border-bottom:solid 1px #eee;
         }
+
+        #roles_to_add .label {
+            margin-right:5px;
+        }
+
+        .role-label {
+            position:relative;
+        }
+        .role-label .label-danger {
+            display:none;
+            position:absolute;
+            bottom:-2px;
+            top:1px;
+            left:0;
+            right:0;
+        }
+        .role-label:hover .label-danger {
+            display:block;
+        }
     </style>
 @stop
 
@@ -58,7 +77,11 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="page-header">
-				<h1>{{ $project->name }}</h1>
+				<h1>{{ $project->name }} 
+                    <small>
+                        <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default">@lang('general.dashboard')</a>
+                    </small>
+                </h1>
 			</div>
 		</div>
 	</div>
@@ -127,7 +150,7 @@
                                     <td>
                                     	<p style="max-width:500px;">
                                     	@foreach ($p_user->skills as $skill)
-                                    	{{ $skill->name }}, 
+                                    	<span class="label label-default">{{ $skill->name }}</span>
                                     	@endforeach
                                     	</p>
                                     </td>
@@ -135,7 +158,10 @@
                                         <p style="max-width:500px;">
                                         @foreach ($p_user->roles as $role) 
                                         @if ($role->pivot->assigned_for == $project->id)
-                                        {{ $role->name }} <a href="{{ URL::to('projects/'.$project->id.'/removeRoleFromUser/'.$p_user->id.'?roles[0]='.$role->id) }}" class="btn btn-xs btn-danger">X</a>,
+                                        <a class="role-label" href="{{ URL::to('projects/'.$project->id.'/removeRoleFromUser/'.$p_user->id.'?roles[0]='.$role->id) }}">
+                                            <span class="label label-default">{{ $role->name }}</span>
+                                            <span class="label label-danger">@lang('general.remove')</span>
+                                        </a>
                                         @endif
                                         @endforeach
                                         </p>
@@ -148,7 +174,7 @@
 	                                    	<a class="btn btn-xs btn-default" href="{{ URL::to('projects/'.$project->id.'/detachUser/'.$p_user->id) }}">@lang('general.remove')</a>
                                             <a class="btn btn-xs btn-default" 
                                                     data-action="add_role_to_existing_user"
-                                                    data-roles="[@foreach ($p_user->roles as $role) @if($role->pivot->assigned_for == $project->id) {{ json_encode($role) }} @if($role != end($p_user->roles)) , @endif @endif @endforeach]"
+                                                    data-roles="{{ json_encode($p_user->roles) }}"
                                                     href="{{ URL::to('projects/'.$project->id.'/addRoleToUser/'.$p_user->id) }}">@lang('general.add_role')</a>
 	                                    </div>
                                     </td>
@@ -168,7 +194,7 @@
 		<div class="col-lg-12">
  			<div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.all_users')
+                    @lang('general.add_to_team')
                 </div>
                 <div class="panel-body">
                 	<div class="dataTable_wrapper">
@@ -179,11 +205,13 @@
                                     <th>@lang('general.name')</th>
                                     <th>@lang('general.email')</th>
                                     <th>@lang('general.skills')</th>
+                                    <th>@lang('general.roles')</th>
                                     <th>@lang('general.actions')</th>
                                 </tr>
                             </thead>
                             <tbody>
                             	@foreach ($users as $a_user)
+                                @if (!$a_user->on_team)
                                 <tr>
                                     <td>{{$a_user->id}}</td>
                                     <td><a href="{{URL::to('/users/'.$user->id.'/profile')}}">{{$a_user->name}}</a></td>
@@ -191,14 +219,22 @@
                                     <td>
                                     	<p style="max-width:500px;">
                                     	@foreach ($a_user->skills as $skill)
-                                    	{{ $skill->name }}, 
+                                    	<span class="label label-default">{{ $skill->name }}</span>
                                     	@endforeach
                                     	</p>
+                                    </td>
+                                    <td>
+                                        <p style="max-width:500px;">
+                                        @foreach ($a_user->roles as $role)
+                                        <span class="label label-default">{{ $role->name }}</span>
+                                        @endforeach
+                                        </p>
                                     </td>
                                     <td>
                                     	<a href="{{ URL::to('/projects/'.$project->id.'/attachUser/'.$a_user->id) }}" class="btn btn-xs btn-primary" data-action="add_to_team">@lang('general.add_to_team')</a>
                                     </td>
                                 </tr>
+                                @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -226,14 +262,14 @@
 
                     </ul>
                 </div>
-                <ul id="roles_to_add">
+                <div id="roles_to_add">
 
-                </ul>
+                </div>
             </form>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary" id="save_roles">Save changes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">@lang('general.close')</button>
+            <button type="button" class="btn btn-primary" id="save_roles">@lang('general.save_changes')</button>
           </div>
         </div><!-- /.modal-content -->
       </div><!-- /.modal-dialog -->
@@ -319,7 +355,7 @@
 
             var roles_html = "";
             for (var i = 0; i < e.length; i++) {
-                roles_html += "<li>" + e[i].name + "<input type='hidden' name='roles[" + i + "]' value='" + e[i].id + ":" + e[i].name + "' />";
+                roles_html += "<span class='label label-default'>" + e[i].name + "<input type='hidden' name='roles[" + i + "]' value='" + e[i].id + ":" + e[i].name + "' /></span>";
             }
 
             $("#roles_to_add").html(roles_html);

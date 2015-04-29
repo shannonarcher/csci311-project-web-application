@@ -78,4 +78,13 @@ return [
 	"none" => "None",
 	"promote" => "Promote",
 	"demote" => "Demote",
+
+	"add_role" => "Add Role",
+	"select_role" => "Select Role",
+	"roles" => "Roles",
+	"search_roles" => "Search Roles",
+
+	"save_changes" => "Save Changes",
+	"close" => "Close",
+	
 ];

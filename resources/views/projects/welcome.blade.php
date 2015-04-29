@@ -12,7 +12,13 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="page-header">
-				<h1>Projects</h1>
+				<h1>@lang('general.projects')
+					<small>
+						@if ($user->is_admin)
+			        	<a href="{{ URL::to('projects/add') }}" class="btn-sm btn btn-default">@lang('general.add_project')</a>
+			        	@endif
+					</small>
+				</h1>
 			</div>
 		</div>
 	</div>
@@ -20,9 +26,9 @@
 		<div class="col-lg-12">
 		    <div class="panel panel-default">
 		        <div class="panel-heading">
-		        	All Projects
+		        	@lang('general.all_projects')
 		        	@if ($user->is_admin)
-		        	<a href="{{ URL::to('projects/add') }}" class="btn-xs btn btn-primary pull-right">Add Project</a>
+		        	<a href="{{ URL::to('projects/add') }}" class="btn-xs btn btn-primary pull-right">@lang('general.add_project')</a>
 		        	@endif
 		        </div>
 		        <!-- /.panel-heading -->
@@ -32,12 +38,12 @@
 		                    <thead>
 		                        <tr>
 		                        	<td>#</td>
-		                        	<td>Name</td>
-		                        	<td>Team</td>
+		                        	<td>@lang('general.name')</td>
+		                        	<td>@lang('general.team')</td>
 		                        </tr>
 		                    </thead>
 		                    <tbody>
-		                    	@forelse ($projects as $project) 
+		                    	@foreach ($projects as $project) 
 		                    	<tr>
 		                    		<td>{{$project->id}}</td>
 		                    		<td><a href="{{ URL::to('/projects/'.$project->id.'/dashboard') }}">{{$project->name}}</a></td>
@@ -47,9 +53,7 @@
 		                    			@endforeach
 		                    		</td>	
 		                    	</tr>
-		                    	@empty
-		                    	<p>No projects</p>
-		                    	@endforelse
+		                    	@endforeach
 		                    </tbody>
 		                </table>
 		            </div>
