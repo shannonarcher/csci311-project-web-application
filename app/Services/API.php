@@ -7,13 +7,11 @@ use \Session;
 
 class API {
 
-	private static $address = "http://localhost:8080/csci311-project-api/public";
-
 	public static function get($url, $data = []) {
 		$data = API::addFields($data);
 
 		$curl = new Curl();
-		$curl->get(API::$address.$url, $data);
+		$curl->get(getenv('APP_API').$url, $data);
 		
 		return $curl;
 	}
@@ -22,7 +20,7 @@ class API {
 		$data = API::addFields($data);
 
 		$curl = new Curl();
-		$curl->post(API::$address.$url, $data);
+		$curl->post(getenv('APP_API').$url, $data);
 
 		return $curl;
 	}
@@ -31,7 +29,7 @@ class API {
 		$data = API::addFields($data);
 
 		$curl = new Curl();
-		$curl->put(API::$address.$url, $data);
+		$curl->put(getenv('APP_API').$url, $data);
 
 		return $curl;
 	}
@@ -40,7 +38,7 @@ class API {
 		$data = API::addFields($data);
 
 		$curl = new Curl();
-		$curl->delete(API::$address.$url, $data);
+		$curl->delete(getenv('APP_API').$url, $data);
 
 		return $curl;
 	}

@@ -39,6 +39,7 @@ class WelcomeController extends Controller {
 
 		// if fail, print error
 		if ($response->error) {
+			
 			return view('welcome', [
 				'error_code' => $response->error_code,
 				'error_message' => $response->response->message]);
