@@ -41,6 +41,10 @@
 	                            <label>@lang('general.description')</label>
 	                            <textarea class="form-control" name="description">{{ $task->description }}</textarea>
 	                        </div>
+                            <div class="form-group">
+                                <label>@lang('general.is_approved')</label>
+                                <input type="checkbox" class="checkbox" name="is_approved" {{ $task->approved_at == null ? '' : 'checked' }} />
+                            </div>
 	                   	</div>
 	                   	<div class="col-md-6">
 	                   		<div class="form-group">

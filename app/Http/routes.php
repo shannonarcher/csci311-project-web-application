@@ -43,6 +43,11 @@ Route::get('/projects/{id}/tasks/{t_id}', 'ProjectController@task');
 Route::get('/projects/{id}/tasks/{t_id}/edit', 'ProjectController@editTask');
 Route::post('/projects/{id}/tasks/{t_id}/save', 'ProjectController@saveTask');
 
+Route::get('/projects/{id}/milestones', 'ProjectController@milestones');
+Route::get('/projects/{id}/milestones/add', 'ProjectController@addMilestone');
+Route::post('/projects/{id}/milestones/create', 'ProjectController@createMilestone');
+Route::get('/projects/{id}/milestones/{m_id}/remove', 'ProjectController@removeMilestone');
+
 Route::get('/projects/{id}/attachUser/{u_id}', 'ProjectController@attachUser');
 Route::get('/projects/{id}/detachUser/{u_id}', 'ProjectController@detachUser');
 
@@ -61,3 +66,6 @@ Route::post('/ajax/users/{id}/skills', 'AjaxController@addSkill');
 Route::delete('/ajax/users/{id}/skills', 'AjaxController@removeSkill');
 
 Route::get('/ajax/roles', 'AjaxController@getRoles');
+
+Route::post('/ajax/tasks/{id}/comments', 'AjaxController@addComment');
+Route::get('/ajax/tasks/{id}/comments', 'AjaxController@getComments');

@@ -134,6 +134,51 @@ class ProjectController extends Controller {
 		return view('projects/dashboard', array_merge(Session::all(), ['project' => $call->response]));
 	}
 
+	public function milestones($id) 
+	{
+		$call = API::get('/projects/'.$id.'/milestones');
+		$call2 = API::get('/projects/'.$id);
+
+		if ($call->error)
+			throw new Exception($call->error_message);
+
+		if ($call2->error) 
+			throw new Exception($call->error_message);
+
+		return view('projects/milestones/all', array_merge(Session::all(), ['milestones' => $call->response, 'project' => $call2->response]));
+	}
+
+	public function addMilestone($id)
+	{
+		return view('projects/milestones/add', array_merge(Session::all(), ['project_id' => $id]));
+	}
+
+	public function createMilestone($id) 
+	{
+		$all = $this->request->all();
+
+		$call = API::post("/projects/$id/milestones", $all);
+
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
+
+		Session::flash('message', "Milestone '" . $call->response->title . "' successfully created.");
+		return redirect("/projects/$id/milestones/");
+	}
+
+	public function removeMilestone($id, $m_id) 
+	{
+		$call = API::delete("/milestones/$m_id");
+
+		if ($call->error) {
+			var_dump($call->response);
+			throw new Exception($call->error_message);
+		}
+
+		return redirect("/projects/$id/milestones/");
+	}
+
 	public function tasks($id) 
 	{		
 		$call = API::get('/projects/'.$id.'/tasks', []);
@@ -267,10 +312,13 @@ class ProjectController extends Controller {
 	{
 		$all = $this->request->all();
 		$all["estimation_duration"] = $all["estimation_duration"] * 86400;
+		$all["is_approved"] = (isset($all["is_approved"]) && ($all["is_approved"] == 'on'));
 		
 		$call = API::put("/tasks/$t_id", $all);
 
 		if ($call->error) {
+			var_dump($call->response);
+			die();
 			throw new Exception($call->error_message);
 		}
 

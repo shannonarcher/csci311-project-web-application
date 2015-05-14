@@ -86,5 +86,10 @@ return [
 
 	"save_changes" => "Save Changes",
 	"close" => "Close",
-	
+
+	"send" => "Send",
+	"chat" => "Chat",
+
+	"type_your_message_here" => "Type your message here...",
+	"dashboard" => "Dashboard",
 ];

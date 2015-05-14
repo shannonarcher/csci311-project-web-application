@@ -35,6 +35,10 @@
 	                   	</div>
 	                   	<div class="col-md-6">
 	                   		<div class="form-group">
+	                   			<label>@lang('general.is_approved')</label>
+	                   			<p class="form-control-static">{{ $task->approved_at != null ? trans('general.yes') : trans('general.no') }}</p>
+	                   		</div>
+	                   		<div class="form-group">
 	                   			<label>@lang('general.start_date')</label>
 	                   			<p class="form-control-static">{{$task->started_at}}</p>
 	                   		</div>
@@ -107,7 +111,7 @@
 	            </div>
 	            <!-- /.panel-heading -->
 	            <div class="panel-body">
-	                <ul class="chat">
+	                <ul class="chat" id="chat_log">
 	                	@foreach ($task->comments as $index => $comment)
 	                	<li class="@if($index % 2 == 0) left @else right @endif clear-fix">	                		
 	                        <span class="chat-img @if($index % 2 == 0) pull-left @else pull-right @endif">
@@ -136,9 +140,9 @@
 	            <!-- /.panel-body -->
 	            <div class="panel-footer">
 	                <div class="input-group">
-	                    <input id="btn-input" type="text" class="form-control input-sm" placeholder="Type your message here..." />
+	                    <input id="chat_box" type="text" class="form-control input-sm" placeholder="@lang('general.type_your_message_here')" />
 	                    <span class="input-group-btn">
-	                        <button class="btn btn-warning btn-sm" id="btn-chat">
+	                        <button class="btn btn-warning btn-sm" id="chat_btn">
 	                            @lang('general.send')
 	                        </button>
 	                    </span>
@@ -150,4 +154,74 @@
 	    </div>
 	</div>
 </div>
+@stop
+
+@section('scripts')
+<script>
+	(function () {
+		$('body').on('keyup', '#chat_box', function (e) {
+			if (e.keyCode == 13)
+				submitComment();
+		});
+
+		$('body').on('click', '#chat_btn', submitComment);
+
+		function submitComment() {
+			var text = $("#chat_box").val();
+			$("#chat_box").val('');
+
+			$.ajax({
+				url:'{{ URL::to("/ajax/tasks/$task->id/comments") }}',
+				method:'POST',
+				data: {
+					text: text
+				}
+			}).success(function (e) {
+				updateComments(e);
+			});
+		}
+
+		function updateComments(comments) {
+			var html = "";
+			for (var i = 0; i < comments.length; i++) {
+				html += '<li class="' + (i % 2 == 0 ? 'left':'right') + ' clear-fix">' +                		
+	                        '<span class="chat-img ';
+
+	            if (i % 2 == 0)
+	            	html += 'pull-left ';
+	            else
+	            	html += 'pull-right';
+
+	            html += '"><img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar" class="img-circle" /></span>' +
+	            		'<div class="chat-body clearfix">' +
+	            		'<div class="header">';
+
+	            if (i % 2 == 0) {
+	            	html += '<strong class="primary-font"><a href="{{ URL::to('/users/') }}' + comments[i].created_by.id + '/profile">' + 
+	            			comments[i].created_by.name + '</a></strong><small class="pull-right text-muted">' +
+	            			'<i class="fa fa-clock-o fa-fw"></i> ' + comments[i].updated_at + '</small>';
+
+	            } else {
+	            	html += '<small class="text-muted"><i class="fa fa-clock-o fa-fw"></i> ' + comments[i].updated_at + '</small>' +
+	            	        '<strong class="pull-right primary-font"><a href="{{ URL::to('/users/') }}' + comments[i].created_by.id + '/profile">' +
+	            	        comments[i].created_by.name + '</a></strong>'
+	           	}
+
+	           	html += '</div><p>' + comments[i].comment + '</p></div></li>';
+			}
+			$("#chat_log").html(html);
+		}
+
+		function pollComments() {
+			$.ajax({
+				url:'{{ URL::to("/ajax/tasks/$task->id/comments") }}',
+				method:'GET'
+			}).success(function (e) {
+				updateComments(e);
+			});
+		}
+
+		/*setInterval(pollComments, 5000);*/
+	})();
+</script>
 @stop

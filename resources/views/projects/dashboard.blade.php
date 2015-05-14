@@ -33,21 +33,23 @@
                         @endforeach
                         @endif
 
-                        <a href='{{ URL::to("/projects/$project->id/gannt") }}' target="_blank" class="btn btn-sm btn-default">Gantt Chart</a>
+                        <a href='{{ URL::to("/projects/$project->id/gannt") }}' target="_blank" class="btn btn-sm btn-default">@lang('general.gannt_chart')</a>
                     </small>
                 </h1>
 			</div>
 		</div>
 	</div>
-    <div class="row">
+
+    <!--<div class="row">
         <div class="col-lg-12">
             <iframe id="gannt" src="{{ URL::to('/projects/'.$project->id.'/gannt') }}"></iframe>
         </div>
-    </div>
-	<!-- details -->
-	<div class="row">
-		<div class="col-lg-12">
- 			<div class="panel panel-default">
+    </div>-->
+
+    <!-- details -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     @lang('general.details')
                     @if ($user->is_admin)
@@ -62,58 +64,64 @@
                 </div>
                 <div class="panel-body">
                     <form role="form">
-                    	<fieldset disabled>
-                    		<div class="col-md-6">
-		                        <div class="form-group">
-		                            <label>@lang('general.name')</label>
-		                            <p class="form-control-static">{{$project->name}}</p>
-		                        </div>
-		                        
-		                        <div class="form-group">
-		                            <label>@lang('general.created_by')</label>
-		                            <p class="form-control-static">
-		                            	<a href="{{ URL::to('/users/'.$project->created_by->id.'/profile') }}">{{$project->created_by->name}}</a>
-		                            </p>
-		                        </div>
-		                    </div>
-		                    <div class="col-md-6">		                    	
-		                        <div class="form-group">
-		                            <label>@lang('general.start_date')</label>
-		                            <p class="form-control-static">{{$project->started_at}}</p>
-		                        </div>
-		                        <div class="form-group">
-		                            <label>@lang('general.expected_completed_date')</label>
-		                            <p class="form-control-static">{{$project->expected_completed_at}}</p>
-		                        </div>
-		                        <div class="form-group">
-		                            <label>@lang('general.actual_completed_date')</label>
-		                            <p class="form-control-static">
-		                            	@if ($project->actual_completed_at)
-		                            		{{$project->actual_completed_at}}
-		                            	@else
-		                            		@lang('general.in_progress')
-		                            	@endif
-		                            </p>
-		                        </div>
-		                    </div>
-	                    </fieldset>
-	                </form>
-	            </div>
-	        </div>
+                        <fieldset disabled>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>@lang('general.name')</label>
+                                    <p class="form-control-static">{{$project->name}}</p>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>@lang('general.created_by')</label>
+                                    <p class="form-control-static">
+                                        <a href="{{ URL::to('/users/'.$project->created_by->id.'/profile') }}">{{$project->created_by->name}}</a>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">                              
+                                <div class="form-group">
+                                    <label>@lang('general.start_date')</label>
+                                    <p class="form-control-static">{{$project->started_at}}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label>@lang('general.expected_completed_date')</label>
+                                    <p class="form-control-static">{{$project->expected_completed_at}}</p>
+                                </div>
+                                <div class="form-group">
+                                    <label>@lang('general.actual_completed_date')</label>
+                                    <p class="form-control-static">
+                                        @if ($project->actual_completed_at)
+                                            {{$project->actual_completed_at}}
+                                        @else
+                                            @lang('general.in_progress')
+                                        @endif
+                                    </p>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
             <!-- /.panel -->
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-lg-12">
- 			<div class="panel panel-default">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
                 <div class="panel-heading">
                     @lang('general.tasks')
                     @if ($user->is_admin)
+                    <a href="{{ URL::to('/projects/'.$project->id.'/tasks') }}" class="btn btn-xs btn-primary pull-right">@lang('general.view_all')</a>     
+                    @else             
+                    @foreach ($project->users as $team_member)
+                    @if ($team_member->id == $user->id)
                     <a href="{{ URL::to('/projects/'.$project->id.'/tasks') }}" class="btn btn-xs btn-primary pull-right">@lang('general.view_all')</a>
-                    @endif                    
+                    @endif
+                    @endforeach  
+                    @endif      
                 </div>
                 <div class="panel-body">
-		            <div class="dataTable_wrapper">
+                    <div class="dataTable_wrapper">
                         <table class="table table-striped table-bordered table-hover" id="task_table">
                             <thead>
                                 <tr>
@@ -123,7 +131,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            	@foreach ($project->tasks as $task)
+                                @foreach ($project->tasks as $task)
                                 <tr>
                                     <td>{{$task->id}}</td>
                                     <td><a href="{{URL::to('/projects/'.$project->id.'/tasks/'.$task->id)}}">{{$task->title}}</a></td>
@@ -134,22 +142,32 @@
                         </table>
                     </div>
 
-	            </div>
-	        </div>
+                </div>
+            </div>
             <!-- /.panel -->
         </div>
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     @lang('general.milestones')
+
+                    @if ($user->is_admin)
+                    <a href="{{ URL::to('/projects/'.$project->id.'/milestones') }}" class="btn btn-xs btn-primary pull-right">@lang('general.view_all')</a>
+                    @else
+                    @foreach ($project->managers as $manager)
+                    @if ($manager->id == $user->id)
+                    <a href="{{ URL::to('/projects/'.$project->id.'/milestones') }}" class="btn btn-xs btn-primary pull-right">@lang('general.view_all')</a>
+                    @endif
+                    @endforeach
+                    @endif
                 </div>
                 <div class="panel-body">
                     <div class="dataTable_wrapper">
                         <table class="table table-striped table-bordered table-hover" id="task_table">
                             <thead>
                                 <tr>
-                                    <th>Title</th>
-                                    <th>Date</th>
+                                    <th>@lang('general.title')</th>
+                                    <th>@lang('general.date')</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -168,13 +186,22 @@
             </div>
             <!-- /.panel -->
         </div>
-		<div class="col-lg-12">
- 			<div class="panel panel-default">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.users')
+                    @lang('general.users')                    
+                    @if ($user->is_admin)
+                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right">@lang('general.edit')</a>
+                    @else
+                    @foreach ($project->managers as $manager)
+                    @if ($manager->id == $user->id)
+                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right">@lang('general.edit')</a>
+                    @endif
+                    @endforeach
+                    @endif
                 </div>
                 <div class="panel-body">
-                	<div class="dataTable_wrapper">
+                    <div class="dataTable_wrapper">
                         <table class="table table-striped table-bordered table-hover" id="users_table">
                             <thead>
                                 <tr>
@@ -185,13 +212,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                            	@foreach ($project->users as $p_user)
+                                @foreach ($project->users as $p_user)
                                 <tr>
                                     <td>{{$p_user->id}}</td>
                                     <td><a href="{{URL::to('/users/'.$user->id.'/profile')}}">{{$p_user->name}}</a></td>
                                     <td><a href="mailto:{{$user->email}}">{{$p_user->email}}</a></td>
                                     <td>
-                                    	{{$p_user->pivot->is_manager ? trans('general.yes') : trans('general.no') }}
+                                        {{$p_user->pivot->is_manager ? trans('general.yes') : trans('general.no') }}
                                     </td>
                                 </tr>
                                 @endforeach
@@ -200,12 +227,12 @@
                     </div>
                     <!-- /.table-responsive -->
 
-	            </div>
-	        </div>
+                </div>
+            </div>
             <!-- /.panel -->
         </div>
-	</div>
-	<!-- projects -->
+    </div>
+    <!-- projects -->
 @stop
 
 @section('scripts')

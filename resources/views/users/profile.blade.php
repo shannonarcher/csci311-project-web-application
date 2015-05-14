@@ -245,7 +245,7 @@
                 $('#skill_search').val('');
                 $('#skill_search_results').html('');
 
-                alert("Added skill to user.");
+                swal("Success!", "Added skill to user.", "success");
 
                 updateSkillsList(e);
             });
@@ -262,7 +262,7 @@
                     id:id
                 }
             }).success(function (e) {
-                alert("Removed skill from user.");
+                swal("Success!", "Removed skill from user.", "success");
 
                 updateSkillsList(e);
             });

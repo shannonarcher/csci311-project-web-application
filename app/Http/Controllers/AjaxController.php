@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Services\API;
 use \Session;
 use \Exception;
+use \Response;
 
 class AjaxController extends Controller {
 
@@ -50,5 +51,17 @@ class AjaxController extends Controller {
 	{
 		$call = API::get('/roles');
 		return $call->response;
+	}
+
+	public function addComment($id) {
+		$call = API::post("/tasks/$id/comments", [
+			'comment' => $this->request->input('text')
+			]);
+		return \Response::json($call->response, 200);
+	}
+
+	public function getComments($id) {
+		$call = API::get("/tasks/$id/comments");
+		return \Response::json($call->response, 200);
 	}
 }
