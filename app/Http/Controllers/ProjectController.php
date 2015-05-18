@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Services\API;
+use App\Services\AlbrechtFP;
 use Illuminate\Http\Request;
 use \Session;
 use \Exception;
@@ -369,5 +370,33 @@ class ProjectController extends Controller {
 		Session::flash('message', 'Role removed from user');
 
 		return redirect("/projects/$id/dashboard/edit");
+	}
+
+	public function functionPoints($id) 
+	{
+		$call = API::get("/projects/$id");
+
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
+
+		$gscs = AlbrechtFP::getGSCList();
+		$complexity = AlbrechtFP::getComplexityTable();
+
+		return view("projects/functionPoints", array_merge(Session::all(), ['project' => $call->response, 'gscs' => $gscs, 'complexity' => $complexity ]));
+	}
+
+	public function saveFunctionPoints($id) 
+	{
+		$call = API::post("/projects/$id/functionPoints", $this->request->all());
+
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
+
+		Session::flash('message', 'Successfully saved function points.');
+		Session::flash('project', $call->response);
+
+		return redirect("projects/$id/functionPoints");
 	}
 }

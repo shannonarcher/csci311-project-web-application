@@ -57,6 +57,9 @@ Route::get('/projects/{id}/removeRoleFromUser/{u_id}', 'ProjectController@remove
 Route::get('/projects/{id}/promote/{u_id}', 'ProjectController@promoteUser');
 Route::get('/projects/{id}/demote/{u_id}', 'ProjectController@demoteUser');
 
+Route::get('/projects/{id}/functionPoints', 'ProjectController@functionPoints');
+Route::post('/projects/{id}/functionPoints', 'ProjectController@saveFunctionPoints');
+
 Route::get('/projects/{id}/gannt', 'ChartController@gannt');
 
 

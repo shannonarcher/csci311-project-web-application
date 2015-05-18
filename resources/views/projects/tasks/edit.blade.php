@@ -43,7 +43,7 @@
 	                        </div>
                             <div class="form-group">
                                 <label>@lang('general.is_approved')</label>
-                                <input type="checkbox" class="checkbox" name="is_approved" {{ $task->approved_at == null ? '' : 'checked' }} />
+                                <input type="checkbox" class="checkbox" name="is_approved" {{ $task->approved_at == null ? '' : 'checked' }} /> {{ $task->approved_at }}
                             </div>
 	                   	</div>
 	                   	<div class="col-md-6">
