@@ -32,6 +32,10 @@
 	                        	<label>@lang('general.project')</label>
 	                        	<p class="form-control-static"><a href="{{URL::to('/projects/'.$task->project->id.'/dashboard')}}">{{$task->project->name}}</a></p>
 	                        </div>
+	                        <div class="form-group">
+				    <label>@lang('general.progress')</label>
+				    <p class="form-control-static">{{$task->progress}}%</p>
+				</div>
 	                   	</div>
 	                   	<div class="col-md-6">
 	                   		<div class="form-group">
