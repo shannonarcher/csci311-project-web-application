@@ -313,13 +313,10 @@ class ProjectController extends Controller {
 	{
 		$all = $this->request->all();
 		$all["estimation_duration"] = $all["estimation_duration"] * 86400;
-		$all["is_approved"] = (isset($all["is_approved"]) && ($all["is_approved"] == 'on'));
-		
+
 		$call = API::put("/tasks/$t_id", $all);
 
 		if ($call->error) {
-			var_dump($call->response);
-			die();
 			throw new Exception($call->error_message);
 		}
 

@@ -33,4 +33,58 @@ class AlbrechtFP {
 			["14. Facilitate Change", "Was the application specifically designed, developed, and supported to facilitate change?"]
 		];
 	}
+
+	public static function calculateFP($project) {
+		$complexity = AlbrechtFP::getComplexityTable();
+
+		$ufp = 0;
+
+		if ($project->function_points) {
+
+			$ufp += $project->function_points->low_ilf * $complexity[0][0];
+			$ufp += $project->function_points->med_ilf * $complexity[0][1];
+			$ufp += $project->function_points->hi_ilf * $complexity[0][2];
+
+			$ufp += $project->function_points->low_eif * $complexity[1][0];
+			$ufp += $project->function_points->med_eif * $complexity[1][1];
+			$ufp += $project->function_points->hi_eif * $complexity[1][2];
+
+			$ufp += $project->function_points->low_ei * $complexity[2][0];
+			$ufp += $project->function_points->med_ei * $complexity[2][1];
+			$ufp += $project->function_points->hi_ei * $complexity[2][2];
+
+			$ufp += $project->function_points->low_eo * $complexity[3][0];
+			$ufp += $project->function_points->med_eo * $complexity[3][1];
+			$ufp += $project->function_points->hi_eo * $complexity[3][2];
+
+			$ufp += $project->function_points->low_eq * $complexity[4][0];
+			$ufp += $project->function_points->med_eq * $complexity[4][1];
+			$ufp += $project->function_points->hi_eq * $complexity[4][2];
+
+
+			$vaf = 0;
+
+			$vaf += $project->function_points->gsc_1;
+			$vaf += $project->function_points->gsc_2;
+			$vaf += $project->function_points->gsc_3;
+			$vaf += $project->function_points->gsc_4;
+			$vaf += $project->function_points->gsc_5;
+			$vaf += $project->function_points->gsc_6;
+			$vaf += $project->function_points->gsc_7;
+			$vaf += $project->function_points->gsc_8;
+			$vaf += $project->function_points->gsc_9;
+			$vaf += $project->function_points->gsc_10;
+			$vaf += $project->function_points->gsc_11;
+			$vaf += $project->function_points->gsc_12;
+			$vaf += $project->function_points->gsc_13;
+			$vaf += $project->function_points->gsc_14;
+
+			$vaf = $vaf * 0.01 + 0.65;
+
+			return number_format($ufp * $vaf);
+		}
+		else {
+			return 0;
+		}
+	}
 }

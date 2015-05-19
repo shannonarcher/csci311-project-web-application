@@ -288,6 +288,7 @@
                                     </tr>
 
                                     @for ($i = 0; $i < count($gscs); $i++)
+                                    <?php $gsc_name = "gsc_".($i+1); ?>
                                     <tr>    
                                         <td>
                                             <a class="btn btn-xs btn-link" data-toggle="popover" data-content="{{ $gscs[$i][1] }}">
@@ -297,7 +298,7 @@
                                         </td>
                                         <td>
                                         @for ($j = 0; $j <= 5; $j++)
-                                        <input data-vaf-field type="radio" @if ($j == 0) checked @endif name="gsc_{{ $i+1 }}" value="{{ $j }}" /> {{ $j }}
+                                        <input data-vaf-field type="radio" @if ($project->function_points->$gsc_name == $j) checked @endif name="gsc_{{ $i+1 }}" value="{{ $j }}" /> {{ $j }}
                                         @endfor
                                         </td>
                                     </tr>

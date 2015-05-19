@@ -108,6 +108,13 @@
                                         <a href="{{ URL::to('/users/'.$project->created_by->id.'/profile') }}">{{$project->created_by->name}}</a>
                                     </p>
                                 </div>
+
+                                <div class="form-group">
+                                    <label>@lang('general.function_points')</label>
+                                    <p class="form-control-static">
+                                    {{ \App\Services\AlbrechtFP::calculateFP($project) }}
+                                    </p>
+                                </div>
                             </div>
                             <div class="col-md-6">                              
                                 <div class="form-group">

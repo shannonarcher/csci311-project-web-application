@@ -17,7 +17,7 @@
     @endif
 	<div class="col-lg-12">
 		<div class="page-header">
-			<h1>{{ $task->title }}</h1>
+			<h1><a href="{{ URL::to('/projects/'.$task->project_id.'/tasks/'.$task->id) }}">{{ $task->title }}</a></h1>
 		</div>
 	</div>
 </div>
@@ -43,7 +43,7 @@
 	                        </div>
                             <div class="form-group">
                                 <label>@lang('general.is_approved')</label>
-                                <input type="checkbox" class="checkbox" name="is_approved" {{ $task->approved_at == null ? '' : 'checked' }} /> {{ $task->approved_at }}
+                                <input type="checkbox" class="checkbox" name="is_approved" {{ $task->approved_at == null ? '' : 'checked' }} />
                             </div>
 	                   	</div>
 	                   	<div class="col-md-6">
