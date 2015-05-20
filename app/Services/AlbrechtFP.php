@@ -81,7 +81,7 @@ class AlbrechtFP {
 
 			$vaf = $vaf * 0.01 + 0.65;
 
-			return number_format($ufp * $vaf);
+			return number_format($ufp * $vaf, 2);
 		}
 		else {
 			return 0;

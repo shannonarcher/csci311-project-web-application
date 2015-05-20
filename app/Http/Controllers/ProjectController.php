@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\API;
 use App\Services\AlbrechtFP;
+use App\Services\COCOMO;
 use Illuminate\Http\Request;
 use \Session;
 use \Exception;
@@ -380,7 +381,10 @@ class ProjectController extends Controller {
 		$gscs = AlbrechtFP::getGSCList();
 		$complexity = AlbrechtFP::getComplexityTable();
 
-		return view("projects/functionPoints", array_merge(Session::all(), ['project' => $call->response, 'gscs' => $gscs, 'complexity' => $complexity ]));
+		return view("projects/functionPoints", array_merge(Session::all(), [
+			'project' => $call->response, 
+			'gscs' => $gscs, 
+			'complexity' => $complexity ]));
 	}
 
 	public function saveFunctionPoints($id) 
@@ -395,5 +399,40 @@ class ProjectController extends Controller {
 		Session::flash('project', $call->response);
 
 		return redirect("projects/$id/functionPoints");
+	}
+
+	public function cocomo($id) 
+	{
+		$call = API::get("/projects/$id");
+		$call2 = API::get("/cocomo/types");
+
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
+
+		if ($call2->error) {
+			throw new Exception($call2->error_message);
+		}
+
+		return view("projects/cocomo", array_merge(Session::all(), [
+			'project' => $call->response,
+			'types' => $call2->response,
+			'sfs' => COCOMO::getScaleFactors(),
+			'ems' => COCOMO::getEffortMultipliers(),
+			'ratings' => COCOMO::getRatings()
+			]));
+	}
+
+	public function saveCocomo($id) 
+	{
+		$call = API::post("/projects/$id/cocomo", $this->request->all());
+
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
+
+		Session::flash('message', 'Successfully saved COCOMO I and II.');
+
+		return $this->cocomo($id);
 	}
 }

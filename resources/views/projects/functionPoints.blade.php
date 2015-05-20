@@ -42,13 +42,89 @@
                         <fieldset>
 
                             <div class="col-lg-12">
-                                <p>
-                                    <span>@lang('general.function_points'):</span>
-                                    <span class="total_fp">0</span>
-                                </p>
+                                <h2>
+                                    <span>@lang('general.function_points')</span>
+                                    <small><span class="total_fp">0</span></small>
+                                </h2>
                             </div>
 
                             <div class="col-lg-6 col-md-12">
+
+                                <table class="table table-striped" id="fp_table">
+                                    <tr><th colspan="5">UFP</th></tr>
+                                    <tr><th>Type</th>   <th>Low</th>    <th>Medium</th>     <th>High</th>   <th>Total</th></tr>
+
+                                    <tr>
+                                        <td>
+                                            <a class="btn btn-xs btn-link" data-toggle="popover" title="Internal Logical File" data-content="Represents user identifiable data that is stored within your application such as tables in a relational database, flat files, etc.">
+                                                <span class="glyphicon glyphicon-info-sign"></span>
+                                            </a>
+                                            ILF
+                                        </td>    
+                                        <td><input class="form-control" data-ufp-field type="text" id="low_ilf" name="low_ilf" value="{{ $project->function_points->low_ilf or '0' }}" data-complexity="{{ $complexity[0][0] }}" /></td>
+                                        <td><input class="form-control" data-ufp-field type="text" id="med_ilf" name="med_ilf" value="{{ $project->function_points->med_ilf or '0' }}" data-complexity="{{ $complexity[0][1] }}" /></td>
+                                        <td><input class="form-control" data-ufp-field type="text" id="hi_ilf" name="hi_ilf" value="{{ $project->function_points->hi_ilf or '0' }}" data-complexity="{{ $complexity[0][2] }}" /></td>
+                                        <td><input class="form-control" data-ufp-subtotal type="text" id="total_ilf" value="0" name="ilf" disabled /></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <a class="btn btn-xs btn-link" data-toggle="popover" title="External Interface File" data-content="Represents the data that your application will use/reference but is not maintained by your application.">
+                                                <span class="glyphicon glyphicon-info-sign"></span>
+                                            </a>
+                                            EIF
+                                        </td>    
+                                        <td><input class="form-control" data-ufp-field type="text" id="low_eif" name="low_eif" value="{{ $project->function_points->low_eif or '0' }}" data-complexity="{{ $complexity[1][0] }}" /></td>
+                                        <td><input class="form-control" data-ufp-field type="text" id="med_eif" name="med_eif" value="{{ $project->function_points->med_eif or '0' }}" data-complexity="{{ $complexity[1][1] }}" /></td>
+                                        <td><input class="form-control" data-ufp-field type="text" id="hi_eif" name="hi_eif" value="{{ $project->function_points->hi_eif or '0' }}" data-complexity="{{ $complexity[1][2] }}" /></td>
+                                        <td><input class="form-control" data-ufp-subtotal type="text" id="total_eif" value="0" name="eif" disabled /></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <a class="btn btn-xs btn-link" data-toggle="popover" title="External Inputs" data-content="Input transactions which update ILF's, e.g. Data entry by users, data or file feeds by external applications.">
+                                                <span class="glyphicon glyphicon-info-sign"></span>
+                                            </a>
+                                            EI
+                                        </td>    
+                                        <td><input class="form-control" data-ufp-field type="text" id="low_ei" name="low_ei" value="{{ $project->function_points->low_ei or '0' }}" data-complexity="{{ $complexity[2][0] }}" /></td>
+                                        <td><input class="form-control" data-ufp-field type="text" id="med_ei" name="med_ei" value="{{ $project->function_points->med_ei or '0' }}" data-complexity="{{ $complexity[2][1] }}" /></td>
+                                        <td><input class="form-control" data-ufp-field type="text" id="hi_ei" name="hi_ei" value="{{ $project->function_points->hi_ei or '0' }}" data-complexity="{{ $complexity[2][2] }}" /></td>
+                                        <td><input class="form-control" data-ufp-subtotal type="text" id="total_ei" value="0" name="ei" disabled /></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <a class="btn btn-xs btn-link" data-toggle="popover" title="External Outputs" data-content="Transactions which extract and display data from ILF's, e.g. reports created by your application where the reports include derived information.">
+                                                <span class="glyphicon glyphicon-info-sign"></span>
+                                            </a>
+                                            EO
+                                        </td>    
+                                        <td><input class="form-control" data-ufp-field type="text" id="low_eo" name="low_eo" value="{{ $project->function_points->low_eo or '0' }}" data-complexity="{{ $complexity[3][0] }}" /></td>
+                                        <td><input class="form-control" data-ufp-field type="text" id="med_eo" name="med_eo" value="{{ $project->function_points->med_eo or '0' }}" data-complexity="{{ $complexity[3][1] }}" /></td>
+                                        <td><input class="form-control" data-ufp-field type="text" id="hi_eo" name="hi_eo" value="{{ $project->function_points->hi_eo or '0' }}" data-complexity="{{ $complexity[3][2] }}" /></td>
+                                        <td><input class="form-control" data-ufp-subtotal type="text" id="total_eo" value="0" name="eo" disabled /></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <a class="btn btn-xs btn-link" data-toggle="popover" title="External Inquiry" data-content="User initiated transactions which provide information but do not update ILF's, e.g. reports created by your application but the reports do not contain any derived data.">
+                                                <span class="glyphicon glyphicon-info-sign"></span>
+                                            </a>
+                                            EQ
+                                        </td>    
+                                        <td><input class="form-control" data-ufp-field type="text" id="low_eq" name="low_eq" value="{{ $project->function_points->low_eq or '0' }}" data-complexity="{{ $complexity[4][0] }}" /></td>
+                                        <td><input class="form-control" data-ufp-field type="text" id="med_eq" name="med_eq" value="{{ $project->function_points->med_eq or '0' }}" data-complexity="{{ $complexity[4][1] }}" /></td>
+                                        <td><input class="form-control" data-ufp-field type="text" id="hi_eq" name="hi_eq" value="{{ $project->function_points->hi_eq or '0' }}" data-complexity="{{ $complexity[4][2] }}" /></td>
+                                        <td><input class="form-control" data-ufp-subtotal type="text" id="total_eq" value="0" name="eq" disabled /></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td colspan="4">Unadjusted Function Points (UFP)</td>                                        
+                                        <td><input class="form-control" type="text" id="total_ufp" value="0" disabled /></td>
+                                    </tr>
+                                </table>
+
                                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
                                   <div class="panel panel-default">
                                     <div class="panel-heading" role="tab" id="headingOne">
@@ -197,81 +273,6 @@
                                     </div>
                                   </div>
                                 </div>
-
-                                <table class="table table-striped" id="fp_table">
-                                    <tr><th colspan="5">UFP</th></tr>
-                                    <tr><th>Type</th>   <th>Low</th>    <th>Medium</th>     <th>High</th>   <th>Total</th></tr>
-
-                                    <tr>
-                                        <td>
-                                            <a class="btn btn-xs btn-link" data-toggle="popover" title="Internal Logical File" data-content="Represents user identifiable data that is stored within your application such as tables in a relational database, flat files, etc.">
-                                                <span class="glyphicon glyphicon-info-sign"></span>
-                                            </a>
-                                            ILF
-                                        </td>    
-                                        <td><input class="form-control" data-ufp-field type="text" id="low_ilf" name="low_ilf" value="{{ $project->function_points->low_ilf or '0' }}" data-complexity="{{ $complexity[0][0] }}" /></td>
-                                        <td><input class="form-control" data-ufp-field type="text" id="med_ilf" name="med_ilf" value="{{ $project->function_points->med_ilf or '0' }}" data-complexity="{{ $complexity[0][1] }}" /></td>
-                                        <td><input class="form-control" data-ufp-field type="text" id="hi_ilf" name="hi_ilf" value="{{ $project->function_points->hi_ilf or '0' }}" data-complexity="{{ $complexity[0][2] }}" /></td>
-                                        <td><input class="form-control" data-ufp-subtotal type="text" id="total_ilf" value="0" name="ilf" disabled /></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <a class="btn btn-xs btn-link" data-toggle="popover" title="External Interface File" data-content="Represents the data that your application will use/reference but is not maintained by your application.">
-                                                <span class="glyphicon glyphicon-info-sign"></span>
-                                            </a>
-                                            EIF
-                                        </td>    
-                                        <td><input class="form-control" data-ufp-field type="text" id="low_eif" name="low_eif" value="{{ $project->function_points->low_eif or '0' }}" data-complexity="{{ $complexity[1][0] }}" /></td>
-                                        <td><input class="form-control" data-ufp-field type="text" id="med_eif" name="med_eif" value="{{ $project->function_points->med_eif or '0' }}" data-complexity="{{ $complexity[1][1] }}" /></td>
-                                        <td><input class="form-control" data-ufp-field type="text" id="hi_eif" name="hi_eif" value="{{ $project->function_points->hi_eif or '0' }}" data-complexity="{{ $complexity[1][2] }}" /></td>
-                                        <td><input class="form-control" data-ufp-subtotal type="text" id="total_eif" value="0" name="eif" disabled /></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <a class="btn btn-xs btn-link" data-toggle="popover" title="External Inputs" data-content="Input transactions which update ILF's, e.g. Data entry by users, data or file feeds by external applications.">
-                                                <span class="glyphicon glyphicon-info-sign"></span>
-                                            </a>
-                                            EI
-                                        </td>    
-                                        <td><input class="form-control" data-ufp-field type="text" id="low_ei" name="low_ei" value="{{ $project->function_points->low_ei or '0' }}" data-complexity="{{ $complexity[2][0] }}" /></td>
-                                        <td><input class="form-control" data-ufp-field type="text" id="med_ei" name="med_ei" value="{{ $project->function_points->med_ei or '0' }}" data-complexity="{{ $complexity[2][1] }}" /></td>
-                                        <td><input class="form-control" data-ufp-field type="text" id="hi_ei" name="hi_ei" value="{{ $project->function_points->hi_ei or '0' }}" data-complexity="{{ $complexity[2][2] }}" /></td>
-                                        <td><input class="form-control" data-ufp-subtotal type="text" id="total_ei" value="0" name="ei" disabled /></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <a class="btn btn-xs btn-link" data-toggle="popover" title="External Outputs" data-content="Transactions which extract and display data from ILF's, e.g. reports created by your application where the reports include derived information.">
-                                                <span class="glyphicon glyphicon-info-sign"></span>
-                                            </a>
-                                            EO
-                                        </td>    
-                                        <td><input class="form-control" data-ufp-field type="text" id="low_eo" name="low_eo" value="{{ $project->function_points->low_eo or '0' }}" data-complexity="{{ $complexity[3][0] }}" /></td>
-                                        <td><input class="form-control" data-ufp-field type="text" id="med_eo" name="med_eo" value="{{ $project->function_points->med_eo or '0' }}" data-complexity="{{ $complexity[3][1] }}" /></td>
-                                        <td><input class="form-control" data-ufp-field type="text" id="hi_eo" name="hi_eo" value="{{ $project->function_points->hi_eo or '0' }}" data-complexity="{{ $complexity[3][2] }}" /></td>
-                                        <td><input class="form-control" data-ufp-subtotal type="text" id="total_eo" value="0" name="eo" disabled /></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td>
-                                            <a class="btn btn-xs btn-link" data-toggle="popover" title="External Inquiry" data-content="User initiated transactions which provide information but do not update ILF's, e.g. reports created by your application but the reports do not contain any derived data.">
-                                                <span class="glyphicon glyphicon-info-sign"></span>
-                                            </a>
-                                            EQ
-                                        </td>    
-                                        <td><input class="form-control" data-ufp-field type="text" id="low_eq" name="low_eq" value="{{ $project->function_points->low_eq or '0' }}" data-complexity="{{ $complexity[4][0] }}" /></td>
-                                        <td><input class="form-control" data-ufp-field type="text" id="med_eq" name="med_eq" value="{{ $project->function_points->med_eq or '0' }}" data-complexity="{{ $complexity[4][1] }}" /></td>
-                                        <td><input class="form-control" data-ufp-field type="text" id="hi_eq" name="hi_eq" value="{{ $project->function_points->hi_eq or '0' }}" data-complexity="{{ $complexity[4][2] }}" /></td>
-                                        <td><input class="form-control" data-ufp-subtotal type="text" id="total_eq" value="0" name="eq" disabled /></td>
-                                    </tr>
-
-                                    <tr>
-                                        <td colspan="4">Unadjusted Function Points (UFP)</td>                                        
-                                        <td><input class="form-control" type="text" id="total_ufp" value="0" disabled /></td>
-                                    </tr>
-                                </table>
                             </div>
 
                             <div class="col-lg-6 col-md-12">
@@ -298,7 +299,13 @@
                                         </td>
                                         <td>
                                         @for ($j = 0; $j <= 5; $j++)
-                                        <input data-vaf-field type="radio" @if ($project->function_points->$gsc_name == $j) checked @endif name="gsc_{{ $i+1 }}" value="{{ $j }}" /> {{ $j }}
+                                        <input data-vaf-field type="radio" 
+                                            @if (isset($project->function_points) && $project->function_points->$gsc_name == $j) 
+                                            checked 
+                                            @elseif ($j == 0)
+                                            checked 
+                                            @endif 
+                                            name="gsc_{{ $i+1 }}" value="{{ $j }}" /> {{ $j }}
                                         @endfor
                                         </td>
                                     </tr>
@@ -317,10 +324,10 @@
                             </div>
 
                             <div class="col-lg-12">
-                                <p>
-                                    <span>@lang('general.function_points'):</span>
-                                    <span class="total_fp">0</span>
-                                </p>
+                                <h2>
+                                    <span>@lang('general.function_points')</span>
+                                    <small><span class="total_fp">0</span></small>
+                                </h2>
                             </div>
                         </fieldset>
                     </div>

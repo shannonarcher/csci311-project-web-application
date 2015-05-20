@@ -23,21 +23,24 @@
 			<div class="page-header">
 				<h1>{{$project->name}}
                     <small>
-                        @if ($user->is_admin)
-                        <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-sm btn-default">@lang('general.edit')</a>
-                        @else
-                        @foreach ($project->managers as $manager)
-                        @if ($manager->id == $user->id)
-                        <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-sm btn-default">@lang('general.edit')</a>
-                        @endif
-                        @endforeach
-                        @endif
-
-                        <a href='{{ URL::to("/projects/$project->id/gannt") }}' target="_blank" class="btn btn-sm btn-default">@lang('general.gannt_chart')</a>
-
-                        @if (!isset($project->functionPoints))                        
-                        <a href='{{ URL::to("/projects/$project->id/functionPoints") }}' target="" class="btn btn-sm btn-default">@lang('general.calculate_function_points')</a>
-                        @endif
+                        <div class="btn-group btn-group-sm">
+                            @if ($user->is_admin)
+                            <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-sm btn-default">@lang('general.edit')</a>
+                            @else
+                            @foreach ($project->managers as $manager)
+                            @if ($manager->id == $user->id)
+                            <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-sm btn-default">@lang('general.edit')</a>
+                            @endif
+                            @endforeach
+                            @endif
+                        </div>
+                        <div class="btn-group btn-group-sm">
+                            <a href='{{ URL::to("/projects/$project->id/gannt") }}' target="_blank" class="btn btn-sm btn-default">@lang('general.gannt_chart')</a>
+                        </div>
+                        <div class="btn-group btn-group-sm">
+                            <a href='{{ URL::to("/projects/$project->id/functionPoints") }}' target="" class="btn btn-sm btn-default">@lang('general.calculate_function_points')</a>
+                            <a href='{{ URL::to("/projects/$project->id/cocomo") }}' target="" class="btn btn-sm btn-default">@lang('general.calculate_cocomo')</a>
+                        </div>
                     </small>
                 </h1>
 			</div>
@@ -51,21 +54,71 @@
     </div>-->
 
     <div class="row">
-        @if (isset($project->functionPoints))
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-primary">
+        @if (isset($project->function_points))
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-danger">
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-comments fa-5x"></i>
+                            <i class="fa fa-fighter-jet fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <div class="huge">{{ $project->functionPoints->ufp * $projcet->functionPoints->vap }}</div>
+                            <div class="huge">{{ \App\Services\AlbrechtFP::calculateFP($project) }}</div>
                             <div>@lang('general.function_points')</div>
                         </div>
                     </div>
                 </div>
-                <a href="#">
+                <a href='{{ URL::to("/projects/$project->id/functionPoints") }}'>
+                    <div class="panel-footer">
+                        <span class="pull-left">@lang('general.recalculate')</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        @endif
+
+        @if ($project->system_type_id > 0)
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-warning">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-rocket fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{ \App\Services\COCOMO::calculateCOCOMO1($project) }} @lang('general.pm')</div>
+                            <div>@lang('general.cocomoI')</div>
+                        </div>
+                    </div>
+                </div>
+                <a href='{{ URL::to("/projects/$project->id/cocomo") }}'>
+                    <div class="panel-footer">
+                        <span class="pull-left">@lang('general.recalculate')</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        @endif
+
+        @if (isset($project->cocomoii))
+        <div class="col-lg-4 col-md-6">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-space-shuttle fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{ \App\Services\COCOMO::calculateCOCOMO2($project) }} @lang('general.pm')</div>
+                            <div>@lang('general.cocomoII')</div>
+                        </div>
+                    </div>
+                </div>
+                <a href='{{ URL::to("/projects/$project->id/cocomo") }}'>
                     <div class="panel-footer">
                         <span class="pull-left">@lang('general.recalculate')</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
@@ -106,13 +159,6 @@
                                     <label>@lang('general.created_by')</label>
                                     <p class="form-control-static">
                                         <a href="{{ URL::to('/users/'.$project->created_by->id.'/profile') }}">{{$project->created_by->name}}</a>
-                                    </p>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>@lang('general.function_points')</label>
-                                    <p class="form-control-static">
-                                    {{ \App\Services\AlbrechtFP::calculateFP($project) }}
                                     </p>
                                 </div>
                             </div>

@@ -62,6 +62,9 @@ Route::post('/projects/{id}/functionPoints', 'ProjectController@saveFunctionPoin
 
 Route::get('/projects/{id}/gannt', 'ChartController@gannt');
 
+Route::get('/projects/{id}/cocomo', 'ProjectController@cocomo');
+Route::post('/projects/{id}/cocomo', 'ProjectController@saveCocomo');
+
 
 // ajax routes
 Route::get('/ajax/skills', 'AjaxController@getSkills');

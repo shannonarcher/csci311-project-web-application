@@ -92,4 +92,17 @@ return [
 
 	"type_your_message_here" => "Type your message here...",
 	"dashboard" => "Dashboard",
+
+	"gannt_chart" => "Gannt Chart",
+	"calculate_function_points" => "Calculate FP",
+	"calculate_cocomo" => "Calculate COCOMO",
+	"pm" => "pm",
+	"person_months" => "Person Months",
+
+	"function_points" => "Function Points",
+	"cocomo" => "COCOMO",
+	"cocomoI" => "COCOMO I",
+	"cocomoII" => "COCOMO II",
+
+	"recalculate" => "Recalculate",
 ];
