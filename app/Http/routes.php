@@ -60,7 +60,7 @@ Route::get('/projects/{id}/demote/{u_id}', 'ProjectController@demoteUser');
 Route::get('/projects/{id}/functionPoints', 'ProjectController@functionPoints');
 Route::post('/projects/{id}/functionPoints', 'ProjectController@saveFunctionPoints');
 
-Route::get('/projects/{id}/gannt', 'ChartController@gannt');
+Route::get('/projects/{id}/gantt', 'ChartController@gantt');
 
 Route::get('/projects/{id}/cocomo', 'ProjectController@cocomo');
 Route::post('/projects/{id}/cocomo', 'ProjectController@saveCocomo');

@@ -21,12 +21,14 @@ class ChartController extends Controller {
 		$this->request = $request;
 	}
 
-	public function gannt($id) 
+	public function gantt($id) 
 	{
 		$call = API::get("/projects/$id/tasks", []);
+		$call2 = API::get("/projects/$id/milestones", []);
 		$proper_format = [];
 
 		$tasks = $call->response;
+		$milestones = $call2->response;
 
 		$proper_format['data'] = [];
 		$proper_format['links'] = [];
@@ -57,6 +59,20 @@ class ChartController extends Controller {
 			if ($task->parent_id != null) {
 				$pf_task['parent'] = $task->parent_id;
 			}
+
+			$proper_format['data'][] = $pf_task;
+		}
+
+		foreach ($milestones as $milestone) {
+			$start_date = new \DateTime($milestone->completed_at);
+
+			$pf_task = [
+				'id' => $milestone->id + 10000000,
+				'text' => $milestone->title,
+				'start_date' => $start_date->format('d-m-Y'),
+				'duration' => 0,
+				'type' => 'milestone'
+			];
 
 			$proper_format['data'][] = $pf_task;
 		}

@@ -35,7 +35,8 @@
                             @endif
                         </div>
                         <div class="btn-group btn-group-sm">
-                            <a href='{{ URL::to("/projects/$project->id/gannt") }}' target="_blank" class="btn btn-sm btn-default">@lang('general.gannt_chart')</a>
+                            <a href='{{ URL::to("/projects/$project->id/gantt") }}' target="_blank" class="btn btn-sm btn-default">@lang('general.gantt')</a>
+                            <a href='{{ URL::to("/projects/$project->id/pert") }}' target="_blank" class="btn btn-sm btn-default">@lang('general.pert')</a>
                         </div>
                         <div class="btn-group btn-group-sm">
                             <a href='{{ URL::to("/projects/$project->id/functionPoints") }}' target="" class="btn btn-sm btn-default">@lang('general.calculate_function_points')</a>
@@ -60,7 +61,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-fighter-jet fa-5x"></i>
+                            <i class="fa fa-cubes fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">{{ \App\Services\AlbrechtFP::calculateFP($project) }}</div>
@@ -85,7 +86,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-rocket fa-5x"></i>
+                            <i class="fa fa-fighter-jet fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">{{ \App\Services\COCOMO::calculateCOCOMO1($project) }} @lang('general.pm')</div>

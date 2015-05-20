@@ -12,10 +12,31 @@
 <body>
   <div id="gantt_here" style='width:100%; height:100%;'></div>
   <script type="text/javascript">
-    var tasks =  <?php echo json_encode($tasks) ?>;
+    var tasks =  <?php echo str_replace('"milestone"', "gantt.config.types.milestone", json_encode($tasks)); ?>;
+
+    gantt.config.lightbox.sections = [
+        {name: "description", height: 70, map_to: "text", type: "textarea"},
+        {name: "type", type: "typeselect", map_to: "type"},
+        {name: "time", height: 72, type: "duration", map_to: "auto"}
+    ];
+
+    /*gantt.templates.rightside_text = function(start, end, task){
+        if(task.type == gantt.config.types.milestone){
+            return task.text;
+        }
+        return "";
+    };*/
+
+    gantt.templates.task_class = function (start, end, task) {
+      if (task.type == gantt.config.types.milestone) {
+        return "gantt_milestone";
+      }
+      return "";
+    };
+
+    gantt.config.readonly = true;
 
     gantt.init("gantt_here");
-
 
     gantt.parse(tasks);
 

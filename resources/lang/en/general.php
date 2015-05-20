@@ -65,6 +65,7 @@ return [
 	"dependencies" => "Dependencies",
 	"parent" => "Parent",
 	"add_dependency" => "Add Dependency",
+	"remove_dependency" => "Remove Dependency",
 
 	"add_to_team" => "Add to Team",
 	"add_task" => "Add Task",
@@ -93,7 +94,10 @@ return [
 	"type_your_message_here" => "Type your message here...",
 	"dashboard" => "Dashboard",
 
-	"gannt_chart" => "Gannt Chart",
+	"gantt" => "Gantt",
+	"gannt_chart" => "Gantt Chart",
+	"pert" => "PERT",
+	"pert_chart" => "PERT Chart",
 	"calculate_function_points" => "Calculate FP",
 	"calculate_cocomo" => "Calculate COCOMO",
 	"pm" => "pm",
@@ -105,4 +109,6 @@ return [
 	"cocomoII" => "COCOMO II",
 
 	"recalculate" => "Recalculate",
+
+	"is_approved" => "Is Approved",
 ];
