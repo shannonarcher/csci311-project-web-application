@@ -50,6 +50,7 @@ return [
 
 	"tasks" => "Task",
 	"task" => "Task",
+	"stasks" => "'s Tasks",
 
 	"milestones" => "Milestones",
 
@@ -129,5 +130,7 @@ return [
 
 	"resources" => "Resources",
 
-	"none" => "None"
+	"none" => "None",
+
+	"priority" => "Priority",
 ];

@@ -36,6 +36,20 @@
 							    <label>@lang('general.progress')</label>
 							    <p class="form-control-static">{{$task->progress}}%</p>
 							</div>
+							<div class="form-group">
+								<label>@lang('general.priority')</label>
+								<p class="form-control-static">
+									@if ($task->priority == "low")
+									Low
+									@elseif ($task->priority == "med")
+									Medium
+									@elseif ($task->priority == "high")
+									High
+									@else
+									Unspecified
+									@endif
+								</p>
+							</div>
 						    <div class="form-group">
 						    	<label>@lang('general.resources')</label>
 						    	<p class="form-control-static">

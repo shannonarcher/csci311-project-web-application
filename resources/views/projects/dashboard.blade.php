@@ -243,6 +243,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>@lang('general.title')</th>
+                                    <th>@lang('general.priority')</th>
                                     <th>@lang('general.progress')</th>
                                 </tr>
                             </thead>
@@ -251,6 +252,17 @@
                                 <tr>
                                     <td>{{$task->id}}</td>
                                     <td><a href="{{URL::to('/projects/'.$project->id.'/tasks/'.$task->id)}}">{{$task->title}}</a></td>
+                                    <td>                                        
+                                        @if ($task->priority == "low")
+                                        Low
+                                        @elseif ($task->priority == "med")
+                                        Medium
+                                        @elseif ($task->priority == "high")
+                                        High
+                                        @else
+                                        Unspecified
+                                        @endif
+                                    </td>
                                     <td>{{$task->progress}}%</td>
                                 </tr>
                                 @endforeach

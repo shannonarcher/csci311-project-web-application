@@ -12,7 +12,10 @@
 	<div class="row">
 		<div class="col-lg-12">  
 			<div class="page-header">
-				<h1>{{$project->name}} @lang('general.tasks')</h1>
+				<h1>
+                    {{$project->name}}@lang('general.stasks') 
+                    <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default">@lang('general.dashboard')</a>
+                </h1>
 			</div>
 		</div>
 	</div>
@@ -30,6 +33,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>@lang('general.title')</th>
+                                    <th>@lang('general.priority')</th>
                                     <th>@lang('general.progress')</th>
                                 </tr>
                             </thead>
@@ -38,6 +42,17 @@
                                 <tr>
                                     <td>{{$task->id}}</td>
                                     <td><a href="{{URL::to('/projects/'.$project->id.'/tasks/'.$task->id)}}">{{$task->title}}</a></td>
+                                    <td>                                        
+                                        @if ($task->priority == "low")
+                                        Low
+                                        @elseif ($task->priority == "med")
+                                        Medium
+                                        @elseif ($task->priority == "high")
+                                        High
+                                        @else
+                                        Unspecified
+                                        @endif
+                                    </td>
                                     <td>{{$task->progress}}%</td>
                                 </tr>
                                 @endforeach

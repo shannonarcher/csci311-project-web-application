@@ -20,7 +20,13 @@
     @endif
 	<div class="col-lg-12">
 		<div class="page-header">
-			<h1><a href="{{ URL::to('/projects/'.$task->project_id.'/tasks/'.$task->id) }}">{{ $task->title }}</a></h1>
+			<h1>
+                {{$task->title}}                
+                <small class="btn-group">
+                    <a href="{{ URL::to('/projects/'.$task->project_id.'/tasks/'.$task->id) }}">@lang('general.back_to_task')</a>
+                    <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default">@lang('general.dashboard')</a>
+                </small>
+            </h1>
 		</div>
 	</div>
 </div>
@@ -47,6 +53,14 @@
                             <div class="form-group">
                                 <label>@lang('general.is_approved')</label>
                                 <input type="checkbox" class="checkbox" name="is_approved" {{ $task->approved_at == null ? '' : 'checked' }} />
+                            </div>
+                            <div class="form-group">
+                                <label>@lang('general.priority')</label>
+                                <select name="priority" class="form-control">
+                                    <option @if ($task->priority == "low") selected @endif value="low">Low</option>
+                                    <option @if ($task->priority == "med") selected @endif value="med">Medium</option>
+                                    <option @if ($task->priority == "high") selected @endif value="high">High</option>
+                                </select>
                             </div>
 	                   	</div>
 	                   	<div class="col-md-6">
