@@ -98,6 +98,8 @@ return [
 	"gannt_chart" => "Gantt Chart",
 	"pert" => "PERT",
 	"pert_chart" => "PERT Chart",
+	"apn" => "APN",
+
 	"calculate_function_points" => "Calculate FP",
 	"calculate_cocomo" => "Calculate COCOMO",
 	"pm" => "pm",

@@ -79,4 +79,10 @@ class ChartController extends Controller {
 
 		return view('charts/gannt', array_merge(Session::all(), ['tasks' => $proper_format]));
 	}
+
+	public function apn($id) {
+		$call = API::get("/projects/$id/tasks", []);
+
+		return view('charts/apn', array_merge(Session::all(), ['tasks' => $call->response]));
+	}
 }

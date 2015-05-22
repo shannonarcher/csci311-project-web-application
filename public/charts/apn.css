@@ -1,0 +1,85 @@
+/** CANVAS CLASS **/
+.apn-canvas {
+	position: relative;
+	overflow: auto;
+}
+
+/** OBJECT CLASSES **/
+.apn-node {
+	position:relative;
+	display:inline-block;
+	border:solid 1px #000;
+	background:#fff;
+	text-align:center;
+	cursor:pointer;
+	border-radius:5px;
+	z-index:100;
+	top:50%;
+}
+
+.apn-edge {
+	border-top:solid 1px #000;
+	z-index:50;
+	top:50%;
+}
+
+/** CRITICAL CLASSES **/
+.apn-node.apn-node-critical {
+	border:solid 2px #d00;
+}
+
+.apn-edge.apn-edge-critical {
+	border-top:solid 2px #d00;
+}
+
+/** PROPERTY BOXES **/
+.apn-node .apn-node-id {
+	position:absolute;
+	top:33%;
+	bottom:33%;
+	left:0;
+	right:0;
+	color:#00F;
+}
+.apn-node .apn-node-es {
+	position:absolute;
+	top:0;
+	bottom:66%;
+	left:0;
+	right:66%;
+}
+.apn-node .apn-node-du {
+	position:absolute;
+	top:0;
+	bottom:66%;
+	left:33%;
+	right:33%;
+}
+.apn-node .apn-node-ef {
+	position:absolute;
+	top:0;
+	bottom:66%;
+	left:66%;
+	right:0;
+}
+.apn-node .apn-node-ls {
+	position:absolute;
+	top:66%;
+	bottom:0;
+	left:0;
+	right:66%;
+}
+.apn-node .apn-node-fl {
+	position:absolute;
+	top:66%;
+	bottom:0;
+	left:33%;
+	right:33%;
+}
+.apn-node .apn-node-lf {
+	position:absolute;
+	top:66%;
+	bottom:0;
+	left:66%;
+	right:0;
+}

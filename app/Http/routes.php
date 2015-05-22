@@ -65,6 +65,8 @@ Route::get('/projects/{id}/gantt', 'ChartController@gantt');
 Route::get('/projects/{id}/cocomo', 'ProjectController@cocomo');
 Route::post('/projects/{id}/cocomo', 'ProjectController@saveCocomo');
 
+Route::get('/projects/{id}/apn', 'ChartController@apn');
+
 
 // ajax routes
 Route::get('/ajax/skills', 'AjaxController@getSkills');

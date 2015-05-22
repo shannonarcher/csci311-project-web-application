@@ -36,6 +36,7 @@
                         </div>
                         <div class="btn-group btn-group-sm">
                             <a href='{{ URL::to("/projects/$project->id/gantt") }}' target="_blank" class="btn btn-sm btn-default">@lang('general.gantt')</a>
+                            <a href='{{ URL::to("/projects/$project->id/apn") }}' target="_blank" class="btn btn-sm btn-default">@lang('general.apn')</a>
                             <a href='{{ URL::to("/projects/$project->id/pert") }}' target="_blank" class="btn btn-sm btn-default">@lang('general.pert')</a>
                         </div>
                         <div class="btn-group btn-group-sm">
