@@ -7,6 +7,9 @@
     <!-- DataTables Responsive CSS -->
     <link href="{{ URL::to('/') }}/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
 
+    <!-- Datepicker CSS -->
+    <link href="{{ URL::to('/') }}/css/datepicker.min.css" rel="stylesheet" />
+
     <style>
 
         .search_results {
@@ -105,15 +108,15 @@
                             <div class="col-md-6">                 	
 		                        <div class="form-group">
 		                            <label>@lang('general.start_date')</label>
-		                            <input type="text" name="started_at" value="{{ $project->started_at }}" placeholder="" class="form-control" />
+		                            <input data-datepicker type="text" name="started_at" value="{{ \App\Services\Moment::format($project->started_at, 'Y-m-d h:i:s', 'Y-m-d') }}" placeholder="" class="form-control" />
 		                        </div>
                                 <div class="form-group">
                                     <label>@lang('general.expected_completion_date')</label>
-                                    <input type="text" name="expected_completed_at" value="{{ $project->expected_completed_at }}" placeholder="" class="form-control" />
+                                    <input data-datepicker type="text" name="expected_completed_at" value="{{ \App\Services\Moment::format($project->expected_completed_at, 'Y-m-d h:i:s', 'Y-m-d') }}" placeholder="" class="form-control" />
                                 </div>
                                 <div class="form-group">
                                     <label>@lang('general.actual_completion_date')</label>
-                                    <input type="text" name="actual_completed_at" value="{{ $project->actual_completed_at }}" placeholder="In Progress" class="form-control" />
+                                    <input data-datepicker type="text" name="actual_completed_at" value="{{ \App\Services\Moment::format($project->actual_completed_at, 'Y-m-d h:i:s', 'Y-m-d') }}" placeholder="In Progress" class="form-control" />
                                 </div>
 		                    </div>
 	                    </fieldset>
@@ -281,6 +284,7 @@
     <!-- DataTables JavaScript -->
     <script src="{{ URL::to('/') }}/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="{{ URL::to('/') }}/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+    <script src="{{ URL::to('/') }}/js/datepicker.min.js"></script>
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
@@ -370,6 +374,11 @@
             });
         }
         getRoles();
+
+        // some datepicker 
+        $("[data-datepicker]").datepicker({
+            format:'yyyy-mm-dd'
+        });
     });
     </script>
 @stop

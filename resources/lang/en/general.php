@@ -113,4 +113,21 @@ return [
 	"recalculate" => "Recalculate",
 
 	"is_approved" => "Is Approved",
+
+	"notifications" => "Notifications",
+
+	"view_all_alerts" => "View All Alerts",
+
+	"unapproved_task" => "Unapproved Task",
+	"unassigned_task" => "Unassigned Task",
+	"overdue_task" => "Overdue Task",
+
+	"refresh" => "Refresh",
+
+	"assign_to_task" => "Assign to Task",
+	"unassign_from_task" => "Unassign from Task",
+
+	"resources" => "Resources",
+
+	"none" => "None"
 ];

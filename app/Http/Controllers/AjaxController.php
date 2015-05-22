@@ -57,11 +57,25 @@ class AjaxController extends Controller {
 		$call = API::post("/tasks/$id/comments", [
 			'comment' => $this->request->input('text')
 			]);
-		return \Response::json($call->response, 200);
+
+		$comments = $call->response;
+
+		foreach ($comments as $key => $value) {
+			$value->updated_at = \App\Services\Moment::fromNow($value->updated_at, "Y-m-d H:i:s");
+		}
+
+		return \Response::json($comments, 200);
 	}
 
 	public function getComments($id) {
 		$call = API::get("/tasks/$id/comments");
-		return \Response::json($call->response, 200);
+		
+		$comments = $call->response;
+
+		foreach ($comments as $key => $value) {
+			$value->updated_at = \App\Services\Moment::fromNow($value->updated_at, "Y-m-d H:i:s");
+		}
+
+		return \Response::json($comments, 200);
 	}
 }

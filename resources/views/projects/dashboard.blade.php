@@ -40,8 +40,8 @@
                             <a href='{{ URL::to("/projects/$project->id/pert") }}' target="_blank" class="btn btn-sm btn-default">@lang('general.pert')</a>
                         </div>
                         <div class="btn-group btn-group-sm">
-                            <a href='{{ URL::to("/projects/$project->id/functionPoints") }}' target="" class="btn btn-sm btn-default">@lang('general.calculate_function_points')</a>
-                            <a href='{{ URL::to("/projects/$project->id/cocomo") }}' target="" class="btn btn-sm btn-default">@lang('general.calculate_cocomo')</a>
+                            <a href='{{ URL::to("/projects/$project->id/functionPoints") }}' target="" class="btn btn-sm btn-default">@lang('general.function_points')</a>
+                            <a href='{{ URL::to("/projects/$project->id/cocomo") }}' target="" class="btn btn-sm btn-default">@lang('general.cocomo')</a>
                         </div>
                     </small>
                 </h1>
@@ -134,7 +134,7 @@
 
     <!-- details -->
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-md-6 col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     @lang('general.details')
@@ -151,7 +151,7 @@
                 <div class="panel-body">
                     <form role="form">
                         <fieldset disabled>
-                            <div class="col-md-6">
+                            <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>@lang('general.name')</label>
                                     <p class="form-control-static">{{$project->name}}</p>
@@ -164,20 +164,27 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="col-md-6">                              
+                            <div class="col-lg-6">                              
                                 <div class="form-group">
                                     <label>@lang('general.start_date')</label>
-                                    <p class="form-control-static">{{$project->started_at}}</p>
+                                    <p class="form-control-static">
+                                        {{ \App\Services\Moment::fromNow($project->started_at, "Y-m-d H:i:s") }} <br>
+                                        <small class="date">{{ \App\Services\Moment::format($project->started_at, "Y-m-d H:i:s", "Y-m-d") }}</small>
+                                    </p>
                                 </div>
                                 <div class="form-group">
                                     <label>@lang('general.expected_completed_date')</label>
-                                    <p class="form-control-static">{{$project->expected_completed_at}}</p>
+                                    <p class="form-control-static">
+                                        {{ \App\Services\Moment::fromNow($project->expected_completed_at, "Y-m-d H:i:s") }} <br>
+                                        <small class="date">{{ \App\Services\Moment::format($project->expected_completed_at, "Y-m-d H:i:s", "Y-m-d") }}</small>
+                                    </p>
                                 </div>
                                 <div class="form-group">
                                     <label>@lang('general.actual_completed_date')</label>
                                     <p class="form-control-static">
                                         @if ($project->actual_completed_at)
-                                            {{$project->actual_completed_at}}
+                                            {{ \App\Services\Moment::fromNow($project->actual_completed_at, "Y-m-d H:i:s") }}<br>
+                                            <small class="date">{{ \App\Services\Moment::format($project->actual_completed_at, "Y-m-d H:i:s", "Y-m-d") }}</small>
                                         @else
                                             @lang('general.in_progress')
                                         @endif
@@ -189,6 +196,29 @@
                 </div>
             </div>
             <!-- /.panel -->
+        </div>
+        <div class="col-md-6 col-xs-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <i class="fa fa-bell fa-fw"></i> @lang('general.notifications')
+                </div>
+                <div class="panel-body">
+                    <div class="list-group">
+                        @foreach($notifications as $n)
+                        <a href='{{ URL::to("/projects/$project->id/tasks/".$n->task->id) }}' class="list-group-item">
+                            <i class="fa fa-tasks fa-fw"></i>
+                            {{ trans('general.'.$n->notification) }}: {{ $n->task->id }}
+                            <span class="pull-right text-muted small">
+                                <em>{{ \App\Services\Moment::fromNow($n->task->created_at, "Y-m-d H:i:s") }}</em>
+                            </span>
+                        </a>
+                        @endforeach
+                    </div>
+                    @if (count($notifications) >= 6)
+                    <a href="{{ URL::to('/projects/'.$project->id.'/notifications') }}" class="btn btn-default btn-block">@lang('general.view_all_alerts')</a>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -260,7 +290,10 @@
                                 @foreach ($project->milestones as $milestone)
                                 <tr>
                                     <td>{{$milestone->title}}</td>
-                                    <td>{{$milestone->completed_at}}</td>
+                                    <td>
+                                        {{ \App\Services\Moment::fromNow($milestone->completed_at, "Y-m-d H:i:s") }}
+                                        <small class="date">{{ \App\Services\Moment::format($milestone->completed_at, "Y-m-d H:i:s", "Y-m-d H:i:s") }}</small>
+                                    </td>
                                 </tr>
                                 @endforeach
                             </tbody>

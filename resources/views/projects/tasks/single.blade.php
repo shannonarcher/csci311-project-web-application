@@ -10,7 +10,7 @@
 </div>
 <!-- details -->
 <div class="row">
-	<div class="col-lg-12">
+	<div class="col-lg-6">
 			<div class="panel panel-default">
 	        <div class="panel-heading">
 	            @lang('general.details')
@@ -33,9 +33,21 @@
 	                        	<p class="form-control-static"><a href="{{URL::to('/projects/'.$task->project->id.'/dashboard')}}">{{$task->project->name}}</a></p>
 	                        </div>
 	                        <div class="form-group">
-				    <label>@lang('general.progress')</label>
-				    <p class="form-control-static">{{$task->progress}}%</p>
-				</div>
+							    <label>@lang('general.progress')</label>
+							    <p class="form-control-static">{{$task->progress}}%</p>
+							</div>
+						    <div class="form-group">
+						    	<label>@lang('general.resources')</label>
+						    	<p class="form-control-static">
+						    		@if (count($task->resources) > 0)
+						    			@foreach ($task->resources as $resource) 
+						    			<p>{{ $resource->name }}</p>
+						    			@endforeach
+						    		@else
+						    			@lang('general.none')
+						    		@endif
+						    	</p>
+						    </div>
 	                   	</div>
 	                   	<div class="col-md-6">
 	                   		<div class="form-group">
@@ -44,7 +56,10 @@
 	                   		</div>
 	                   		<div class="form-group">
 	                   			<label>@lang('general.start_date')</label>
-	                   			<p class="form-control-static">{{$task->started_at}}</p>
+	                   			<p class="form-control-static">
+                                    {{ \App\Services\Moment::fromNow($task->started_at, "Y-m-d H:i:s") }} <br>
+                                    <small class="date">{{ \App\Services\Moment::format($task->started_at, "Y-m-d H:i:s", "Y-m-d") }}</small>
+	                   			</p>
 	                   		</div>
 	                   		<div class="form-group">
 	                   			<label>@lang('general.estimation_duration')</label>
@@ -95,7 +110,7 @@
 	    </div>
 	    <!-- /.panel -->
 	</div>
-	<div class="col-lg-12">
+	<div class="col-lg-6">
 	        <div class="chat-panel panel panel-default">
 	            <div class="panel-heading">
 	                <i class="fa fa-comments fa-fw"></i>
@@ -126,10 +141,10 @@
 	                            	@if($index % 2 == 0)
                                     <strong class="primary-font"><a href="{{ URL::to('/users/'.$comment->created_by->id.'/profile') }}">{{$comment->created_by->name}}</a></strong>
                                     <small class="pull-right text-muted">
-                                        <i class="fa fa-clock-o fa-fw"></i> {{ $comment->updated_at }}</small>
+                                        <i class="fa fa-clock-o fa-fw"></i> {{ \App\Services\Moment::fromNow($comment->updated_at, "Y-m-d H:i:s") }} </small>
 	                            	@else 
 	                            	<small class=" text-muted">
-                                        <i class="fa fa-clock-o fa-fw"></i> {{ $comment->updated_at }}</small>
+                                        <i class="fa fa-clock-o fa-fw"></i> {{ \App\Services\Moment::fromNow($comment->updated_at, "Y-m-d H:i:s") }} </small>
                                     <strong class="pull-right primary-font"><a href="{{ URL::to('/users/'.$comment->created_by->id.'/profile') }}">{{$comment->created_by->name}}</a></strong>
 	                            	@endif
 	                            </div>
@@ -225,7 +240,7 @@
 			});
 		}
 
-		/*setInterval(pollComments, 5000);*/
+		setInterval(pollComments, 5000);
 	})();
 </script>
 @stop

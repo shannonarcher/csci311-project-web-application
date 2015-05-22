@@ -60,12 +60,16 @@ Route::get('/projects/{id}/demote/{u_id}', 'ProjectController@demoteUser');
 Route::get('/projects/{id}/functionPoints', 'ProjectController@functionPoints');
 Route::post('/projects/{id}/functionPoints', 'ProjectController@saveFunctionPoints');
 
-Route::get('/projects/{id}/gantt', 'ChartController@gantt');
+Route::get('/projects/{id}/tasks/{t_id}/assignUser/{u_id}', 'ProjectController@assignUserToTask');
+Route::get('/projects/{id}/tasks/{t_id}/unassignUser/{u_id}', 'ProjectController@unassignUserFromTask');
 
 Route::get('/projects/{id}/cocomo', 'ProjectController@cocomo');
 Route::post('/projects/{id}/cocomo', 'ProjectController@saveCocomo');
 
+Route::get('/projects/{id}/gantt', 'ChartController@gantt');
 Route::get('/projects/{id}/apn', 'ChartController@apn');
+
+Route::get('/projects/{id}/notifications', 'ProjectController@notifications');
 
 
 // ajax routes

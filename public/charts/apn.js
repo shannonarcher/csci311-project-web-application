@@ -13,6 +13,7 @@ _apn.prototype.canvasNodes = null;
 _apn.prototype.canvasEdges = null;
 _apn.prototype.canvasConfig = {
 	class: "apn-canvas",
+	grabbingClass: "apn-canvas-grabbing",
 	node: {
 		class: "apn-node",
 		width: 100,
@@ -404,6 +405,8 @@ _apn.prototype.addEvents = function () {
 
 _apn.prototype.mouseUp = function (e) {
 	window.removeEventListener('mousemove', apn.move, true);
+
+	apn.canvas.className = apn.canvas.className.replace(apn.canvasConfig.grabbingClass, '');
 };
 
 _apn.prototype.mouseDown = function (e) {
@@ -416,6 +419,8 @@ _apn.prototype.mouseDown = function (e) {
 	apn.currentMouseY = e.clientY;
 
 	window.addEventListener('mousemove',  apn.move, true);
+
+	apn.canvas.className = apn.canvas.className + " " + apn.canvasConfig.grabbingClass;
 };
 
 _apn.prototype.move = function (e) {

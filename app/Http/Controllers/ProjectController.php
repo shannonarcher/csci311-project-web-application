@@ -122,18 +122,24 @@ class ProjectController extends Controller {
 			throw new Exception($call->error_message);
 		}
 		
-		return view('projects/edit', array_merge(Session::all(), ['project' => $call->response]));
+		return redirect("/projects/$id/dashboard/edit");
 	}
 
 	public function dashboard($id) 
 	{
 		$call = API::get('/projects/'.$id, []);
-
 		if ($call->error) {
 			throw new Exception($call->error_message);
 		}
 
-		return view('projects/dashboard', array_merge(Session::all(), ['project' => $call->response]));
+		$call2 = API::get("/projects/$id/notifications", ['limit' => 6]);		
+		if ($call2->error) {
+			throw new Exception($call2->error_message);
+		}
+
+		return view('projects/dashboard', array_merge(Session::all(), [
+			'project' => $call->response, 
+			'notifications' => $call2->response ]));
 	}
 
 	public function milestones($id) 
@@ -199,7 +205,7 @@ class ProjectController extends Controller {
 
 	public function task($id, $t_id) 
 	{
-		$call = API::get('/tasks/'.$t_id, []);
+		$call = API::get('/tasks/'.$t_id);
 
 		if ($call->error) {
 			throw new Exception($call->error_message);
@@ -298,6 +304,7 @@ class ProjectController extends Controller {
 	{
 		$call = API::get("/tasks/$t_id");
 		$call2 = API::get("/projects/$id/tasks");
+		$call3 = API::get("/projects/$id/users");
 
 		if ($call->error) {
 			throw new Exception($call->error_message);
@@ -307,7 +314,21 @@ class ProjectController extends Controller {
 			throw new Exception($call2->error_message);
 		}
 
-		return view("projects/tasks/edit", array_merge(Session::all(), ['task' => $call->response, 'tasks' => $call2->response]));
+		if ($call3->error) {
+			throw new Exception($call3->error_message);
+		}
+
+		$assigned = [];
+		foreach ($call->response->resources as $user) {
+			$assigned[] = $user->id;
+		}
+
+		return view("projects/tasks/edit", array_merge(Session::all(), [
+			'task' => $call->response, 
+			'tasks' => $call2->response,
+			'users' => $call3->response,
+			'assigned' => $assigned
+		]));
 	}
 
 	public function saveTask($id, $t_id) 
@@ -434,5 +455,47 @@ class ProjectController extends Controller {
 		Session::flash('message', 'Successfully saved COCOMO I and II.');
 
 		return $this->cocomo($id);
+	}
+
+	public function notifications($id) {
+		$call = API::get("/projects/$id");
+		$call2 = API::get("/projects/$id/notifications");
+
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
+		if ($call2->error) {
+			throw new Exception($call2->error_message);
+		}
+
+		return view('projects/notifications', array_merge(Session::all(), 
+			['project' => $call->response, 
+			 'notifications' => $call2->response]));
+	}
+
+	public function assignUserToTask($id, $task_id, $user_id) {
+		$call = API::post("/tasks/$task_id/assign/$user_id");
+
+		if ($call->error) {
+			var_dump($call->response);
+			die();
+			throw new Exception($call->error_message);
+		}
+
+		Session::flash('message', "Successfully assigned resource to task.");
+
+		return redirect("/projects/$id/tasks/$task_id/edit");
+	}
+
+	public function unassignUserFromTask($id, $task_id, $user_id) {
+		$call = API::post("/tasks/$task_id/unassign/$user_id");
+
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
+
+		Session::flash('message', "Successfully unassigned resource from task.");
+
+		return redirect("/projects/$id/tasks/$task_id/edit");
 	}
 }
