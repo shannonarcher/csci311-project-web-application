@@ -2,6 +2,12 @@
 .apn-canvas {
 	position: relative;
 	overflow: auto;
+
+   -moz-user-select: -moz-none;
+   -khtml-user-select: none;
+   -webkit-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
 }
 
 /** OBJECT CLASSES **/
@@ -9,7 +15,7 @@
 	position:relative;
 	display:inline-block;
 	border:solid 1px #000;
-	background:#fff;
+	background:rgba(255,255,255,0.8);
 	text-align:center;
 	cursor:pointer;
 	border-radius:5px;
@@ -40,7 +46,14 @@
 	left:0;
 	right:0;
 	color:#00F;
+	font-size:16px;
+	font-weight:bold;
 }
+.apn-node.apn-node-critical .apn-node-id {
+	color:#F00;
+}
+
+
 .apn-node .apn-node-es {
 	position:absolute;
 	top:0;

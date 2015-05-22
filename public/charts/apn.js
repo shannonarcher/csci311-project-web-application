@@ -1,5 +1,10 @@
 var _apn = function () {};
 
+_apn.prototype.currentX = 0;
+_apn.prototype.currentY = 0;
+_apn.prototype.currentMouseX = 0;
+_apn.prototype.currentMouseY = 0;
+
 _apn.prototype.id = "";
 _apn.prototype.canvas = null;
 _apn.prototype.canvasWidth = 0;
@@ -11,13 +16,13 @@ _apn.prototype.canvasConfig = {
 	node: {
 		class: "apn-node",
 		width: 100,
-		height: 50,
+		height: 80,
 		padding: 10,
 		margin: {
 			top:10,
 			bottom:10,
-			left:30,
-			right:30
+			left:100,
+			right:100
 		}
 	},
 	edge: {
@@ -35,6 +40,8 @@ _apn.prototype.init = function (id) {
 	this.canvas.className = this.canvasConfig.class;
 	this.canvasNodes = [];
 	this.canvasEdges = [];
+
+	this.addEvents();
 };
 
 /** 
@@ -183,8 +190,8 @@ _apn.prototype.render = function () {
 
 	this._renderNode(this.finalNode);
 
-	this.canvas.height = this.canvasHeight + "px";
-	this.canvas.width = this.canvasWidth + "px";
+	this.canvas.style.height = this.canvasHeight + "px";
+	this.canvas.style.width = this.canvasWidth + "px";
 };
 
 _apn.prototype._renderNode = function (node) {
@@ -213,6 +220,8 @@ _apn.prototype._renderNode = function (node) {
 		}
 	}
 
+	var maxTop = topOffset * (this.canvasConfig.node.height + this.canvasConfig.node.margin.top + this.canvasConfig.node.margin.bottom);
+
 	topOffset -= total / 2;
 
 	if (isNaN(node.id))
@@ -227,7 +236,7 @@ _apn.prototype._renderNode = function (node) {
 	renderable.style.marginTop = top + "px";
 	renderable.style.left = left + "px";
 
-	var newTop = top + this.canvasConfig.node.height + this.canvasConfig.node.margin.top + this.canvasConfig.node.margin.bottom;
+	var newTop = maxTop;
 	var newLeft = left + this.canvasConfig.node.width + this.canvasConfig.node.margin.left + this.canvasConfig.node.margin.right;
 
 	if (newTop > this.canvasHeight)
@@ -254,8 +263,9 @@ _apn.prototype._renderNode = function (node) {
 
 _apn.prototype._renderPropertyBox = function (propertyName, propertyValue) {
 	var renderable = document.createElement('div');
-	renderable.innerText = propertyValue;
+	renderable.innerHTML= propertyValue;
 	renderable.className = this.canvasConfig.node.class + "-" + propertyName;
+	renderable.style.lineHeight = this.canvasConfig.node.height / 3 + "px";
 	return renderable;
 };
 
@@ -384,8 +394,33 @@ var Edge = function (dest) {
 
 
 
-
-
-
-
 var apn = new _apn();
+
+// add events to interact with chart
+_apn.prototype.addEvents = function () {
+	apn.canvas.addEventListener('mousedown', apn.mouseDown, false);
+	window.addEventListener('mouseup', apn.mouseUp, false);
+};
+
+_apn.prototype.mouseUp = function (e) {
+	window.removeEventListener('mousemove', apn.move, true);
+};
+
+_apn.prototype.mouseDown = function (e) {
+	apn.currentX = parseInt(apn.canvas.style.left) | 0;
+	apn.currentY = parseInt(apn.canvas.style.top) | 0;
+
+	console.log(apn.currentX, apn.currentY);
+
+	apn.currentMouseX = e.clientX;
+	apn.currentMouseY = e.clientY;
+
+	window.addEventListener('mousemove',  apn.move, true);
+};
+
+_apn.prototype.move = function (e) {
+	apn.canvas.style.position = "absolute";
+
+	apn.canvas.style.top = (apn.currentY - (apn.currentMouseY - e.clientY)) + "px";
+	apn.canvas.style.left = (apn.currentX - (apn.currentMouseX - e.clientX)) + "px";
+};
