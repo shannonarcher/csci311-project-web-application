@@ -23,8 +23,8 @@
 			<h1>
                 {{$task->title}}                
                 <small class="btn-group">
-                    <a href="{{ URL::to('/projects/'.$task->project_id.'/tasks/'.$task->id) }}">@lang('general.back_to_task')</a>
-                    <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default">@lang('general.dashboard')</a>
+                    <a href='{{ URL::to("/projects/$task->project_id/tasks/$task->id") }}' class="btn btn-sm btn-default">@lang('general.back_to_task')</a>
+                    <a href='{{ URL::to("/projects/$task->project_id/dashboard") }}' class="btn btn-sm btn-default">@lang('general.dashboard')</a>
                 </small>
             </h1>
 		</div>
@@ -68,10 +68,18 @@
 	                   			<label>@lang('general.start_date')</label>
 	                   			<input data-datepicker type="text" name="started_at" class="form-control" value="{{ \App\Services\Moment::format($task->started_at, 'Y-m-d h:i:s', 'Y-m-d') }}" />
 	                   		</div>
-	                   		<div class="form-group">
-	                   			<label>@lang('general.estimation_duration') (@lang('general.days'))</label>
-	                   			<input type="text" name="estimation_duration" class="form-control" value="{{ $task->estimation_duration / 86400 }}" />
-	                   		</div>
+                            <div class="form-group">
+                                <label>@lang('general.optimistic_duration') (@lang('general.days'))</label>
+                                <input type="text" name="optimistic_duration" class="form-control" value="{{ $task->optimistic_duration / 86400 }}" />
+                            </div>
+                            <div class="form-group">
+                                <label>@lang('general.estimation_duration') (@lang('general.days'))</label>
+                                <input type="text" name="estimation_duration" class="form-control" value="{{ $task->estimation_duration / 86400 }}" />
+                            </div>
+                            <div class="form-group">
+                                <label>@lang('general.pessimistic_duration') (@lang('general.days'))</label>
+                                <input type="text" name="pessimistic_duration" class="form-control" value="{{ $task->pessimistic_duration / 86400 }}" />
+                            </div>
 	                   		<div class="form-group">
 	                   			<label>@lang('general.super_task')</label>
 	                   			<p class="form-control-static" id="parent"></p>

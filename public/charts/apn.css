@@ -1,7 +1,6 @@
 /** CANVAS CLASS **/
 .apn-canvas {
 	position: relative;
-	overflow: auto;
 
    -moz-user-select: -moz-none;
    -khtml-user-select: none;

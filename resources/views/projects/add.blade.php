@@ -6,6 +6,9 @@
 
     <!-- DataTables Responsive CSS -->
     <link href="{{ URL::to('/') }}/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Datepicker CSS -->
+    <link href="{{ URL::to('/') }}/css/datepicker.min.css" rel="stylesheet" />
 @stop
 
 @section('content')
@@ -34,11 +37,11 @@
 		                        </div>	                    	
 		                        <div class="form-group">
 		                            <label>Start Date</label>
-		                            <input type="text" name="started_at" value="" placeholder="" class="form-control" />
+		                            <input data-datepicker type="text" name="started_at" value="" placeholder="" class="form-control" />
 		                        </div>
 		                        <div class="form-group">
 		                            <label>Expected Completion Date</label>
-		                            <input type="text" name="expected_completed_at" value="" placeholder="" class="form-control" />
+		                            <input data-datepicker type="text" name="expected_completed_at" value="" placeholder="" class="form-control" />
 		                        </div>
                                 <div class="form-group">
                                     <label>Initial Managers</label>
@@ -89,6 +92,7 @@
     <!-- DataTables JavaScript -->
     <script src="{{ URL::to('/') }}/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="{{ URL::to('/') }}/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+    <script src="{{ URL::to('/') }}/js/datepicker.min.js"></script>
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
@@ -136,6 +140,11 @@
             $("#manager_list").html(list);
         }
         updateManagerList();
+
+        // some datepicker 
+        $("[data-datepicker]").datepicker({
+            format:'yyyy-mm-dd'
+        });
     });
     </script>
 @stop

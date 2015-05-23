@@ -66,6 +66,8 @@ Route::get('/projects/{id}/tasks/{t_id}/unassignUser/{u_id}', 'ProjectController
 Route::get('/projects/{id}/cocomo', 'ProjectController@cocomo');
 Route::post('/projects/{id}/cocomo', 'ProjectController@saveCocomo');
 
+Route::get('/projects/{id}/pert', 'ProjectController@pert');
+
 Route::get('/projects/{id}/gantt', 'ChartController@gantt');
 Route::get('/projects/{id}/apn', 'ChartController@apn');
 

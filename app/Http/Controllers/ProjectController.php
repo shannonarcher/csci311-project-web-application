@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use \Session;
 use \Exception;
 
+use \DateTime;
+
 class ProjectController extends Controller {
 
 	private $request = null;
@@ -129,16 +131,45 @@ class ProjectController extends Controller {
 	{
 		$call = API::get('/projects/'.$id, []);
 		if ($call->error) {
+			var_dump($call);
+			die();
 			throw new Exception($call->error_message);
 		}
 
 		$call2 = API::get("/projects/$id/notifications", ['limit' => 6]);		
 		if ($call2->error) {
+			var_dump($call2);
+			die();
 			throw new Exception($call2->error_message);
 		}
 
+		$project = $call->response;
+		$tasks = $project->tasks;
+		$all_std_dev = 0;
+		$total_expected = 0;
+
+		foreach ($tasks as $task) {
+			$task->expected_time = ($task->optimistic_duration + 4 * $task->estimation_duration + $task->pessimistic_duration) / 6 / 86400;
+			$task->std_dev = ($task->pessimistic_duration - $task->optimistic_duration) / 6 / 86400;
+			
+			$all_std_dev += pow($task->std_dev, 2); 
+			$total_expected += $task->expected_time;
+		}
+
+		$all_std_dev = sqrt($all_std_dev);
+
+		$start = DateTime::createFromFormat("Y-m-d H:i:s", $project->started_at);
+		$end   = DateTime::createFromFormat("Y-m-d H:i:s", $project->expected_completed_at);
+		$diff  = $end->getTimestamp() - $start->getTimestamp();
+		$target = $diff / 86400;
+
+		$z_value = ($target - $total_expected) / $all_std_dev;
+
+		$chance = \App\Services\PERT::zToSuccess($z_value);
+		$project->pert = $chance;
+
 		return view('projects/dashboard', array_merge(Session::all(), [
-			'project' => $call->response, 
+			'project' => $project, 
 			'notifications' => $call2->response ]));
 	}
 
@@ -289,7 +320,9 @@ class ProjectController extends Controller {
 	public function createTask($id) 
 	{
 		$all = $this->request->all();
+		$all["optimistic_duration"] = $all["optimistic_duration"] * 86400;
 		$all["estimation_duration"] = $all["estimation_duration"] * 86400;
+		$all["pessimistic_duration"] = $all["pessimistic_duration"] * 86400;
 
 		$call = API::post("/projects/$id/tasks", $all);
 
@@ -334,7 +367,9 @@ class ProjectController extends Controller {
 	public function saveTask($id, $t_id) 
 	{
 		$all = $this->request->all();
+		$all["optimistic_duration"] = $all["optimistic_duration"] * 86400;
 		$all["estimation_duration"] = $all["estimation_duration"] * 86400;
+		$all["pessimistic_duration"] = $all["pessimistic_duration"] * 86400;
 
 		$call = API::put("/tasks/$t_id", $all);
 
@@ -497,5 +532,51 @@ class ProjectController extends Controller {
 		Session::flash('message', "Successfully unassigned resource from task.");
 
 		return redirect("/projects/$id/tasks/$task_id/edit");
+	}
+
+	public function pert($id) 
+	{		
+		$call = API::get('/projects/'.$id.'/tasks', []);
+		$call2 = API::get('/projects/'.$id, []);
+
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
+
+		if ($call2->error) {
+			throw new Exception($call2->error_message);
+		}
+
+		$tasks = $call->response;
+		$all_std_dev = 0;
+		$total_expected = 0;
+
+		foreach ($tasks as $task) {
+			$task->expected_time = ($task->optimistic_duration + 4 * $task->estimation_duration + $task->pessimistic_duration) / 6 / 86400;
+			$task->std_dev = ($task->pessimistic_duration - $task->optimistic_duration) / 6 / 86400;
+			
+			$all_std_dev += pow($task->std_dev, 2); 
+			$total_expected += $task->expected_time;
+		}
+
+		$all_std_dev = sqrt($all_std_dev);
+
+		$project = $call2->response;
+		$start = DateTime::createFromFormat("Y-m-d H:i:s", $project->started_at);
+		$end   = DateTime::createFromFormat("Y-m-d H:i:s", $project->expected_completed_at);
+		$diff  = $end->getTimestamp() - $start->getTimestamp();
+		$target = $diff / 86400;
+
+		$z_value = ($target - $total_expected) / $all_std_dev;
+
+		$chance = \App\Services\PERT::zToSuccess($z_value);
+
+		return view('projects/pert', array_merge(Session::all(), [
+			'tasks' => $tasks, 
+			'project' => $call2->response,
+			'all_std_dev' => $all_std_dev,
+			'target' => $target,
+			'z_value' => $z_value,
+			'chance' => $chance ]));
 	}
 }

@@ -57,7 +57,7 @@
 
     <div class="row">
         @if (isset($project->function_points))
-        <div class="col-lg-4 col-md-6">
+        <div class="col-lg-3 col-md-6">
             <div class="panel panel-danger">
                 <div class="panel-heading">
                     <div class="row">
@@ -82,7 +82,7 @@
         @endif
 
         @if ($project->system_type_id > 0)
-        <div class="col-lg-4 col-md-6">
+        <div class="col-lg-3 col-md-6">
             <div class="panel panel-warning">
                 <div class="panel-heading">
                     <div class="row">
@@ -107,7 +107,7 @@
         @endif
 
         @if (isset($project->cocomoii))
-        <div class="col-lg-4 col-md-6">
+        <div class="col-lg-3 col-md-6">
             <div class="panel panel-success">
                 <div class="panel-heading">
                     <div class="row">
@@ -123,6 +123,31 @@
                 <a href='{{ URL::to("/projects/$project->id/cocomo") }}'>
                     <div class="panel-footer">
                         <span class="pull-left">@lang('general.recalculate')</span>
+                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                        <div class="clearfix"></div>
+                    </div>
+                </a>
+            </div>
+        </div>
+        @endif
+
+        @if (isset($project->pert)) 
+        <div class="col-lg-3 col-md-6">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-xs-3">
+                            <i class="fa fa-ship fa-5x"></i>
+                        </div>
+                        <div class="col-xs-9 text-right">
+                            <div class="huge">{{ $project->pert }}%</div>
+                            <div>@lang('general.pert') @lang('general.success')</div>
+                        </div>
+                    </div>
+                </div>
+                <a href='{{ URL::to("/projects/$project->id/pert") }}'>
+                    <div class="panel-footer">
+                        <span class="pull-left">@lang('general.view_full_breakdown')</span>
                         <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
                         <div class="clearfix"></div>
                     </div>

@@ -6,6 +6,9 @@
 
     <!-- DataTables Responsive CSS -->
     <link href="{{ URL::to('/') }}/bower_components/datatables-responsive/css/dataTables.responsive.css" rel="stylesheet">
+
+    <!-- Datepicker CSS -->
+    <link href="{{ URL::to('/') }}/css/datepicker.min.css" rel="stylesheet" />
 @stop
 
 @section('content')
@@ -40,12 +43,20 @@
 	                   	<div class="col-md-6">
 	                   		<div class="form-group">
 	                   			<label>@lang('general.start_date')</label>
-	                   			<input type="text" name="started_at" class="form-control" />
+	                   			<input data-datepicker type="text" name="started_at" class="form-control" />
 	                   		</div>
-	                   		<div class="form-group">
-	                   			<label>@lang('general.estimation_duration') (@lang('general.days'))</label>
-	                   			<input type="text" name="estimation_duration" class="form-control" />
-	                   		</div>
+                            <div class="form-group">
+                                <label>@lang('general.optimistic_duration') (@lang('general.days'))</label>
+                                <input type="text" name="optimistic_duration" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>@lang('general.estimation_duration') (@lang('general.days'))</label>
+                                <input type="text" name="estimation_duration" class="form-control" />
+                            </div>
+                            <div class="form-group">
+                                <label>@lang('general.pessimistic_duration') (@lang('general.days'))</label>
+                                <input type="text" name="pessimistic_duration" class="form-control" />
+                            </div>
 	                   		<div class="form-group">
 	                   			<label>@lang('general.super_task')</label>
 	                   			<p class="form-control-static" id="parent">@lang('general.none')</p>
@@ -104,6 +115,7 @@
     <!-- DataTables JavaScript -->
     <script src="{{ URL::to('/') }}/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="{{ URL::to('/') }}/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+    <script src="{{ URL::to('/') }}/js/datepicker.min.js"></script>
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
@@ -169,6 +181,11 @@
         	$("#dependencies").html(dependency_html);
         }
         updateParentAndDependencies();
+
+        // some datepicker 
+        $("[data-datepicker]").datepicker({
+            format:'yyyy-mm-dd'
+        });
     });
     </script>
 @stop

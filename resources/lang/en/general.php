@@ -48,7 +48,7 @@ return [
 	"all_projects" => "All Projects",
 	"add_project" => "Add Project",
 
-	"tasks" => "Task",
+	"tasks" => "Tasks",
 	"task" => "Task",
 	"stasks" => "'s Tasks",
 
@@ -60,7 +60,11 @@ return [
 	"password" => "Password",
 
 	"description" => "Description",
+
+	"optimistic_duration" => "Optimistic Duration",
 	"estimation_duration" => "Estimation Duration",
+	"pessimistic_duration" => "Pessimistic Duration",
+
 	"super_task" => "Super Task",
 	"sub_tasks" => "Sub Tasks",
 	"dependencies" => "Dependencies",
@@ -133,4 +137,17 @@ return [
 	"none" => "None",
 
 	"priority" => "Priority",
+
+	"back_to_task" => "Back to Task",
+
+	"expected_time" => "Expected Time",
+	"standard_deviation" => "Standard Deviation",
+
+	"pert_analysis" => "PERT Analysis for whole project",
+
+	"success" => "Success",
+
+	"view_full_breakdown" => "View Full Breakdown",
+
+	"project_users" => "Project Users",
 ];

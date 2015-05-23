@@ -7,38 +7,55 @@ use \Session;
 
 class API {
 
+	public static function base() {
+		$base = getenv('APP_API');
+		return $base;
+	}
+
 	public static function get($url, $data = []) {
+		$url = preg_replace('/\s+/', '', $url);
+		$url = API::base().$url;
+
 		$data = API::addFields($data);
 
 		$curl = new Curl();
-		$curl->get(getenv('APP_API').$url, $data);
+		$curl->get($url, $data);
 		
 		return $curl;
 	}
 
 	public static function post($url, $data = []) {
+		$url = preg_replace('/\s+/', '', $url);
+		$url = API::base().$url;
+
 		$data = API::addFields($data);
 
 		$curl = new Curl();
-		$curl->post(getenv('APP_API').$url, $data);
+		$curl->post($url, $data);
 
 		return $curl;
 	}
 
 	public static function put($url, $data = []) {
+		$url = preg_replace('/\s+/', '', $url);
+		$url = API::base().$url;
+
 		$data = API::addFields($data);
 
 		$curl = new Curl();
-		$curl->put(getenv('APP_API').$url, $data);
+		$curl->put($url, $data);
 
 		return $curl;
 	}
 
 	public static function delete($url, $data = []) {
+		$url = preg_replace('/\s+/', '', $url);
+		$url = API::base().$url;
+
 		$data = API::addFields($data);
 
 		$curl = new Curl();
-		$curl->delete(getenv('APP_API').$url, $data);
+		$curl->delete($url, $data);
 
 		return $curl;
 	}

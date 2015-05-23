@@ -4,7 +4,12 @@
 <div class="row">
 	<div class="col-lg-12">
 		<div class="page-header">
-			<h1>{{$task->title}}</h1>
+			<h1>
+				{{$task->title}} 
+				<small>
+					<a href='{{ URL::to("/projects/$task->project_id/dashboard") }}' class="btn btn-sm btn-default">@lang('general.dashboard')</a>
+				</small>
+			</h1>            
 		</div>
 	</div>
 </div>
@@ -55,8 +60,8 @@
 						    	<p class="form-control-static">
 						    		@if (count($task->resources) > 0)
 						    			@foreach ($task->resources as $resource) 
-						    			<p>{{ $resource->name }}</p>
-						    			@endforeach
+						    			<a href='{{ URL::to("/users/$resource->id") }}'>{{ $resource->name }}</a>,
+	 					    			@endforeach
 						    		@else
 						    			@lang('general.none')
 						    		@endif
@@ -76,8 +81,16 @@
 	                   			</p>
 	                   		</div>
 	                   		<div class="form-group">
+	                   			<label>@lang('general.optimistic_duration')</label>
+	                   			<p class="form-control-static">{{ ($task->optimistic_duration / 86400) }}</p>
+	                   		</div>
+	                   		<div class="form-group">
 	                   			<label>@lang('general.estimation_duration')</label>
 	                   			<p class="form-control-static">{{ ($task->estimation_duration / 86400) }}</p>
+	                   		</div>
+	                   		<div class="form-group">
+	                   			<label>@lang('general.pessimistic_duration')</label>
+	                   			<p class="form-control-static">{{ ($task->pessimistic_duration / 86400) }}</p>
 	                   		</div>
 	                   		<div class="form-group">
 	                   			<label>@lang('general.completed_at')</label>
