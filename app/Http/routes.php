@@ -15,7 +15,7 @@ Route::get('/', 'WelcomeController@index');
 Route::post('/login', 'WelcomeController@login');
 Route::get('/logout', 'WelcomeController@logout');
 
-Route::get('/dashboard', 'DashboardController@index');
+Route::get('/dashboard', 'ProjectController@index');
 
 Route::get('/users', 'UserController@index');
 
@@ -62,6 +62,8 @@ Route::post('/projects/{id}/functionPoints', 'ProjectController@saveFunctionPoin
 
 Route::get('/projects/{id}/tasks/{t_id}/assignUser/{u_id}', 'ProjectController@assignUserToTask');
 Route::get('/projects/{id}/tasks/{t_id}/unassignUser/{u_id}', 'ProjectController@unassignUserFromTask');
+
+Route::get('/projects/{id}/tasks/{t_id}/complete', 'ProjectController@completeTask');
 
 Route::get('/projects/{id}/cocomo', 'ProjectController@cocomo');
 Route::post('/projects/{id}/cocomo', 'ProjectController@saveCocomo');

@@ -53,6 +53,11 @@
                 {{$success_message}}
                 </div>
                 @endif
+                @if (isset($error_message))
+                <div class="alert alert-danger">
+                {{$error_message}}
+                </div>
+                @endif
 				<h1>
                     {{$profile->name}}
                 </h1>
@@ -64,9 +69,9 @@
 		<div class="col-lg-6">
  			<div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.details')                    
+                    <i class="fa fa-book fa-fw"></i> @lang('general.details')                    
                     @if ($profile->id == $user->id || $user->is_admin)
-                    <a class="btn btn-xs btn-primary pull-right" href="{{URL::to('/users/'.$profile->id.'/profile/edit')}}">@lang('general.edit')</a>
+                    <a class="btn btn-xs btn-primary pull-right" href="{{URL::to('/users/'.$profile->id.'/profile/edit')}}"><i class="fa fa-pencil fa-fw"></i> @lang('general.edit')</a>
                     @endif
                 </div>
                 <div class="panel-body">
@@ -101,7 +106,7 @@
         <div class="col-lg-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.roles')  
+                    <i class="fa fa-magic fa-fw"></i> @lang('general.roles')  
                 </div>
                 <div class="panel-body">                    
                     <div class="dataTable_wrapper">
@@ -126,9 +131,10 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.skills')
+                    <i class="fa fa-gamepad fa-fw"></i> @lang('general.skills')
                 </div>
                 <div class="panel-body">
+                    @if ($profile->id == $user->id || $user->is_admin)
                     <form>
                         <div class="form-group">
                             <input class="form-control" type="text" name="skill_name" placeholder="Search for new skill..." id="skill_search" />
@@ -139,21 +145,26 @@
                             </div>
                         </div>
                     </form>
+                    @endif
                     <div class="dataTable_wrapper">
                         <table class="table table-striped table-bordered table-hover" id="skills_table">
                             <thead>
                                 <tr>
                                     <th>@lang('general.name')</th>
+                                    @if ($profile->id == $user->id || $user->is_admin)
                                     <th>@lang('general.actions')</th>
+                                    @endif
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($profile->skills as $skill)
                                 <tr>
                                     <td>{{ $skill->name }}</td>
+                                    @if ($profile->id == $user->id || $user->is_admin)
                                     <td>
                                         <a data-id="{{ $skill->id }}" data-action="remove_skill" class="btn btn-xs btn-danger">Remove</a>
                                     </td>
+                                    @endif
                                 </tr>
                                 @endforeach
                             </tbody>
@@ -165,7 +176,7 @@
 		<div class="col-lg-12">
  			<div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.projects')
+                    <i class="fa fa-cube fa-fw"></i> @lang('general.projects')
                 </div>
                 <div class="panel-body">
                     <div class="dataTable_wrapper">
@@ -265,6 +276,8 @@
                 swal("Success!", "Removed skill from user.", "success");
 
                 updateSkillsList(e);
+            }).failure(function (e) {
+                swal("Failure", "You can't do that.", "failure");
             });
         });
 

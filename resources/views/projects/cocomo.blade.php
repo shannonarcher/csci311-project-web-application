@@ -15,7 +15,7 @@
             <div class="page-header">
                 <h1>{{ $project->name }}
                     <small>
-                        <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default">@lang('general.dashboard')</a>
+                        <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default"><i class="fa fa-cube fa-fw"></i> @lang('general.dashboard')</a>
                     </small>
                 </h1>
             </div>
@@ -27,8 +27,8 @@
             <form role="form" method="post">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        @lang('general.cocomo')
-                        <button class="btn btn-xs btn-success pull-right" type="submit">@lang('general.save')</button>
+                        <i class="fa fa-space-shuttle fa-fw"></i> @lang('general.cocomo')
+                        <button class="btn btn-xs btn-success pull-right" type="submit"><i class="fa fa-save fa-fw"></i> @lang('general.save')</button>
                     </div>
                     <div class="panel-body">
                         <fieldset>
@@ -43,7 +43,7 @@
 
                             <div class="row">
                                 <div class="col-lg-4 col-md-6 col-sm-12">
-                                    <h2>@lang('general.cocomoI') <small><span class="cocomo1">0</span> person months</small></h2>
+                                    <h2><i class="fa fa-fighter-jet fa-fw"></i> @lang('general.cocomoI') <small><span class="cocomo1">0</span> person months</small></h2>
                                     <div class="form-group">
                                         <label>System Type</label>
                                         <select class="form-control" name="system_type">
@@ -77,7 +77,7 @@
                                 </div>
                                     
                                 <div class="col-lg-8 col-md-6 col-sm-12" data-cocomoII>
-                                    <h2>@lang('general.cocomoII') <small><span class="cocomo2">0</span> person months</small></h2>
+                                    <h2><i class="fa fa-space-shuttle fa-fw"></i> @lang('general.cocomoII') <small><span class="cocomo2">0</span> person months</small></h2>
 
                                     <div class="row">
                                         <div class="col-lg-6 col-md-12">

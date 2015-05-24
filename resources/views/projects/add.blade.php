@@ -12,39 +12,51 @@
 @stop
 
 @section('content')
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="page-header">
-				<h1>Add Project</h1>
-			</div>
-		</div>
-	</div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+                @if (isset($success_message))
+                <div class="alert alert-success">
+                {{$success_message}}
+                </div>
+                @endif
+                @if (isset($error_message))
+                <div class="alert alert-danger">
+                {{$error_message}}
+                </div>
+                @endif
+                <h1>
+                    <i class="fa fa-cube fa-fw"></i> @lang('general.add_project')
+                </h1>
+            </div>
+        </div>
+    </div>
 	<!-- details -->
 	<div class="row">
 		<div class="col-lg-12">
             <form role="form" method="post">
      			<div class="panel panel-default">
                     <div class="panel-heading">
-                        Details
-                        <button class="btn btn-xs btn-success pull-right" type="submit">Save</button>
+                        <i class="fa fa-book fa-fw"></i> @lang('general.details')
+                        <button class="btn btn-xs btn-success pull-right" type="submit"><i class="fa fa-save fa-fw"></i> @lang('general.save')</button>
                     </div>
                     <div class="panel-body">
                     	<fieldset>
                     		<div class="col-lg-6">
 		                        <div class="form-group">
-		                            <label>Name</label>
+		                            <label>@lang('general.name')</label>
 		                            <input type="text" name="name" value="" placeholder="" class="form-control" />
 		                        </div>	                    	
 		                        <div class="form-group">
-		                            <label>Start Date</label>
+		                            <label>@lang('general.start_date')</label>
 		                            <input data-datepicker type="text" name="started_at" value="" placeholder="" class="form-control" />
 		                        </div>
 		                        <div class="form-group">
-		                            <label>Expected Completion Date</label>
+		                            <label>@lang('general.expected_completion_date')</label>
 		                            <input data-datepicker type="text" name="expected_completed_at" value="" placeholder="" class="form-control" />
 		                        </div>
                                 <div class="form-group">
-                                    <label>Initial Managers</label>
+                                    <label>@lang('general.initial_managers')</label>
                                     <p class="form-static-control" id="manager_list">
                                         No managers assigned.
                                     </p>
@@ -55,9 +67,9 @@
                                     <table class="table table-striped table-bordered table-hover" id="users_table">
                                         <thead>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Actions</th>
+                                                <th>@lang('general.name')</th>
+                                                <th>@lang('general.email')</th>
+                                                <th>@lang('general.actions')</th>
                                             </tr>
                                         </thead>
                                         <tbody>

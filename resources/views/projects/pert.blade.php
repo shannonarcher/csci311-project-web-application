@@ -46,8 +46,8 @@
                                     <td>{{ $task->optimistic_duration / 86400 }}</td>
                                     <td>{{ $task->estimation_duration / 86400 }}</td>
                                     <td>{{ $task->pessimistic_duration / 86400 }}</td>
-                                    <td>{{ $task->expected_time or '0' }}</td>
-                                    <td>{{ $task->std_dev or '0' }}</td>
+                                    <td>{{ round($task->expected_time * 1000) / 1000 }}</td>
+                                    <td>{{ round($task->std_dev * 1000) / 1000 }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

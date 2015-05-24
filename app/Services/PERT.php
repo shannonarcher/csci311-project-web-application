@@ -86,9 +86,9 @@ class PERT {
 		else {
 			$table = ($z < 0 ? PERT::$negZ : PERT::$posZ);
 			foreach ($table as $row) {
-				if (($z < 0 ? 
-						($z > $row[0] && $z < $row[0] + 0.1) : 
-						($z < $row[0] && $z > $row[0] - 0.1))) {
+				if (($z >= 0 ? 
+						($z >= $row[0] && $z < $row[0] + 0.1) : 
+						($z <= $row[0] && $z > $row[0] - 0.1))) {
 					$index = abs(($z * 100) % 10);
 					$chance = $row[$index+1];
 
@@ -97,7 +97,7 @@ class PERT {
 			}
 		}
 
-		throw new \Exception("unable to compute chance for value " . $z);
+		throw new \Exception("unable to compute success for value " . $z);
 	}
 
 }

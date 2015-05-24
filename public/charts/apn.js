@@ -13,7 +13,7 @@ _apn.prototype.canvasNodes = null;
 _apn.prototype.canvasEdges = null;
 _apn.prototype.canvasConfig = {
 	class: "apn-canvas",
-	grabbingClass: "apn-canvas-grabbing",
+	grabbingClass: "grabbing",
 	node: {
 		class: "apn-node",
 		width: 100,
@@ -420,7 +420,7 @@ _apn.prototype.mouseDown = function (e) {
 
 	window.addEventListener('mousemove',  apn.move, true);
 
-	apn.canvas.className = apn.canvas.className + " " + apn.canvasConfig.grabbingClass;
+	// apn.canvas.className = apn.canvas.className + " " + apn.canvasConfig.grabbingClass;
 };
 
 _apn.prototype.move = function (e) {

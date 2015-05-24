@@ -62,6 +62,11 @@ class UserController extends Controller {
 		$call = API::post('/users', $all);
 
 		if ($call->error) {
+			if (isset($call->response->message)) {
+				Session::flash('error_message', $call->response->message);
+				return redirect('users/add');
+			}
+
 			throw new Exception($call->error_message);
 		}
 
@@ -90,6 +95,11 @@ class UserController extends Controller {
 		$call = API::put('/users/'.$id, $all);
 
 		if ($call->error) {
+			if (isset($call->response->message)) {
+				Session::flash('error_message', $call->response->message . ". This incident has been logged.");
+				return redirect("/users/$id/profile");
+			}
+
 			throw new Exception($call->error_message);
 		}
 

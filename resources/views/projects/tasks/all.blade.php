@@ -14,7 +14,7 @@
 			<div class="page-header">
 				<h1>
                     {{$project->name}}@lang('general.stasks') 
-                    <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default">@lang('general.dashboard')</a>
+                    <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default"><i class="fa fa-cube fa-fw"></i> @lang('general.dashboard')</a>
                 </h1>
 			</div>
 		</div>
@@ -23,8 +23,8 @@
 		<div class="col-lg-12">
  			<div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.tasks')
-                    <a href="{{ URL::to('/projects/'.$project->id.'/tasks/add') }}" class="btn btn-xs btn-primary pull-right">@lang('general.add_task')</a>               
+                    <i class="fa fa-tasks fa-fw"></i> @lang('general.tasks')
+                    <a href="{{ URL::to('/projects/'.$project->id.'/tasks/add') }}" class="btn btn-xs btn-primary pull-right"><i class="fa fa-plus fa-fw"></i> @lang('general.add_task')</a>               
                 </div>
                 <div class="panel-body">
 		            <div class="dataTable_wrapper">

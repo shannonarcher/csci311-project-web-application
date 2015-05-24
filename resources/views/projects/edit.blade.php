@@ -76,13 +76,22 @@
             </div>
         </div>
     </div>
+    @endif     
+    @if (isset($error_message))
+    <div class="row" style="padding-top:30px;">
+        <div class="col-lg-12">    
+            <div class="alert alert-danger">
+            {{$error_message}}
+            </div>
+        </div>
+    </div>
     @endif
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="page-header">
 				<h1>{{ $project->name }} 
                     <small>
-                        <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default">@lang('general.dashboard')</a>
+                        <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default"><i class="fa fa-cube fa-fw"></i> @lang('general.dashboard')</a>
                     </small>
                 </h1>
 			</div>
@@ -94,8 +103,8 @@
             <form role="form" method="post">
      			<div class="panel panel-default">
                     <div class="panel-heading">
-                        @lang('general.details')
-                        <button class="btn btn-xs btn-success pull-right" type="submit">@lang('general.save')</button>
+                        <i class="fa fa-book fa-fw"></i> @lang('general.details')
+                        <button class="btn btn-xs btn-success pull-right" type="submit"><i class="fa fa-save fa-fw"></i> @lang('general.save')</button>
                     </div>
                     <div class="panel-body">
                     	<fieldset>
@@ -116,7 +125,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>@lang('general.actual_completion_date')</label>
-                                    <input data-datepicker type="text" name="actual_completed_at" value="{{ \App\Services\Moment::format($project->actual_completed_at, 'Y-m-d h:i:s', 'Y-m-d') }}" placeholder="In Progress" class="form-control" />
+                                    <input data-datepicker type="text" name="actual_completed_at" value="@if ($project->actual_completed_at != null) {{ \App\Services\Moment::format($project->actual_completed_at, 'Y-m-d h:i:s', 'Y-m-d') }} @endif" placeholder="In Progress" class="form-control" />
                                 </div>
 		                    </div>
 	                    </fieldset>
@@ -129,7 +138,7 @@
 		<div class="col-lg-12">
  			<div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.project_users')
+                    <i class="fa fa-users fa-fw"></i> @lang('general.project_users')
                 </div>
                 <div class="panel-body">
                 	<div class="dataTable_wrapper">
@@ -197,7 +206,7 @@
 		<div class="col-lg-12">
  			<div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.add_to_team')
+                    <i class="fa fa-users fa-fw"></i> @lang('general.add_to_team')
                 </div>
                 <div class="panel-body">
                 	<div class="dataTable_wrapper">
@@ -234,7 +243,7 @@
                                         </p>
                                     </td>
                                     <td>
-                                    	<a href="{{ URL::to('/projects/'.$project->id.'/attachUser/'.$a_user->id) }}" class="btn btn-xs btn-primary" data-action="add_to_team">@lang('general.add_to_team')</a>
+                                    	<a href="{{ URL::to('/projects/'.$project->id.'/attachUser/'.$a_user->id) }}" class="btn btn-xs btn-primary" data-action="add_to_team"><i class="fa fa-user-plus fa-fw"></i> @lang('general.add_to_team')</a>
                                     </td>
                                 </tr>
                                 @endif

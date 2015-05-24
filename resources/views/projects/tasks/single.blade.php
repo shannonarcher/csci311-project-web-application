@@ -4,10 +4,25 @@
 <div class="row">
 	<div class="col-lg-12">
 		<div class="page-header">
+	        @if (isset($message))
+	        <div class="alert alert-success">
+	        {{$message}}
+	        </div>
+	        @endif
+	        @if (isset($error_message))
+	        <div class="alert alert-danger">
+	        {{$error_message}}
+	        </div>
+	        @endif
 			<h1>
 				{{$task->title}} 
-				<small>
-					<a href='{{ URL::to("/projects/$task->project_id/dashboard") }}' class="btn btn-sm btn-default">@lang('general.dashboard')</a>
+				<small class="btn-group"> 
+					<a href="{{ URL::to('/projects/'.$task->project->id.'/tasks/'.$task->id.'/complete') }}" class="btn btn-sm btn-success"><i class="fa fa-check-square-o fa-fw"></i> @lang('general.complete_task')</a>
+				</small>
+				<small class="btn-group">
+                	<a href="{{ URL::to('/projects/'.$task->project->id.'/tasks/'.$task->id.'/edit') }}" class="btn btn-sm btn-default"><i class="fa fa-pencil fa-fw"></i> @lang('general.edit')</a>					
+					<a href='{{ URL::to("/projects/$task->project_id/dashboard") }}' class="btn btn-sm btn-default"><i class="fa fa-cube fa-fw"></i> @lang('general.dashboard')</a>
+					<a href='{{ URL::to("/projects/$task->project_id/tasks/add") }}' class="btn btn-sm btn-default"><i class="fa fa-plus fa-fw"></i> @lang('general.add_task')</a>
 				</small>
 			</h1>            
 		</div>
@@ -18,8 +33,8 @@
 	<div class="col-lg-6">
 			<div class="panel panel-default">
 	        <div class="panel-heading">
-	            @lang('general.details')
-                <a href="{{ URL::to('/projects/'.$task->project->id.'/tasks/'.$task->id.'/edit') }}" class="btn btn-xs btn-primary pull-right">@lang('general.edit')</a>
+	            <i class="fa fa-book fa-fw"></i> @lang('general.details')
+                <a href="{{ URL::to('/projects/'.$task->project->id.'/tasks/'.$task->id.'/edit') }}" class="btn btn-xs btn-primary pull-right"><i class="fa fa-pencil fa-fw"></i> @lang('general.edit')</a>
 	        </div>
 	        <div class="panel-body">
 	            <form role="form">
@@ -56,7 +71,7 @@
 								</p>
 							</div>
 						    <div class="form-group">
-						    	<label>@lang('general.resources')</label>
+						    	<label><i class="fa fa-users fa-fw"></i> @lang('general.resources')</label>
 						    	<p class="form-control-static">
 						    		@if (count($task->resources) > 0)
 						    			@foreach ($task->resources as $resource) 
@@ -104,7 +119,7 @@
 	                   		</div>
 	                   		@if ($task->parent)
 	                   		<div class="form-group">
-	                   			<label>@lang('general.super_task')</label>
+	                   			<label><i class="fa fa-tasks fa-fw"></i> @lang('general.super_task')</label>
 	                   			<p class="form-control-static">
 	                   				<a href="{{URL::to('/projects/'.$task->project->id.'/tasks/'.$task->parent->id)}}">@lang('general.task') {{$task->parent->id}}: {{$task->parent->title}}</a>
 	                   			</p>
@@ -112,7 +127,7 @@
 	                   		@endif
 	                   		@if ($task->children)
 	                   		<div class="form-group">
-	                   			<label>@lang('general.sub_tasks')</label>
+	                   			<label><i class="fa fa-tasks fa-fw"></i> @lang('general.sub_tasks')</label>
 	                   			@foreach ($task->children as $child)		                   			
 	                   			<p class="form-control-static">
 	                   				<a href="{{URL::to('/projects/'.$task->project->id.'/tasks/'.$child->id)}}">@lang('general.task') {{$child->id}}: {{$child->title}}</a>
@@ -122,7 +137,7 @@
 	                   		@endif
 	                   		@if ($task->dependencies)
 	                   		<div class="form-group">
-	                   			<label>@lang('general.dependencies')</label>
+	                   			<label><i class="fa fa-tasks fa-fw"></i> @lang('general.dependencies')</label>
 	                   			@foreach ($task->dependencies as $dependent)		                   			
 	                   			<p class="form-control-static">
 	                   				<a href="{{URL::to('/projects/'.$task->project->id.'/tasks/'.$dependent->id)}}">@lang('general.task') {{$dependent->id}}: {{$dependent->title}}</a>

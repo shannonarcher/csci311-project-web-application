@@ -64,7 +64,7 @@
                 <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                        <i class="fa fa-user fa-fw"></i> @lang('general.welcome'), {{ explode(' ', $user->name)[0] }} <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
                         <li><a href="{{ URL::to('/users/'.$user->id.'/profile') }}"><i class="fa fa-user fa-fw"></i> @lang('menu.my_profile')</a>
@@ -90,8 +90,17 @@
                             <a href="{{ URL::to('/users') }}"><i class="fa fa-users fa-fw"></i> @lang('menu.users')</a>
                         </li>
                         <li>
-                            <a href="{{ URL::to('/projects') }}"><i class="fa fa-cube fa-fw"></i> @lang('menu.projects')</a>                
-                            </a>
+                            <a href="#">
+                                <i class="fa fa-cube fa-fw"></i> 
+                                @lang('menu.projects')
+                                <span class="fa arrow"></span>
+                            </a> 
+                            <ul class="nav nav-second-level collapse in">
+                                <li><a href="{{ URL::to('/projects') }}">@lang('menu.all_projects')</a></li>
+                                @foreach ($user->projects as $project) 
+                                <li><a href="{{ URL::to('/projects/'.$project->id.'/dashboard') }}">{{ $project->name }}</a> </li>
+                                @endforeach
+                            </ul>
                         </li>
                     </ul>
                 </div>

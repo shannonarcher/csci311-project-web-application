@@ -57,9 +57,13 @@ class ProjectController extends Controller {
 		$call = API::post('/projects', $this->request->all());
 
 		if ($call->error) {
-			throw new Exception($call->error_message);
+			if (isset($call->response->message)) {
+				Session::flash('error_message', $call->response->message);
+				return redirect('/projects/add');
+			} else {
+				throw new Exception($call->error_message);
+			}
 		}
-
 
 		return redirect('projects/'.$call->response->id.'/dashboard');
 	}
@@ -121,7 +125,11 @@ class ProjectController extends Controller {
 		$call = API::put('/projects/'.$id, $this->request->all());
 
 		if ($call->error) {
-			throw new Exception($call->error_message);
+			if (isset($call->response->message)) {
+				Session::flash('error_message', $call->response->message);
+			} else {
+				throw new Exception($call->error_message);
+			}
 		}
 		
 		return redirect("/projects/$id/dashboard/edit");
@@ -131,15 +139,13 @@ class ProjectController extends Controller {
 	{
 		$call = API::get('/projects/'.$id, []);
 		if ($call->error) {
-			var_dump($call);
+			var_dump($call->response);
 			die();
 			throw new Exception($call->error_message);
 		}
 
 		$call2 = API::get("/projects/$id/notifications", ['limit' => 6]);		
 		if ($call2->error) {
-			var_dump($call2);
-			die();
 			throw new Exception($call2->error_message);
 		}
 
@@ -163,9 +169,13 @@ class ProjectController extends Controller {
 		$diff  = $end->getTimestamp() - $start->getTimestamp();
 		$target = $diff / 86400;
 
-		$z_value = ($target - $total_expected) / $all_std_dev;
+		$z_value = 0;
+		if ($all_std_dev != 0)
+			$z_value = ($target - $total_expected) / $all_std_dev;
 
-		$chance = \App\Services\PERT::zToSuccess($z_value);
+		$chance = 0;
+		if ($z_value !== false)
+			$chance = \App\Services\PERT::zToSuccess($z_value);
 		$project->pert = $chance;
 
 		return view('projects/dashboard', array_merge(Session::all(), [
@@ -239,6 +249,8 @@ class ProjectController extends Controller {
 		$call = API::get('/tasks/'.$t_id);
 
 		if ($call->error) {
+			var_dump($call->response);
+			die();
 			throw new Exception($call->error_message);
 		}
 
@@ -286,6 +298,12 @@ class ProjectController extends Controller {
 		$call = API::post("/projects/$id/promote/$u_id", []);
 
 		if ($call->error) {
+			$response = $call->response;
+			if (isset($response->message)) {
+				Session::flash('error_message', $response->message);
+				return redirect("/projects/$id/dashboard/edit");
+			}
+
 			throw new Exception($call->error_message);
 		}
 
@@ -299,6 +317,10 @@ class ProjectController extends Controller {
 		$call = API::post("/projects/$id/demote/$u_id", []);
 
 		if ($call->error) {
+			if (isset($call->response->message)) {
+				Session::flash('error_message', $call->response->message);
+				return redirect("/projects/$id/dashboard/edit");
+			}
 			throw new Exception($call->error_message);
 		}
 
@@ -374,10 +396,18 @@ class ProjectController extends Controller {
 		$call = API::put("/tasks/$t_id", $all);
 
 		if ($call->error) {
+			var_dump($call->response);
+			die();
 			throw new Exception($call->error_message);
 		}
 
-		Session::flash('message', 'Task successfully updated.');
+		$message = 'Task successfully updated.';
+		if ($call->response->circular_dependencies > 0)
+			$message .= " " . $call->response->circular_dependencies . " circular dependenc". ($call->response->circular_dependencies == 1 ? 'y' : 'ies') ." prevented.";
+		if ($call->response->circular_parent > 0)
+			$message .= " Circular parent depedency prevented.";
+
+		Session::flash('message', $message);
 		return redirect("/projects/$id/tasks/$t_id/edit");
 	}
 
@@ -512,13 +542,14 @@ class ProjectController extends Controller {
 		$call = API::post("/tasks/$task_id/assign/$user_id");
 
 		if ($call->error) {
-			var_dump($call->response);
-			die();
+			if (isset($call->response->message)) {
+				Session::flash('error_message', $call->response->message);
+				return redirect("/projects/$id/tasks/$task_id/edit");
+			}
 			throw new Exception($call->error_message);
 		}
 
 		Session::flash('message', "Successfully assigned resource to task.");
-
 		return redirect("/projects/$id/tasks/$task_id/edit");
 	}
 
@@ -567,7 +598,9 @@ class ProjectController extends Controller {
 		$diff  = $end->getTimestamp() - $start->getTimestamp();
 		$target = $diff / 86400;
 
-		$z_value = ($target - $total_expected) / $all_std_dev;
+		$z_value = 0;
+		if ($all_std_dev != 0)
+			$z_value = ($target - $total_expected) / $all_std_dev;
 
 		$chance = \App\Services\PERT::zToSuccess($z_value);
 
@@ -578,5 +611,17 @@ class ProjectController extends Controller {
 			'target' => $target,
 			'z_value' => $z_value,
 			'chance' => $chance ]));
+	}
+
+	public function completeTask($id, $t_id) {
+		$call = API::post("/tasks/$t_id/complete");
+
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
+
+		Session::flash('message', 'Task marked as completed.');
+
+		return redirect("/projects/$id/tasks/$t_id");
 	}
 }

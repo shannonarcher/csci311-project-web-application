@@ -12,7 +12,7 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="page-header">
-				<h1>@lang('general.users')</h1>
+				<h1><i class="fa fa-users fa-fw"></i> @lang('general.users')</h1>
 			</div>
 		</div>
 	</div>
@@ -20,9 +20,9 @@
 		<div class="col-lg-12">
 		    <div class="panel panel-default">
 		        <div class="panel-heading">
-		        	@lang('general.all_users')
+		        	<i class="fa fa-users fa-fw"></i> @lang('general.all_users')
 		        	@if ($user->is_admin)
-		        	<a href="{{ URL::to('users/add') }}" class="btn-xs btn btn-primary pull-right">@lang('general.add_user')</a>
+		        	<a href="{{ URL::to('users/add') }}" class="btn-xs btn btn-primary pull-right"><i class="fa fa-user-plus fa-fw"></i> @lang('general.user')</a>
 		        	@endif
 		        </div>
 		        <!-- /.panel-heading -->

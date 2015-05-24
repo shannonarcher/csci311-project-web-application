@@ -15,7 +15,7 @@
 <div class="row">
 	<div class="col-lg-12">
 		<div class="page-header">
-			<h1>Add Task</h1>
+			<h1><i class="fa fa-tasks fa-fw"></i> Add Task</h1>
 		</div>
 	</div>
 </div>
@@ -25,8 +25,8 @@
 	    <form role="form" method="post" action="{{ URL::to('/projects/'.$project_id.'/tasks/create') }}">
 			<div class="panel panel-default">
 		        <div class="panel-heading">
-		            @lang('general.details')
-		            <button class="btn btn-xs btn-success pull-right" type="submit">Save</button>
+		            <i class="fa fa-book fa-fw"></i> @lang('general.details')
+		            <button class="btn btn-xs btn-success pull-right" type="submit"><i class="fa fa-save fa-fw"></i> Save</button>
 		        </div>
 		        <div class="panel-body">
 	            	<fieldset>
@@ -75,7 +75,7 @@
 	<div class="col-lg-12">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				@lang('general.tasks')
+				<i class="fa fa-tasks fa-fw"></i> @lang('general.tasks')
 			</div>
 			<div class="panel-body">
 	            <div class="dataTable_wrapper">
@@ -131,10 +131,14 @@
 
         $('body').on('click', '[data-action=set_parent]', function (e) {
         	var task = JSON.parse($(this).parent().attr('data-task'));
-        	parent = task;
+            if (parent == null || parent.id != task.id)
+            	parent = task;
+            else
+                parent = null;
 
-        	$('[data-action=set_parent]').removeClass('btn-success').addClass('btn-default');
-        	$(this).removeClass('btn-default').addClass('btn-success');
+            $('[data-action=set_parent]').removeClass('btn-success').addClass('btn-default');
+        	if (parent != null)
+                $(this).removeClass('btn-default').addClass('btn-success');
 
         	updateParentAndDependencies();
         });

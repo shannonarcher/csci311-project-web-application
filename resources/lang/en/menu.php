@@ -5,6 +5,7 @@ return [
 
 	"dashboard" => "Dashboard",
 	"users" => "Users",
+	"all_projects" => "All Projects",
 	"projects" => "Projects",
 
 	"my_profile" => "My Profile",

@@ -131,6 +131,8 @@ return [
 
 	"assign_to_task" => "Assign to Task",
 	"unassign_from_task" => "Unassign from Task",
+	"assign" => "Assign",
+	"unassign" => "Unassign",
 
 	"resources" => "Resources",
 
@@ -150,4 +152,13 @@ return [
 	"view_full_breakdown" => "View Full Breakdown",
 
 	"project_users" => "Project Users",
+
+	"remaining_tasks" => "Remaining Tasks",
+
+	"complete_task" => "Complete Task",
+
+	"user" => "User",
+
+	"managers" => "Managers",
+	"welcome" => "Welcome",
 ];

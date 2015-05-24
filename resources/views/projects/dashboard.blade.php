@@ -21,39 +21,43 @@
 	<div class="row">
 		<div class="col-lg-12">  
 			<div class="page-header">
+                @if (isset($success_message))
+                <div class="alert alert-success">
+                {{$success_message}}
+                </div>
+                @endif
+                @if (isset($error_message))
+                <div class="alert alert-danger">
+                {{$error_message}}
+                </div>
+                @endif
 				<h1>{{$project->name}}
                     <small>
                         <div class="btn-group btn-group-sm">
                             @if ($user->is_admin)
-                            <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-sm btn-default">@lang('general.edit')</a>
+                            <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-sm btn-default"> <i class="fa fa-pencil fa-fw"></i> @lang('general.edit')</a>
                             @else
                             @foreach ($project->managers as $manager)
                             @if ($manager->id == $user->id)
-                            <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-sm btn-default">@lang('general.edit')</a>
+                            <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-sm btn-default"> <i class="fa fa-pencil fa-fw"></i> @lang('general.edit')</a>
                             @endif
                             @endforeach
                             @endif
                         </div>
                         <div class="btn-group btn-group-sm">
-                            <a href='{{ URL::to("/projects/$project->id/gantt") }}' target="_blank" class="btn btn-sm btn-default">@lang('general.gantt')</a>
-                            <a href='{{ URL::to("/projects/$project->id/apn") }}' target="_blank" class="btn btn-sm btn-default">@lang('general.apn')</a>
-                            <a href='{{ URL::to("/projects/$project->id/pert") }}' target="_blank" class="btn btn-sm btn-default">@lang('general.pert')</a>
+                            <a href='{{ URL::to("/projects/$project->id/gantt") }}' target="_blank" class="btn btn-sm btn-default"><i class="fa fa-sitemap fa-fw"></i> @lang('general.gantt')</a>
+                            <a href='{{ URL::to("/projects/$project->id/apn") }}' target="_blank" class="btn btn-sm btn-default"><i class="fa fa-sitemap fa-fw"></i> @lang('general.apn')</a>
+                            <a href='{{ URL::to("/projects/$project->id/pert") }}' target="" class="btn btn-sm btn-default"><i class="fa fa-calculator fa-fw"></i> @lang('general.pert')</a>
                         </div>
                         <div class="btn-group btn-group-sm">
-                            <a href='{{ URL::to("/projects/$project->id/functionPoints") }}' target="" class="btn btn-sm btn-default">@lang('general.function_points')</a>
-                            <a href='{{ URL::to("/projects/$project->id/cocomo") }}' target="" class="btn btn-sm btn-default">@lang('general.cocomo')</a>
+                            <a href='{{ URL::to("/projects/$project->id/functionPoints") }}' target="" class="btn btn-sm btn-default"><i class="fa fa-cubes fa-fw"></i> @lang('general.function_points')</a>
+                            <a href='{{ URL::to("/projects/$project->id/cocomo") }}' target="" class="btn btn-sm btn-default"><i class="fa fa-space-shuttle fa-fw"></i> @lang('general.cocomo')</a>
                         </div>
                     </small>
                 </h1>
 			</div>
 		</div>
 	</div>
-
-    <!--<div class="row">
-        <div class="col-lg-12">
-            <iframe id="gannt" src="{{ URL::to('/projects/'.$project->id.'/gannt') }}"></iframe>
-        </div>
-    </div>-->
 
     <div class="row">
         @if (isset($project->function_points))
@@ -137,7 +141,7 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-3">
-                            <i class="fa fa-ship fa-5x"></i>
+                            <i class="fa fa-calculator fa-5x"></i>
                         </div>
                         <div class="col-xs-9 text-right">
                             <div class="huge">{{ $project->pert }}%</div>
@@ -162,13 +166,13 @@
         <div class="col-md-6 col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.details')
+                    <i class="fa fa-book fa-fw"></i> @lang('general.details')
                     @if ($user->is_admin)
-                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right">@lang('general.edit')</a>
+                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right"> <i class="fa fa-pencil fa-fw"></i> @lang('general.edit')</a>
                     @else
                     @foreach ($project->managers as $manager)
                     @if ($manager->id == $user->id)
-                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right">@lang('general.edit')</a>
+                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right"> <i class="fa fa-pencil fa-fw"></i> @lang('general.edit')</a>
                     @endif
                     @endforeach
                     @endif
@@ -240,7 +244,7 @@
                         @endforeach
                     </div>
                     @if (count($notifications) >= 6)
-                    <a href="{{ URL::to('/projects/'.$project->id.'/notifications') }}" class="btn btn-default btn-block">@lang('general.view_all_alerts')</a>
+                    <a href="{{ URL::to('/projects/'.$project->id.'/notifications') }}" class="btn btn-default btn-block"> <i class="fa fa-eye fa-fw"></i> @lang('general.view_all_alerts')</a>
                     @endif
                 </div>
             </div>
@@ -250,13 +254,13 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.tasks')
+                    <i class="fa fa-tasks fa-fw"></i> @lang('general.remaining_tasks')
                     @if ($user->is_admin)
-                    <a href="{{ URL::to('/projects/'.$project->id.'/tasks') }}" class="btn btn-xs btn-primary pull-right">@lang('general.view_all')</a>     
+                    <a href="{{ URL::to('/projects/'.$project->id.'/tasks') }}" class="btn btn-xs btn-primary pull-right"> <i class="fa fa-eye fa-fw"></i> @lang('general.view_all')</a>     
                     @else             
                     @foreach ($project->users as $team_member)
                     @if ($team_member->id == $user->id)
-                    <a href="{{ URL::to('/projects/'.$project->id.'/tasks') }}" class="btn btn-xs btn-primary pull-right">@lang('general.view_all')</a>
+                    <a href="{{ URL::to('/projects/'.$project->id.'/tasks') }}" class="btn btn-xs btn-primary pull-right"> <i class="fa fa-eye fa-fw"></i> @lang('general.view_all')</a>
                     @endif
                     @endforeach  
                     @endif      
@@ -274,6 +278,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($project->tasks as $task)
+                                @if ($task->progress < 100 && $task->approved_at)
                                 <tr>
                                     <td>{{$task->id}}</td>
                                     <td><a href="{{URL::to('/projects/'.$project->id.'/tasks/'.$task->id)}}">{{$task->title}}</a></td>
@@ -290,6 +295,7 @@
                                     </td>
                                     <td>{{$task->progress}}%</td>
                                 </tr>
+                                @endif
                                 @endforeach
                             </tbody>
                         </table>
@@ -302,14 +308,14 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.milestones')
+                    <i class="fa fa-calendar-o fa-fw"></i> @lang('general.milestones')
 
                     @if ($user->is_admin)
-                    <a href="{{ URL::to('/projects/'.$project->id.'/milestones') }}" class="btn btn-xs btn-primary pull-right">@lang('general.view_all')</a>
+                    <a href="{{ URL::to('/projects/'.$project->id.'/milestones') }}" class="btn btn-xs btn-primary pull-right"> <i class="fa fa-eye fa-fw"></i> @lang('general.view_all')</a>
                     @else
                     @foreach ($project->managers as $manager)
                     @if ($manager->id == $user->id)
-                    <a href="{{ URL::to('/projects/'.$project->id.'/milestones') }}" class="btn btn-xs btn-primary pull-right">@lang('general.view_all')</a>
+                    <a href="{{ URL::to('/projects/'.$project->id.'/milestones') }}" class="btn btn-xs btn-primary pull-right"> <i class="fa fa-eye fa-fw"></i> @lang('general.view_all')</a>
                     @endif
                     @endforeach
                     @endif
@@ -345,13 +351,13 @@
         <div class="col-lg-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.users')                    
+                    <i class="fa fa-users fa-fw"></i> @lang('general.users')                    
                     @if ($user->is_admin)
-                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right">@lang('general.edit')</a>
+                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right"> <i class="fa fa-pencil fa-fw"></i> @lang('general.edit')</a>
                     @else
                     @foreach ($project->managers as $manager)
                     @if ($manager->id == $user->id)
-                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right">@lang('general.edit')</a>
+                    <a href="{{ URL::to('/projects/'.$project->id.'/dashboard/edit') }}" class="btn btn-xs btn-primary pull-right"> <i class="fa fa-pencil fa-fw"></i> @lang('general.edit')</a>
                     @endif
                     @endforeach
                     @endif

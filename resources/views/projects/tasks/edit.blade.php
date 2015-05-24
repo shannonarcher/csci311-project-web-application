@@ -13,18 +13,19 @@
 
 @section('content')
 <div class="row">
-    @if (isset($message))
-    <div class="col-lg-12" style="padding-top:30px;">
-        <div class="alert alert-success">{{$message}}</div>
-    </div>
-    @endif
 	<div class="col-lg-12">
 		<div class="page-header">
+            @if (isset($message))
+            <div class="alert alert-success">{{$message}}</div>
+            @endif
+            @if (isset($error_message))
+            <div class="alert alert-danger">{{$error_message}}</div>
+            @endif
 			<h1>
                 {{$task->title}}                
                 <small class="btn-group">
-                    <a href='{{ URL::to("/projects/$task->project_id/tasks/$task->id") }}' class="btn btn-sm btn-default">@lang('general.back_to_task')</a>
-                    <a href='{{ URL::to("/projects/$task->project_id/dashboard") }}' class="btn btn-sm btn-default">@lang('general.dashboard')</a>
+                    <a href='{{ URL::to("/projects/$task->project_id/tasks/$task->id") }}' class="btn btn-sm btn-default"><i class="fa fa-arrow-circle-o-left fa-fw"></i> @lang('general.back_to_task')</a>
+                    <a href='{{ URL::to("/projects/$task->project_id/dashboard") }}' class="btn btn-sm btn-default"><i class="fa fa-cube fa-fw"></i> @lang('general.dashboard')</a>
                 </small>
             </h1>
 		</div>
@@ -36,8 +37,8 @@
 	    <form role="form" method="post" action="{{ URL::to('/projects/'.$task->project_id.'/tasks/'.$task->id.'/save') }}">
 			<div class="panel panel-default">
 		        <div class="panel-heading">
-		            @lang('general.details')
-		            <button class="btn btn-xs btn-success pull-right" type="submit">@lang('general.save')</button>
+		            <i class="fa fa-book fa-fw"></i> @lang('general.details')
+		            <button class="btn btn-xs btn-success pull-right" type="submit"><i class="fa fa-save fa-fw"></i> @lang('general.save')</button>
 		        </div>
 		        <div class="panel-body">
 	            	<fieldset>
@@ -53,6 +54,10 @@
                             <div class="form-group">
                                 <label>@lang('general.is_approved')</label>
                                 <input type="checkbox" class="checkbox" name="is_approved" {{ $task->approved_at == null ? '' : 'checked' }} />
+                            </div>
+                            <div class="form-group">
+                                <label>@lang('general.progress')</label>
+                                <input type="text" class="form-control" name="progress" value="{{ $task->progress }}" />
                             </div>
                             <div class="form-group">
                                 <label>@lang('general.priority')</label>
@@ -81,11 +86,11 @@
                                 <input type="text" name="pessimistic_duration" class="form-control" value="{{ $task->pessimistic_duration / 86400 }}" />
                             </div>
 	                   		<div class="form-group">
-	                   			<label>@lang('general.super_task')</label>
+	                   			<label><i class="fa fa-tasks fa-fw"></i> @lang('general.super_task')</label>
 	                   			<p class="form-control-static" id="parent"></p>
 	                   		</div>
 	                   		<div class="form-group">
-	                   			<label>@lang('general.dependencies')</label>
+	                   			<label><i class="fa fa-tasks fa-fw"></i> @lang('general.dependencies')</label>
 	                   			<p class="form-control-static" id="dependencies"></p>
 	                   		</div>
 	                   	</div>
@@ -100,7 +105,7 @@
 	<div class="col-lg-6">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				@lang('general.tasks')
+				<i class="fa fa-tasks fa-fw"></i> @lang('general.tasks')
 			</div>
 			<div class="panel-body">
 	            <div class="dataTable_wrapper">
@@ -145,7 +150,7 @@
     <div class="col-lg-6">
         <div class="panel panel-default">
             <div class="panel-heading">
-                @lang('general.users')
+                <i class="fa fa-users fa-fw"></i> @lang('general.users')
             </div>
             <div class="panel-body">
                 <div class="dataTable_wrapper">
@@ -172,9 +177,9 @@
                                 </td>
                                 <td>
                                     @if (!in_array($a_user->id, $assigned))
-                                    <a href="{{ URL::to('/projects/'.$task->project_id.'/tasks/'.$task->id.'/assignUser/'.$a_user->id) }}" class="btn btn-xs btn-primary" data-action="assign_to_task">@lang('general.assign_to_task')</a>
+                                    <a href="{{ URL::to('/projects/'.$task->project_id.'/tasks/'.$task->id.'/assignUser/'.$a_user->id) }}" class="btn btn-xs btn-primary" data-action="assign_to_task"><i class="fa fa-user-plus fa-fw"></i> @lang('general.assign')</a>
                                     @else
-                                    <a href="{{ URL::to('/projects/'.$task->project_id.'/tasks/'.$task->id.'/unassignUser/'.$a_user->id) }}" class="btn btn-xs btn-danger" data-action="unassign_from_task">@lang('general.unassign_from_task')</a>
+                                    <a href="{{ URL::to('/projects/'.$task->project_id.'/tasks/'.$task->id.'/unassignUser/'.$a_user->id) }}" class="btn btn-xs btn-danger" data-action="unassign_from_task"><i class="fa fa-user-times fa-fw"></i> @lang('general.unassign')</a>
                                     @endif
                                 </td>
                             </tr>
@@ -195,6 +200,7 @@
     <script src="{{ URL::to('/') }}/bower_components/datatables/media/js/jquery.dataTables.min.js"></script>
     <script src="{{ URL::to('/') }}/bower_components/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
     <script src="{{ URL::to('/') }}/js/datepicker.min.js"></script>
+    <script src="{{ URL::to('/') }}/js/autosize.js"></script>
 
     <!-- Page-Level Demo Scripts - Tables - Use for reference -->
     <script>
@@ -210,12 +216,25 @@
 
         $('body').on('click', '[data-action=set_parent]', function (e) {
         	var task = JSON.parse($(this).parent().attr('data-task'));
-        	parent = task;
+            if (parent != null && parent.id == task.id)
+               parent = null;
+            else
+        	   parent = task;
 
-        	$('[data-action=set_parent]').removeClass('btn-success').addClass('btn-default');
-        	$(this).removeClass('btn-default').addClass('btn-success');
+            $('[data-action=set_parent]').removeClass('btn-success').addClass('btn-default');
+            if (parent != null) {
+            	$(this).removeClass('btn-default').addClass('btn-success');
+            }
 
         	updateParentAndDependencies();
+        });
+
+        $('body').on('click', '[data-action=unset_parent]', function (e) {
+            parent = null;
+            $('[data-action=set_parent]').removeClass('hide');
+            $(this).addClass('hide');
+
+            updateParentAndDependencies();
         });
 
         $('body').on('click', '[data-action=add_dependency]', function (e) {
@@ -265,6 +284,8 @@
         $("[data-datepicker]").datepicker({
             format:'yyyy-mm-dd'
         });
+
+        autosize(document.querySelectorAll('textarea'));
     });
     </script>
 @stop

@@ -12,10 +12,10 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="page-header">
-				<h1>@lang('general.projects')
+				<h1><i class="fa fa-cube fa-fw"></i> @lang('general.projects')
 					<small>
 						@if ($user->is_admin)
-			        	<a href="{{ URL::to('projects/add') }}" class="btn-sm btn btn-default">@lang('general.add_project')</a>
+			        	<a href="{{ URL::to('projects/add') }}" class="btn-sm btn btn-default"><i class="fa fa-plus fa-fw"></i> @lang('general.project')</a>
 			        	@endif
 					</small>
 				</h1>
@@ -26,9 +26,9 @@
 		<div class="col-lg-12">
 		    <div class="panel panel-default">
 		        <div class="panel-heading">
-		        	@lang('general.all_projects')
+		        	 <i class="fa fa-cube fa-fw"></i> @lang('general.all_projects')
 		        	@if ($user->is_admin)
-		        	<a href="{{ URL::to('projects/add') }}" class="btn-xs btn btn-primary pull-right">@lang('general.add_project')</a>
+		        	<a href="{{ URL::to('projects/add') }}" class="btn-xs btn btn-primary pull-right"><i class="fa fa-plus fa-fw"></i> @lang('general.project')</a>
 		        	@endif
 		        </div>
 		        <!-- /.panel-heading -->
@@ -39,7 +39,7 @@
 		                        <tr>
 		                        	<td>#</td>
 		                        	<td>@lang('general.name')</td>
-		                        	<td>@lang('general.team')</td>
+		                        	<td>@lang('general.managers')</td>
 		                        </tr>
 		                    </thead>
 		                    <tbody>
@@ -49,7 +49,7 @@
 		                    		<td><a href="{{ URL::to('/projects/'.$project->id.'/dashboard') }}">{{$project->name}}</a></td>
 		                    		<td>
 		                    			@foreach ($project->users as $p_user)
-		                    			<a href="{{ URL::to('/users/'.$p_user->id.'/profile') }}">{{ $p_user->name }}</a>, 
+		                    			<a href="{{ URL::to('/users/'.$p_user->id.'/profile') }}">{{ explode(' ', $p_user->name)[0] }}</a>,
 		                    			@endforeach
 		                    		</td>	
 		                    	</tr>

@@ -9,8 +9,13 @@
                 {{$success_message}}
                 </div>
                 @endif
+                @if (isset($error_message))
+                <div class="alert alert-danger">
+                {{$error_message}}
+                </div>
+                @endif
                 <h1>
-                    @lang('general.add_user')
+                    <i class="fa fa-user fa-fw"></i> @lang('general.add_user')
                 </h1>
             </div>
         </div>
@@ -21,8 +26,8 @@
             <form role="form" id="details_form" action="" method="post">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        @lang('general.details')                    
-                        <button class="btn btn-xs btn-success pull-right" type="submit">@lang('general.save')</button>
+                        <i class="fa fa-book fa-fw"></i> @lang('general.details')                    
+                        <button class="btn btn-xs btn-success pull-right" type="submit"><i class="fa fa-save fa-fw"></i> @lang('general.save')</button>
                     </div>
                     <div class="panel-body">
                         <fieldset>

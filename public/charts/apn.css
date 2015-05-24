@@ -8,13 +8,13 @@
    -ms-user-select: none;
    user-select: none;
 
-   cursor:grab;
-   cursor:-webkit-grab;
+   cursor:move;
+   cursor:-webkit-move;
 }
 
-.apn-canvas.apn-canvas-grabbing {
-	cursor:grabbing;
-	cursor:-webkit-grabbing;
+.grabbing {
+	cursor:grabbing !important;
+	cursor:-webkit-grabbing !important;
 }
 
 /** OBJECT CLASSES **/
@@ -27,6 +27,9 @@
 	border-radius:5px;
 	z-index:100;
 	top:50%;
+/*
+	cursor:grab;
+	cursor:-webkit-grab;*/
 }
 
 .apn-edge {
