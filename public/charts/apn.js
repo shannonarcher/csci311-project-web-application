@@ -1,16 +1,28 @@
+/** @author Shannon Archer **/
+/** prototype class **/
 var _apn = function () {};
 
+/** Properties **/
+/** Graphic Trackers **/
 _apn.prototype.currentX = 0;
 _apn.prototype.currentY = 0;
 _apn.prototype.currentMouseX = 0;
 _apn.prototype.currentMouseY = 0;
 
+_apn.prototype.activeNode = null;
+_apn.prototype.activeNodeX = 0;
+_apn.prototype.activeNodeY = 0;
+
+/** Canvas and Canvas Objects **/
 _apn.prototype.id = "";
 _apn.prototype.canvas = null;
-_apn.prototype.canvasWidth = 0;
-_apn.prototype.canvasHeight = 0;
+_apn.prototype.canvasGrabbable = null;
+_apn.prototype.canvasPositions = {
+	top:0, left:0, bottom:0, right:0,
+};
 _apn.prototype.canvasNodes = null;
 _apn.prototype.canvasEdges = null;
+/** Canvas Settings **/
 _apn.prototype.canvasConfig = {
 	class: "apn-canvas",
 	grabbingClass: "grabbing",
@@ -28,13 +40,19 @@ _apn.prototype.canvasConfig = {
 	},
 	edge: {
 		class: "apn-edge"
+	},
+	gPadding: {
+		top:0,
+		left:0
 	}
 };
 
+/** APN Data Structure **/
 _apn.prototype.startNode = null;
 _apn.prototype.finalNode = null;
 _apn.prototype.nodes = [];
 
+/** Initialise canvas **/
 _apn.prototype.init = function (id) {
 	this.id = id;
 	this.canvas = document.getElementById(id);
@@ -42,11 +60,15 @@ _apn.prototype.init = function (id) {
 	this.canvasNodes = [];
 	this.canvasEdges = [];
 
+	this.canvasGrabbable = document.createElement('div');
+	this.canvasGrabbable.className = "apn-grabbable";
+	this.canvas.appendChild(this.canvasGrabbable);
+
 	this.addEvents();
 };
 
 /** 
- * Create graph for use by renderer.
+ * Parse data into graph for use by renderer.
  */
 _apn.prototype.parse = function (tasks) {
 	this.startNode = new Node("start", "Start", 0);
@@ -69,16 +91,16 @@ _apn.prototype.parse = function (tasks) {
 	// link nodes with no edges to final node
 	for (var n in this.nodes) {
 		if (this.nodes[n].edges.length == 0) {
-			this.nodes[n].edges.push(new Edge(this.finalNode));
-			this.finalNode.reverseEdges.push(new Edge(this.nodes[n]));
+			this.nodes[n].edges.push(new Edge(this.finalNode, this.nodes[n]));
+			this.finalNode.reverseEdges.push(new Edge(this.nodes[n], this.finalNode));
 		}
 	}
 
 	// link nodes with no reverseEdges to startNode
 	for (var n in this.nodes) {
 		if (this.nodes[n].reverseEdges.length == 0) {
-			this.nodes[n].reverseEdges.push(new Edge(this.startNode));
-			this.startNode.edges.push(new Edge(this.nodes[n]));
+			this.nodes[n].reverseEdges.push(new Edge(this.startNode, this.nodes[n]));
+			this.startNode.edges.push(new Edge(this.nodes[n], this.startNode));
 		}
 	}
 
@@ -100,6 +122,9 @@ _apn.prototype.parse = function (tasks) {
 	this.render();
 };
 
+/** 
+ * Create Node Object for Graph
+ */
 _apn.prototype.createNode = function (task) {
 	this.nodes.push(new Node(
 		task.id,
@@ -108,6 +133,9 @@ _apn.prototype.createNode = function (task) {
 	));
 };
 
+/** 
+ * Create Edge Object for Graph
+ */
 _apn.prototype.createEdge = function (task1, task2) {
 	var n1 = null, n2 = null;
 
@@ -118,10 +146,13 @@ _apn.prototype.createEdge = function (task1, task2) {
 			n2 = this.nodes[n];
 	}
 
-	n1.edges.push(new Edge(n2));
-	n2.reverseEdges.push(new Edge(n1));
+	n1.edges.push(new Edge(n2, n1));
+	n2.reverseEdges.push(new Edge(n1, n2));
 };
 
+/**
+ * Recursively assigns proper depth to all nodes on graph
+ */
 _apn.prototype.assignDepth = function (node, parent_depth) {
 	if (node.depth < parent_depth + 1) {
 		node.depth = parent_depth + 1;
@@ -132,6 +163,9 @@ _apn.prototype.assignDepth = function (node, parent_depth) {
 	}
 };
 
+/**
+ * Recursively passes over nodes assigning earliest start, earliest finish
+ */
 _apn.prototype.forwardPass = function (parent, node) {
 
 	if (parent.earliest.finish > node.earliest.start)
@@ -144,6 +178,9 @@ _apn.prototype.forwardPass = function (parent, node) {
 
 };
 
+/**
+ * Recursively passes over nodes assigning lastest start, lastest finish and float
+ */
 _apn.prototype.backwardPass = function (child, node) {
 
 	if (child.latest.start < node.latest.finish || node.latest.finish == 0) 
@@ -176,23 +213,57 @@ _apn.prototype.backwardPass = function (child, node) {
 
 
 // rendering methods
+/**
+ * Render entire graph
+ */
 _apn.prototype.render = function () {
-	this._renderNode(this.startNode);
-	for (var e in this.startNode.edges) {
-		this._renderEdge(this.startNode, this.startNode.edges[e].dest);
-	}
+	this.renderNodes();
+	this.renderEdges();
+	this.setCanvasDimensions();
+};
 
+/** 
+ * Create canvas objects for all nodes in graph
+ */
+_apn.prototype.renderNodes = function () {
+	this.startNode.renderable = this._renderNode(this.startNode);
 	for (var n in this.nodes) {
-		this._renderNode(this.nodes[n]);		
+		this.nodes[n].renderable = this._renderNode(this.nodes[n]);		
+	}
+	this.finalNode.renderable = this._renderNode(this.finalNode);
+};
+
+/**
+ * Create canvas objects for all edges in graph
+ * Removes previous edges if any exist
+ */
+_apn.prototype.renderEdges = function () {
+
+	for (var i in this.canvasEdges) {
+		this.canvas.removeChild(this.canvasEdges[i]);
+	}
+	this.canvasEdges = [];
+
+	for (var e in this.startNode.edges) {
+		this._renderEdge(this.startNode.edges[e]);
+	}
+	for (var n in this.nodes) {
 		for (var e in this.nodes[n].edges) {
-			this._renderEdge(this.nodes[n], this.nodes[n].edges[e].dest);
+			this._renderEdge(this.nodes[n].edges[e]);
 		}
 	}
 
-	this._renderNode(this.finalNode);
+};
 
-	this.canvas.style.height = this.canvasHeight + "px";
-	this.canvas.style.width = this.canvasWidth + "px";
+/**
+ * Set proper draggable size
+ */
+_apn.prototype.setCanvasDimensions = function () {
+	this.canvasGrabbable.style.position = 'absolute';
+	this.canvasGrabbable.style.marginTop = (this.canvasPositions.top - this.canvasConfig.gPadding.top) + "px";
+	this.canvasGrabbable.style.left = (this.canvasPositions.left - this.canvasConfig.gPadding.left) + "px";
+	this.canvasGrabbable.style.height = (Math.abs(this.canvasPositions.top) + Math.abs(this.canvasPositions.bottom) + this.canvasConfig.gPadding.top) + "px";
+	this.canvasGrabbable.style.width = (Math.abs(this.canvasPositions.left) + Math.abs(this.canvasPositions.right) + this.canvasConfig.gPadding.left) + "px";
 };
 
 _apn.prototype._renderNode = function (node) {
@@ -237,13 +308,15 @@ _apn.prototype._renderNode = function (node) {
 	renderable.style.marginTop = top + "px";
 	renderable.style.left = left + "px";
 
-	var newTop = maxTop;
-	var newLeft = left + this.canvasConfig.node.width + this.canvasConfig.node.margin.left + this.canvasConfig.node.margin.right;
+	if (left < this.canvasPositions.left)
+		this.canvasPositions.left = left;
+	if (left + this.canvasConfig.node.width > this.canvasPositions.right)
+		this.canvasPositions.right = left + this.canvasConfig.node.width;
 
-	if (newTop > this.canvasHeight)
-		this.canvasHeight = newTop;
-	if (newLeft > this.canvasWidth)
-		this.canvasWidth = newLeft;
+	if (top < this.canvasPositions.top)
+		this.canvasPositions.top = top;
+	if (top + this.canvasConfig.node.height > this.canvasPositions.bottom)
+		this.canvasPositions.bottom = top + this.canvasConfig.node.height;
 
 	// add property boxes
 	renderable.appendChild(this._renderPropertyBox("id", node.id));
@@ -257,9 +330,40 @@ _apn.prototype._renderNode = function (node) {
 		renderable.appendChild(this._renderPropertyBox("lf", node.latest.finish));
 	}
 
+	// make grabbable
+	(function (r, n, apn) {
+
+		r.addEventListener('mousedown', (function (r, n, a) {
+			return function (e) {
+				this.className = this.className + " grabbing";
+				a.activeNode = r;
+				a.activeNodeX = parseInt(r.style.left);
+				a.activeNodeY = parseInt(r.style.marginTop);
+
+				a.currentMouseX = e.clientX;
+				a.currentMouseY = e.clientY;
+			};
+		})(r, n, apn), false);
+
+		window.addEventListener('mouseup', (function (r, n, a) {
+			return function (e) {
+				r.className = r.className.replace(" grabbing", "");
+				a.activeNode = null;
+				a.activeNodeX = 0;
+				a.activeNodeY = 0;
+
+				a.currentMouseX = e.clientX;
+				a.currentMouseY = e.clientY;
+			};
+		})(r, n, apn), false);
+
+	})(renderable, node, this);
+
 	this.canvas.appendChild(renderable);
 
 	this.canvasNodes.push(renderable);
+
+	return renderable;
 };
 
 _apn.prototype._renderPropertyBox = function (propertyName, propertyValue) {
@@ -270,98 +374,56 @@ _apn.prototype._renderPropertyBox = function (propertyName, propertyValue) {
 	return renderable;
 };
 
-_apn.prototype._renderEdge = function (node1, node2, reverse) {
+_apn.prototype._renderEdge = function (edge, reverse) {
 	reverse = typeof reverse !== 'undefined' ? reverse : false;
 
-	var renderable = document.createElement('div');
-	renderable.className = this.canvasConfig.edge.class;
+	var node1 = edge.origin;
+	var node2 = edge.dest;
 
-	renderable.style.position = "absolute";
+	// calculate position
+	var top1 = 0, left1 = 0, top2 = 0, left2 = 0;
+
+	top1 = parseInt(node1.renderable.style.marginTop) + this.canvasConfig.node.height / 2;
+	left1 = parseInt(node1.renderable.style.left) + this.canvasConfig.node.width;
+
+	top2 = parseInt(node2.renderable.style.marginTop) + this.canvasConfig.node.height / 2;
+	left2 = parseInt(node2.renderable.style.left);
+
+	var renderable = this._renderLine(left1, top1, left2, top2);
 
 	// add critical class
 	if (node1.float == 0 && node2.float == 0)
-		renderable.className = renderable.className + " " + this.canvasConfig.edge.class + "-critical";
+		renderable.className = renderable.className + " " + this.canvasConfig.edge.class + "-critical";	
 
-	// calculate position
-	var topOffset = 0;
-	var top = 0;
-	var left = 0;
+	this.canvas.appendChild(renderable);
+	this.canvasEdges.push(renderable);
 
-	left = (node1.depth * this.canvasConfig.node.width + 
-			node1.depth * (this.canvasConfig.node.margin.left + this.canvasConfig.node.margin.right) +
-			this.canvasConfig.node.width + 1);
+	return renderable;
+};
 
-	var total = 0;
-	var topOffset = 0;
-	for (var n in this.nodes) {
-		if (this.nodes[n].depth == node1.depth) {
+_apn.prototype._renderLine = function (x1, y1, x2, y2) {
+	var renderable = document.createElement('div');
+	renderable.className = this.canvasConfig.edge.class;
 
-			if (this.nodes[n].id <= node1.id) 
-				topOffset++;	
-			total++;
 
-		}
-	}
+	renderable.style.marginTop = y1 + "px";
+	renderable.style.left = x1 + "px";
 
-	topOffset -= total / 2;
-
-	if (isNaN(node1.id))
-		topOffset = 0;
-
-	var top = (topOffset * (this.canvasConfig.node.height + this.canvasConfig.node.margin.bottom)) - 
-				(this.canvasConfig.node.margin.top + this.canvasConfig.node.height / 2)  +
-				this.canvasConfig.node.height * 0.5;
-
-	renderable.style.marginTop = top + "px";
-	renderable.style.left = left + "px";
-
-	// calculate destination
-	var topOffset = 0;
-	var top2 = 0;
-	var left2 = 0;
-
-	left2 = (node2.depth * this.canvasConfig.node.width + 
-			node2.depth * (this.canvasConfig.node.margin.left + this.canvasConfig.node.margin.right) + 1);
-
-	var total = 0;
-	var topOffset = 0;
-	for (var n in this.nodes) {
-		if (this.nodes[n].depth == node2.depth) {
-
-			if (this.nodes[n].id <= node2.id) 
-				topOffset++;	
-			total++;
-
-		}
-	}
-
-	topOffset -= total / 2;
-
-	if (isNaN(node2.id))
-		topOffset = 0;
-
-	top2 = (topOffset * (this.canvasConfig.node.height + this.canvasConfig.node.margin.bottom)) - 
-			(this.canvasConfig.node.margin.top + this.canvasConfig.node.height / 2)  +
-			this.canvasConfig.node.height * 0.5;
+	renderable.style.position = "absolute";
 
 	// calculate rotation between points
-	var angle = -Math.atan2(left2 - left, top2 - top) * 180 / Math.PI;
+	var angle = -Math.atan2(x2 - x1, y2 - y1) * 180 / Math.PI;
 
 	angle += 90;
 
 	renderable.style.transformOrigin = "0% 0%";
 	renderable.style.transform = "rotate(" + angle + "deg)";
 
-	renderable.style.width = Math.sqrt(Math.pow(left - left2, 2) + Math.pow(top - top2, 2)) + "px";
+	renderable.style.width = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)) + "px";
 	renderable.style.height = "1px";
 
-	this.canvas.appendChild(renderable);
-
-	this.canvasEdges.push(renderable);
+	return renderable;
 };
-
-
-
 
 
 
@@ -384,10 +446,13 @@ var Node = function (id, title, duration) {
 	this.reverseEdges = [];
 
 	this.depth = 0;
+
+	this.renderable = null;
 };
 
-var Edge = function (dest) {
+var Edge = function (dest, origin) {
 	this.dest = dest;
+	this.origin = origin;
 };
 
 
@@ -399,8 +464,9 @@ var apn = new _apn();
 
 // add events to interact with chart
 _apn.prototype.addEvents = function () {
-	apn.canvas.addEventListener('mousedown', apn.mouseDown, false);
+	apn.canvasGrabbable.addEventListener('mousedown', apn.mouseDown, false);
 	window.addEventListener('mouseup', apn.mouseUp, false);
+	window.addEventListener('mousemove', apn.moveNode, true);
 };
 
 _apn.prototype.mouseUp = function (e) {
@@ -412,8 +478,6 @@ _apn.prototype.mouseUp = function (e) {
 _apn.prototype.mouseDown = function (e) {
 	apn.currentX = parseInt(apn.canvas.style.left) | 0;
 	apn.currentY = parseInt(apn.canvas.style.top) | 0;
-
-	console.log(apn.currentX, apn.currentY);
 
 	apn.currentMouseX = e.clientX;
 	apn.currentMouseY = e.clientY;
@@ -428,4 +492,28 @@ _apn.prototype.move = function (e) {
 
 	apn.canvas.style.top = (apn.currentY - (apn.currentMouseY - e.clientY)) + "px";
 	apn.canvas.style.left = (apn.currentX - (apn.currentMouseX - e.clientX)) + "px";
+};
+
+_apn.prototype.moveNode = function (e) {
+
+	if (apn.activeNode != null) {
+		var left = (apn.activeNodeX + e.clientX - apn.currentMouseX);
+		var top  = (apn.activeNodeY + e.clientY - apn.currentMouseY);
+
+		apn.activeNode.style.left = left + "px";
+		apn.activeNode.style.marginTop  = top + "px";
+
+		if (left < apn.canvasPositions.left)
+			apn.canvasPositions.left = left;
+		if (left + apn.canvasConfig.node.width > apn.canvasPositions.right)
+			apn.canvasPositions.right = left + apn.canvasConfig.node.width;
+
+		if (top < apn.canvasPositions.top)
+			apn.canvasPositions.top = top;
+		if (top + apn.canvasConfig.node.height > apn.canvasPositions.bottom)
+			apn.canvasPositions.bottom = top + apn.canvasConfig.node.height;
+
+		apn.renderEdges();
+		apn.setCanvasDimensions();
+	}
 };

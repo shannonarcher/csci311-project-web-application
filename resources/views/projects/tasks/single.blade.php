@@ -14,6 +14,11 @@
 	        {{$error_message}}
 	        </div>
 	        @endif
+	        @if ($task->progress >= 100)
+	        <div class="alert alert-warning">
+	        	Task complete.
+	        </div>
+	        @endif
 			<h1>
 				{{$task->title}} 
 				<small class="btn-group"> 
@@ -21,6 +26,7 @@
 				</small>
 				<small class="btn-group">
                 	<a href="{{ URL::to('/projects/'.$task->project->id.'/tasks/'.$task->id.'/edit') }}" class="btn btn-sm btn-default"><i class="fa fa-pencil fa-fw"></i> @lang('general.edit')</a>					
+					<a href='{{ URL::to("/projects/$task->project_id/tasks") }}' class="btn btn-sm btn-default"><i class="fa fa-arrow-circle-o-left fa-fw"></i> @lang('general.tasks')</a>				
 					<a href='{{ URL::to("/projects/$task->project_id/dashboard") }}' class="btn btn-sm btn-default"><i class="fa fa-cube fa-fw"></i> @lang('general.dashboard')</a>
 					<a href='{{ URL::to("/projects/$task->project_id/tasks/add") }}' class="btn btn-sm btn-default"><i class="fa fa-plus fa-fw"></i> @lang('general.add_task')</a>
 				</small>

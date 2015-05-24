@@ -75,6 +75,9 @@ Route::get('/projects/{id}/apn', 'ChartController@apn');
 
 Route::get('/projects/{id}/notifications', 'ProjectController@notifications');
 
+Route::get('/projects/{id}/archive', 'ProjectController@archive');
+Route::get('/projects/{id}/unarchive', 'ProjectController@unarchive');
+
 
 // ajax routes
 Route::get('/ajax/skills', 'AjaxController@getSkills');

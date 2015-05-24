@@ -30,8 +30,12 @@
                 <div class="alert alert-danger">
                 {{$error_message}}
                 </div>
+                @elseif ($project->archived_at != null)
+                <div class="alert alert-warning">@lang('general.archived')</div>
                 @endif
-				<h1>{{$project->name}}
+				<h1>
+                    {{$project->name}}
+
                     <small>
                         <div class="btn-group btn-group-sm">
                             @if ($user->is_admin)

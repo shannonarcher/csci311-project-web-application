@@ -8,8 +8,14 @@
    -ms-user-select: none;
    user-select: none;
 
-   cursor:move;
-   cursor:-webkit-move;
+}
+
+.apn-canvas .apn-grabbable {
+	position:absolute;
+   	top:50%;
+
+   	cursor:move;
+   	cursor:-webkit-move;
 }
 
 .grabbing {
@@ -27,9 +33,9 @@
 	border-radius:5px;
 	z-index:100;
 	top:50%;
-/*
+
 	cursor:grab;
-	cursor:-webkit-grab;*/
+	cursor:-webkit-grab;
 }
 
 .apn-edge {

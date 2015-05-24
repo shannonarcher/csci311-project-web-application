@@ -161,4 +161,9 @@ return [
 
 	"managers" => "Managers",
 	"welcome" => "Welcome",
+
+	"archive" => "Archive",
+	"unarchive" => "Unarchive",
+
+	"archived" => "Archived",
 ];

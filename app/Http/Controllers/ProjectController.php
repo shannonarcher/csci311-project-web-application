@@ -274,6 +274,10 @@ class ProjectController extends Controller {
 							 "roles" => $roles]);
 
 		if ($call->error) {
+			if (isset($call->response->message)) {
+				Session::flash('error_message', $call->response->message);
+				return redirect("/projects/$id/dashboard/edit");
+			}
 			throw new Exception($call->error_message);
 		}
 
@@ -286,6 +290,10 @@ class ProjectController extends Controller {
 		$call = API::post("/projects/$id/detach/$u_id", []);
 
 		if ($call->error) {
+			if (isset($call->response->message)) {
+				Session::flash('error_message', $call->response->message);
+				return redirect("/projects/$id/dashboard/edit");
+			}
 			throw new Exception($call->error_message);
 		}
 
@@ -396,8 +404,10 @@ class ProjectController extends Controller {
 		$call = API::put("/tasks/$t_id", $all);
 
 		if ($call->error) {
-			var_dump($call->response);
-			die();
+			if (isset($call->response->message)) {
+				Session::flash("error_message", $call->response->message);
+				return redirect("/projects/$id/tasks/$t_id/edit");
+			}
 			throw new Exception($call->error_message);
 		}
 
@@ -617,11 +627,49 @@ class ProjectController extends Controller {
 		$call = API::post("/tasks/$t_id/complete");
 
 		if ($call->error) {
+			if (isset($call->response->message)) {
+				Session::flash("error_message", $call->response->message);
+				return redirect("/projects/$id/tasks/$t_id");
+			}
+			var_dump($call->response);
+			die();
 			throw new Exception($call->error_message);
 		}
 
 		Session::flash('message', 'Task marked as completed.');
 
 		return redirect("/projects/$id/tasks/$t_id");
+	}
+
+	public function archive($id) {
+		$call = API::post("/projects/$id/archive");
+
+		if ($call->error) {
+			if (isset($call->response->message)) {
+				Session::flash("error_message", $call->response->message);
+				return redirect("/projects/$id/dashboard/edit");
+			}
+			throw new Exception($call->error_message);
+		}
+
+		Session::flash('message', "Project archived.");
+		return redirect("/projects/$id/dashboard/edit");
+	}
+
+	public function unarchive($id) {
+		$call = API::post("/projects/$id/unarchive");
+
+		if ($call->error) {
+			var_dump($call->response);
+			die();
+			if (isset($call->response->message)) {
+				Session::flash("error_message", $call->response->message);
+				return redirect("/projects/$id/dashboard/edit");
+			}
+			throw new Exception($call->error_message);
+		}
+
+		Session::flash('message', "Project unarchived.");
+		return redirect("/projects/$id/dashboard/edit");
 	}
 }

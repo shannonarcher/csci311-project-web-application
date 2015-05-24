@@ -135,7 +135,7 @@
                 </div>
                 <div class="panel-body">
                     @if ($profile->id == $user->id || $user->is_admin)
-                    <form>
+                    <form id="skill_form">
                         <div class="form-group">
                             <input class="form-control" type="text" name="skill_name" placeholder="Search for new skill..." id="skill_search" />
                             <div class="search_results">
@@ -238,6 +238,11 @@
             }
 
             $("#skill_search_results").html(result_html);
+        });
+
+        $("body").on('submit', '#skill_form', function (e) {
+            e.preventDefault();
+            return false;
         });
 
         $('body').on('click', '.skill_list_item', function () {

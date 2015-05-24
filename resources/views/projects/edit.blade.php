@@ -90,7 +90,14 @@
 		<div class="col-lg-12">
 			<div class="page-header">
 				<h1>{{ $project->name }} 
-                    <small>
+                    <small class="btn-group">
+                        @if ($user->is_admin)
+                            @if ($project->archived_at == null)
+                            <a href='{{ URL::to("/projects/$project->id/archive") }}' class="btn btn-sm btn-primary"><i class="fa fa-archive fa-fw"></i> @lang('general.archive')</a>
+                            @else 
+                            <a href='{{ URL::to("/projects/$project->id/unarchive") }}' class="btn btn-sm btn-danger"><i class="fa fa-archive fa-fw"></i> @lang('general.unarchive')</a>
+                            @endif
+                        @endif
                         <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default"><i class="fa fa-cube fa-fw"></i> @lang('general.dashboard')</a>
                     </small>
                 </h1>
@@ -328,6 +335,15 @@
             }
 
             $("#role_search_results").html(result_html);
+        });
+
+        $("body").on('submit', '#role_form', function (e) {
+            var search_val = $("#role_search").val().trim();
+
+            if (search_val.length > 0) {
+                selected_roles.push({ id: 0, name: search_val });
+                updateRolesList(selected_roles);
+            }
         });
 
         $("body").on('click', '[data-action=add_role_to_existing_user]', function (e) {
