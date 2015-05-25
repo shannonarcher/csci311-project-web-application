@@ -1,6 +1,9 @@
 <?php
 
-Route::get('/', 'WelcomeController@index');
+Route::get('/', function () {
+	return "buzzfizz";
+});
+//'WelcomeController@index');
 Route::post('/login', 'WelcomeController@login');
 Route::get('/logout', 'WelcomeController@logout'); 
 
