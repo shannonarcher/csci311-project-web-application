@@ -35,7 +35,7 @@
 <body>
 
     <div class="container">
-        @if ($error_message != '')
+        @if (isset($error_message) && $error_message != '')
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel">
