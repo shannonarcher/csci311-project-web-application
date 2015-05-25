@@ -16,7 +16,7 @@ class Authenticate {
 	 */
 	public function handle($request, Closure $next)
 	{
-		if (Session::has('user'))
+		if (Session::has('session_token'))
 			return $next($request);
 		else
 			return redirect("/");
