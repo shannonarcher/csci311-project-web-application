@@ -23,7 +23,7 @@
             <div class="page-header">
                 <h1>{{ $project->name }}
                     <small>
-                        <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default">@lang('general.dashboard')</a>
+                        <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default"><i class="fa fa-cube fa-fw"></i> @lang('general.dashboard')</a>
                     </small>
                 </h1>
             </div>
@@ -35,8 +35,8 @@
             <form role="form" method="post">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        @lang('general.function_points')
-                        <button class="btn btn-xs btn-success pull-right" type="submit">@lang('general.save')</button>
+                        <i class="fa fa-cubes fa-fw"></i> @lang('general.function_points')
+                        <button class="btn btn-xs btn-success pull-right" type="submit"><i class="fa fa-save fa-fw"></i> @lang('general.save')</button>
                     </div>
                     <div class="panel-body">
                         <fieldset>

@@ -42,6 +42,7 @@
                                 <label>@lang('general.email')</label>
                                 <input class="form-control" type="text" value="{{$profile->email}}" name="email" />
                             </div>
+                            <!--
                             <div class="form-group">
                                 <label>@lang('general.lang')</label>
                                 <select class="form-control" name="lang">
@@ -49,6 +50,7 @@
                                     <option value="jp" {{ ($profile->lang == 'jp' ? "selected" : "") }}>日本語</option>
                                 </select>
                             </div> 
+                            -->
                             <div class="form-group">
                                 <label>
                                     @lang('general.password') 

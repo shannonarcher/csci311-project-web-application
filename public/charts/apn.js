@@ -34,8 +34,8 @@ _apn.prototype.canvasConfig = {
 		margin: {
 			top:10,
 			bottom:10,
-			left:100,
-			right:100
+			left:200,
+			right:200
 		}
 	},
 	edge: {
@@ -145,9 +145,11 @@ _apn.prototype.createEdge = function (task1, task2) {
 		if (task2.id == this.nodes[n].id)
 			n2 = this.nodes[n];
 	}
-
-	n1.edges.push(new Edge(n2, n1));
-	n2.reverseEdges.push(new Edge(n1, n2));
+	
+	if (n1 != null && n2 != null) {
+		n1.edges.push(new Edge(n2, n1));
+		n2.reverseEdges.push(new Edge(n1, n2));
+	}
 };
 
 /**
@@ -392,7 +394,7 @@ _apn.prototype._renderEdge = function (edge, reverse) {
 	var renderable = this._renderLine(left1, top1, left2, top2);
 
 	// add critical class
-	if (node1.float == 0 && node2.float == 0)
+	if (node1.float == 0 && node2.float == 0 && (node1.latest.finish == node2.earliest.start || node1.id == "start"))
 		renderable.className = renderable.className + " " + this.canvasConfig.edge.class + "-critical";	
 
 	this.canvas.appendChild(renderable);

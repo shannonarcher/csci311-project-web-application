@@ -6,7 +6,7 @@
 			<div class="page-header">
 				<h1>
                     {{$project->name}} @lang('general.pert')
-                    <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default">@lang('general.dashboard')</a>
+                    <a href='{{ URL::to("/projects/$project->id/dashboard") }}' class="btn btn-sm btn-default"><i class="fa fa-cube fa-fw"></i> @lang('general.dashboard')</a>
                 </h1>
 			</div>
 		</div>
@@ -15,7 +15,7 @@
 		<div class="col-lg-12">
  			<div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.pert_analysis')             
+                    <i class="fa fa-calculator fa-fw"></i> @lang('general.pert_analysis')             
                 </div>
                 <div class="panel-body">
                     <div class="">

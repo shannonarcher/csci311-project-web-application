@@ -166,4 +166,16 @@ return [
 	"unarchive" => "Unarchive",
 
 	"archived" => "Archived",
+
+	"add_milestone" => "Add Milestone",
+
+	"critical_chain" => "Critical Chain",
+
+	"milestone" => "Milestone",
+
+	"most_likely" => "Most Likely",
+	"plus_comfort_zone" => "Plus Comfort Zone",
+	"comfort_zone" => "Comfort Zone",
+
+	"critical_chain_buffer_analysis" => "Critical Chain Buffer Analysis"
 ];

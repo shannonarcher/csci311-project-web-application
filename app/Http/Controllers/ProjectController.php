@@ -209,6 +209,10 @@ class ProjectController extends Controller {
 		$call = API::post("/projects/$id/milestones", $all);
 
 		if ($call->error) {
+			if (isset($call->response->message)) {
+				Session::flash('error_message', $call->response->message);
+				return redirect("/projects/$id/milestones/add");
+			}
 			throw new Exception($call->error_message);
 		}
 
@@ -221,7 +225,6 @@ class ProjectController extends Controller {
 		$call = API::delete("/milestones/$m_id");
 
 		if ($call->error) {
-			var_dump($call->response);
 			throw new Exception($call->error_message);
 		}
 
@@ -623,6 +626,31 @@ class ProjectController extends Controller {
 			'chance' => $chance ]));
 	}
 
+	public function criticalChain($id) {
+		$call = API::get('/projects/'.$id.'/tasks', []);
+		$call2 = API::get('/projects/'.$id, []);
+
+		if ($call->error) {
+			throw new Exception($call->error_message);
+		}
+
+		if ($call2->error) {
+			throw new Exception($call2->error_message);
+		}
+
+		$tasks = $call->response;
+		$project_buffer = 0;
+
+		foreach ($tasks as $task) {
+			$project_buffer += round(($task->pessimistic_duration - $task->estimation_duration) / 86400 * 100) / 100;
+		}
+
+		return view('projects/cc', array_merge(Session::all(), [
+			'tasks' => $tasks, 
+			'project' => $call2->response,
+			'project_buffer' => $project_buffer ]));
+	}
+
 	public function completeTask($id, $t_id) {
 		$call = API::post("/tasks/$t_id/complete");
 
@@ -631,8 +659,6 @@ class ProjectController extends Controller {
 				Session::flash("error_message", $call->response->message);
 				return redirect("/projects/$id/tasks/$t_id");
 			}
-			var_dump($call->response);
-			die();
 			throw new Exception($call->error_message);
 		}
 
@@ -672,4 +698,5 @@ class ProjectController extends Controller {
 		Session::flash('message', "Project unarchived.");
 		return redirect("/projects/$id/dashboard/edit");
 	}
+
 }

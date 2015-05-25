@@ -52,6 +52,7 @@
                             <a href='{{ URL::to("/projects/$project->id/gantt") }}' target="_blank" class="btn btn-sm btn-default"><i class="fa fa-sitemap fa-fw"></i> @lang('general.gantt')</a>
                             <a href='{{ URL::to("/projects/$project->id/apn") }}' target="_blank" class="btn btn-sm btn-default"><i class="fa fa-sitemap fa-fw"></i> @lang('general.apn')</a>
                             <a href='{{ URL::to("/projects/$project->id/pert") }}' target="" class="btn btn-sm btn-default"><i class="fa fa-calculator fa-fw"></i> @lang('general.pert')</a>
+                            <a href='{{ URL::to("/projects/$project->id/criticalChain") }}' target="" class="btn btn-sm btn-default"><i class="fa fa-calculator fa-fw"></i> @lang('general.critical_chain')</a>
                         </div>
                         <div class="btn-group btn-group-sm">
                             <a href='{{ URL::to("/projects/$project->id/functionPoints") }}' target="" class="btn btn-sm btn-default"><i class="fa fa-cubes fa-fw"></i> @lang('general.function_points')</a>
@@ -338,8 +339,9 @@
                                 <tr>
                                     <td>{{$milestone->title}}</td>
                                     <td>
+                                        <small class="hide">{{ \App\Services\Moment::format($milestone->completed_at, "Y-m-d H:i:s", "Y-m-d") }}</small>
                                         {{ \App\Services\Moment::fromNow($milestone->completed_at, "Y-m-d H:i:s") }}
-                                        <small class="date">{{ \App\Services\Moment::format($milestone->completed_at, "Y-m-d H:i:s", "Y-m-d H:i:s") }}</small>
+                                        <small class="date">{{ \App\Services\Moment::format($milestone->completed_at, "Y-m-d H:i:s", "Y-m-d") }}</small>
                                     </td>
                                 </tr>
                                 @endforeach

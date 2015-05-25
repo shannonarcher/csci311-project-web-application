@@ -36,10 +36,9 @@ class WelcomeController extends Controller {
 	{
 		// try login with api
 		$response = API::post('/users/login', $this->request->all());
-
+		
 		// if fail, print error
 		if ($response->error) {
-			
 			return view('welcome', [
 				'error_code' => $response->error_code,
 				'error_message' => $response->response->message]);

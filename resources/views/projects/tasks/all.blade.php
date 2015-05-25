@@ -24,7 +24,7 @@
  			<div class="panel panel-default">
                 <div class="panel-heading">
                     <i class="fa fa-tasks fa-fw"></i> @lang('general.tasks')
-                    <a href="{{ URL::to('/projects/'.$project->id.'/tasks/add') }}" class="btn btn-xs btn-primary pull-right"><i class="fa fa-plus fa-fw"></i> @lang('general.add_task')</a>               
+                    <a href="{{ URL::to('/projects/'.$project->id.'/tasks/add') }}" class="btn btn-xs btn-primary pull-right"><i class="fa fa-plus fa-fw"></i> @lang('general.task')</a>               
                 </div>
                 <div class="panel-body">
 		            <div class="dataTable_wrapper">

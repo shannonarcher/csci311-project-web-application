@@ -24,7 +24,7 @@
                 
 				<h1>{{$project->name}} @lang('general.milestones')
                     <small>
-                        <a href="{{ URL::to('/projects/'.$project->id.'/dashboard') }}" class="btn btn-default btn-sm">Project Dashboard</a>
+                        <a href="{{ URL::to('/projects/'.$project->id.'/dashboard') }}" class="btn btn-default btn-sm"><i class="fa fa-cube fa-fw"></i> @lang('general.dashboard')</a>
                     </small>
                 </h1>
 			</div>
@@ -34,8 +34,8 @@
 		<div class="col-lg-12">
  			<div class="panel panel-default">
                 <div class="panel-heading">
-                    @lang('general.milestones')
-                    <a href="{{ URL::to('/projects/'.$project->id.'/milestones/add') }}" class="btn btn-xs btn-primary pull-right">@lang('general.add_milestone')</a>               
+                    <i class="fa fa-calendar fa-fw"></i> @lang('general.milestones')
+                    <a href="{{ URL::to('/projects/'.$project->id.'/milestones/add') }}" class="btn btn-xs btn-primary pull-right"><i class="fa fa-plus fa-fw"></i> @lang('general.milestone')</a>               
                 </div>
                 <div class="panel-body">
 		            <div class="dataTable_wrapper">
@@ -53,7 +53,11 @@
                                 <tr>
                                     <td>{{$milestone->id}}</td>
                                     <td>{{$milestone->title}}</td>
-                                    <td>{{$milestone->completed_at}}</td>
+                                    <td>
+                                        <small class="hide">{{ \App\Services\Moment::format($milestone->completed_at, "Y-m-d H:i:s", "Y-m-d") }}</small>
+                                        {{ \App\Services\Moment::fromNow($milestone->completed_at, "Y-m-d H:i:s") }}
+                                        <small>{{ \App\Services\Moment::format($milestone->completed_at, "Y-m-d H:i:s", "Y-m-d") }}</small>
+                                    </td>
                                     <td>
                                         <a class="btn btn-xs btn-danger" href="{{ URL::to('/projects/'.$project->id.'/milestones/'.$milestone->id.'/remove') }}">Remove</a>
                                     </td>

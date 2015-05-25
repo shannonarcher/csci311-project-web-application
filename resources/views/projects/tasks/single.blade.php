@@ -101,17 +101,18 @@
                                     <small class="date">{{ \App\Services\Moment::format($task->started_at, "Y-m-d H:i:s", "Y-m-d") }}</small>
 	                   			</p>
 	                   		</div>
-	                   		<div class="form-group">
-	                   			<label>@lang('general.optimistic_duration')</label>
-	                   			<p class="form-control-static">{{ ($task->optimistic_duration / 86400) }}</p>
-	                   		</div>
-	                   		<div class="form-group">
-	                   			<label>@lang('general.estimation_duration')</label>
-	                   			<p class="form-control-static">{{ ($task->estimation_duration / 86400) }}</p>
-	                   		</div>
-	                   		<div class="form-group">
-	                   			<label>@lang('general.pessimistic_duration')</label>
-	                   			<p class="form-control-static">{{ ($task->pessimistic_duration / 86400) }}</p>
+	                   		<div class="form-group">                   		
+               					<div class="col-sm-8"><label>@lang('general.optimistic_duration')</label></div>
+               					<div class="col-sm-4"><p class="form-control-static">{{ round($task->optimistic_duration / 86400) }}</p></div>
+               				</div>
+               				<div class="form-group">
+	                   			<div class="col-sm-8"><label>@lang('general.estimation_duration')</label></div>
+	                   			<div class="col-sm-4"><p class="form-control-static">{{ round($task->estimation_duration / 86400) }}</p></div>
+               				</div>
+               				<div class="form-group">
+	                   			<div class="col-sm-8"><label>@lang('general.pessimistic_duration')</label></div>
+	                   			<div class="col-sm-4"><p class="form-control-static">{{ round($task->pessimistic_duration / 86400) }}</p></div>
+                   			</table>
 	                   		</div>
 	                   		<div class="form-group">
 	                   			<label>@lang('general.completed_at')</label>
