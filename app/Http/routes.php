@@ -1,7 +1,9 @@
 <?php
 
 Route::get('/', function () {
-	return "buzzfizz";
+	return view('welcome', [
+			'error_code' => '',
+			'error_message' => '']);
 });
 //'WelcomeController@index');
 Route::post('/login', 'WelcomeController@login');
