@@ -78,8 +78,6 @@ class ProjectController extends Controller {
 		}
 
 		if ($call2->error) {
-			var_dump($call2->response);
-			die();
 			throw new Exception($call->error_message);
 		}
 

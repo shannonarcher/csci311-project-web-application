@@ -42,8 +42,6 @@ class UserController extends Controller {
 		$call = API::get('/users/'.$id, []);
 
 		if ($call->error) {
-			var_dump($call->response);
-			die();
 			throw new Exception($call->error_message);
 		}
 
