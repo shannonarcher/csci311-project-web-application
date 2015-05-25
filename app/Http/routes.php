@@ -4,7 +4,6 @@ Route::get('/', 'WelcomeController@index');
 Route::post('/login', 'WelcomeController@login');
 Route::get('/logout', 'WelcomeController@logout'); 
 
-
 Route::group(['middleware' => 'auth_check'], function () {
 
 	Route::get('/dashboard', 'ProjectController@index');
