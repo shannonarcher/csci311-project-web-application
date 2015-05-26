@@ -52,7 +52,7 @@
                             <a href='{{ URL::to("/projects/$project->id/gantt") }}' target="_blank" class="btn btn-sm btn-default"><i class="fa fa-sitemap fa-fw"></i> @lang('general.gantt')</a>
                             <a href='{{ URL::to("/projects/$project->id/apn") }}' target="_blank" class="btn btn-sm btn-default"><i class="fa fa-sitemap fa-fw"></i> @lang('general.apn')</a>
                             <a href='{{ URL::to("/projects/$project->id/pert") }}' target="" class="btn btn-sm btn-default"><i class="fa fa-calculator fa-fw"></i> @lang('general.pert')</a>
-                            <a href='{{ URL::to("/projects/$project->id/criticalChain") }}' target="" class="btn btn-sm btn-default"><i class="fa fa-calculator fa-fw"></i> @lang('general.critical_chain')</a>
+                            <!--<a href='{{ URL::to("/projects/$project->id/criticalChain") }}' target="" class="btn btn-sm btn-default"><i class="fa fa-calculator fa-fw"></i> @lang('general.critical_chain')</a>-->
                         </div>
                         <div class="btn-group btn-group-sm">
                             <a href='{{ URL::to("/projects/$project->id/functionPoints") }}' target="" class="btn btn-sm btn-default"><i class="fa fa-cubes fa-fw"></i> @lang('general.function_points')</a>
@@ -383,8 +383,8 @@
                                 @foreach ($project->users as $p_user)
                                 <tr>
                                     <td>{{$p_user->id}}</td>
-                                    <td><a href="{{URL::to('/users/'.$user->id.'/profile')}}">{{$p_user->name}}</a></td>
-                                    <td><a href="mailto:{{$user->email}}">{{$p_user->email}}</a></td>
+                                    <td><a href="{{URL::to('/users/'.$p_user->id.'/profile')}}">{{$p_user->name}}</a></td>
+                                    <td><a href="mailto:{{$p_user->email}}">{{$p_user->email}}</a></td>
                                     <td>
                                         {{$p_user->pivot->is_manager ? trans('general.yes') : trans('general.no') }}
                                     </td>

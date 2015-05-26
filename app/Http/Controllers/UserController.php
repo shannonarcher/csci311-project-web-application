@@ -70,7 +70,7 @@ class UserController extends Controller {
 			throw new Exception($call->error_message);
 		}
 
-		Session::flash('success_message', 'User created with password "'.$call->response->password.')".');
+		Session::flash('success_message', 'User created with password "'.$call->response->password.'".');
 
 		return redirect('users/'.$call->response->user->id.'/profile');
 	}

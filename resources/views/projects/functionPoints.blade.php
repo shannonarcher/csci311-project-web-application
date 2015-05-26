@@ -322,13 +322,6 @@
                                     </tr>
                                 </table>
                             </div>
-
-                            <div class="col-lg-12">
-                                <h2>
-                                    <span>@lang('general.function_points')</span>
-                                    <small><span class="total_fp">0</span></small>
-                                </h2>
-                            </div>
                         </fieldset>
                     </div>
                 </div>
