@@ -438,7 +438,6 @@ class ProjectController extends Controller {
 		$call = API::post("/projects/$id/addRole/$u_id", ['roles' => $roles]);
 
 		if ($call->error) {
-			var_dump($call->response);
 			throw new Exception($call->error_message);
 		}
 
@@ -460,7 +459,6 @@ class ProjectController extends Controller {
 		$call = API::post("/projects/$id/removeRole/$u_id", ['roles' => $roles]);
 
 		if ($call->error) {
-			var_dump($call->response);
 			throw new Exception($call->error_message);
 		}
 
