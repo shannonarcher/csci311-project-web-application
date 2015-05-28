@@ -360,6 +360,8 @@ class ProjectController extends Controller {
 		$call = API::post("/projects/$id/tasks", $all);
 
 		if ($call->error) {
+			var_dump($call->response);
+			die();
 			throw new Exception($call->error_message);
 		}
 
