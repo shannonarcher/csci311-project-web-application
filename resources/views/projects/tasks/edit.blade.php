@@ -210,7 +210,7 @@
     	var parent = JSON.parse('<?php echo json_encode($task->parent) ?>');
     	var dependencies = JSON.parse('<?php echo json_encode($task->dependencies) ?>');
 
-        $('#task_table').DataTable({
+        $('#task_table, #all_users_table').DataTable({
                 responsive: true
         });
 
