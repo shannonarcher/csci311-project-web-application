@@ -73,13 +73,13 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @forelse ($users as $user) 
+                                            @forelse ($users as $a_user) 
                                             <tr>
-                                                <td><a href="{{ URL::to('/users/'.$user->id.'/profile') }}">{{$user->name}}</a></td>
-                                                <td><a href="mailto:{{$user->email}}">{{$user->email}}</a></td>
+                                                <td><a href="{{ URL::to('/users/'.$a_user->id.'/profile') }}">{{$a_user->name}}</a></td>
+                                                <td><a href="mailto:{{$a_user->email}}">{{$user->email}}</a></td>
                                                 <td>
-                                                    <a data-user="{{ json_encode($user) }}" href="#" id="add_as_manager" class="btn btn-xs btn-primary">Add</a>
-                                                    <a data-user="{{ json_encode($user) }}" href="#" id="remove_as_manager" class="btn btn-xs btn-danger hide">Remove</a>
+                                                    <a data-user="{{ json_encode($a_user) }}" href="#" id="add_as_manager" class="btn btn-xs btn-primary">Add</a>
+                                                    <a data-user="{{ json_encode($a_user) }}" href="#" id="remove_as_manager" class="btn btn-xs btn-danger hide">Remove</a>
                                                 </div>
                                             </tr>
                                             @empty
