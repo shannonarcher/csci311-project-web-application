@@ -76,7 +76,7 @@
                                             @forelse ($users as $a_user) 
                                             <tr>
                                                 <td><a href="{{ URL::to('/users/'.$a_user->id.'/profile') }}">{{$a_user->name}}</a></td>
-                                                <td><a href="mailto:{{$a_user->email}}">{{$user->email}}</a></td>
+                                                <td><a href="mailto:{{$a_user->email}}">{{$a_user->email}}</a></td>
                                                 <td>
                                                     <a data-user="{{ json_encode($a_user) }}" href="#" id="add_as_manager" class="btn btn-xs btn-primary">Add</a>
                                                     <a data-user="{{ json_encode($a_user) }}" href="#" id="remove_as_manager" class="btn btn-xs btn-danger hide">Remove</a>
