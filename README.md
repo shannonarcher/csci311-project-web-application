@@ -25,19 +25,15 @@ Change document root to /public
 
 Copy .env.example to .env
 
-Update .env with the following fields, replacing __italics__ with your own values
+Update .env with the following fields, replacing _italics_ with your own values
 
-<code>
-APP_SITE=__http://example.com__
-
+```
+APP_SITE=_http://example.com_
 DB_HOST=localhost
-
-DB_DATABASE=__db_name__
-
-DB_USERNAME=__root__
-
-DB_PASSWORD=__pass__
-</code>
+DB_DATABASE=_db_name_
+DB_USERNAME=_root_
+DB_PASSWORD=_pass_
+```
 
 Install composer within directory. https://getcomposer.org/download
 
@@ -51,9 +47,11 @@ Change document root to /public
 
 Copy .env.example to .env
 
-Update .env with the following fields, replacing __italics__ with your own values
+Update .env with the following fields, replacing _italics_ with your own values
 
-<code>APP_API=__http://api.example.com__</code>
+```
+APP_API=_http://api.example.com_
+```
 
 Install composer within directory. https://getcomposer.org/download
 
